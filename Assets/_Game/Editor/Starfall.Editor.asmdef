@@ -1,0 +1,6 @@
+{
+  "name": "Starfall.Editor",
+  "rootNamespace": "Starfall.Editor",
+  "references": ["Starfall.Runtime"],
+  "includePlatforms": ["Editor"]
+}

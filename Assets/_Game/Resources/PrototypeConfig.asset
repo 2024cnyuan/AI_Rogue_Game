@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6a61f2ae1b53f0489dcd1ad0c1dac6f, type: 3}
+  m_Name: PrototypeConfig
+  m_EditorClassIdentifier: Starfall.Runtime::Starfall.PrototypeConfig
+  health: 100
+  moveSpeed: 5
+  dodgeDuration: 0.18
+  dodgeDistance: 2.2
+  dodgeInvulnerability: 0.12
+  dodgeCooldown: 1
+  hitProtection: 0.6
+  shotInterval: 0.23
+  bulletSpeed: 18
+  bulletDamage: 20
+  chaserHealth: 60
+  shooterHealth: 40
+  chaserSpeed: 2.6
+  shooterSpeed: 1.7
+  contactDamage: 12
+  enemyBulletDamage: 10
+  enemyBulletSpeed: 6
+  shooterWarning: 0.65
+  shooterRecovery: 1.3

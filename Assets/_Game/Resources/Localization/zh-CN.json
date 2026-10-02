@@ -1,0 +1,708 @@
+{
+  "entries": [
+    {
+      "key": "title",
+      "value": "星核迷城"
+    },
+    {
+      "key": "subtitle",
+      "value": "M2a · 启程试炼与星港靶场"
+    },
+    {
+      "key": "menu.intro",
+      "value": "先在启程试炼学会操作，或在星港靶场自由练习。\n当前冒险入口仍为 M1 单房样板，不计正式纪录。"
+    },
+    {
+      "key": "menu.start",
+      "value": "开始冒险 · M1 样板"
+    },
+    {
+      "key": "menu.continue",
+      "value": "继续冒险 · 暂不可用"
+    },
+    {
+      "key": "menu.noCheckpoint",
+      "value": "M1 尚无主线检查点，退出后从房间起点开始。"
+    },
+    {
+      "key": "menu.tutorial",
+      "value": "新手指引 · 启程试炼"
+    },
+    {
+      "key": "menu.training",
+      "value": "训练营 · 星港靶场"
+    },
+    {
+      "key": "menu.records",
+      "value": "个人纪录 · 开发中"
+    },
+    {
+      "key": "menu.settings",
+      "value": "设置"
+    },
+    {
+      "key": "menu.quit",
+      "value": "退出"
+    },
+    {
+      "key": "language.label",
+      "value": "语言 / Language"
+    },
+    {
+      "key": "language.welcome",
+      "value": "选择语言 / Choose your language"
+    },
+    {
+      "key": "language.confirm",
+      "value": "确认 · 进入主菜单"
+    },
+    {
+      "key": "language.firstHint",
+      "value": "确认语言后，可选择启程试炼或直接体验冒险样板。"
+    },
+    {
+      "key": "settings.title",
+      "value": "设置"
+    },
+    {
+      "key": "settings.display",
+      "value": "显示模式：{mode}"
+    },
+    {
+      "key": "settings.windowed",
+      "value": "窗口"
+    },
+    {
+      "key": "settings.fullscreen",
+      "value": "全屏"
+    },
+    {
+      "key": "settings.note",
+      "value": "语言即时生效并保存在本机。\n当前无震屏；音量与闪光设置随后续反馈系统提供。"
+    },
+    {
+      "key": "button.back",
+      "value": "返回"
+    },
+    {
+      "key": "button.resume",
+      "value": "继续战斗"
+    },
+    {
+      "key": "button.restart",
+      "value": "重新开始 · 房间起点"
+    },
+    {
+      "key": "button.menu",
+      "value": "返回主菜单"
+    },
+    {
+      "key": "pause.title",
+      "value": "已暂停"
+    },
+    {
+      "key": "pause.focus",
+      "value": "窗口失焦，战斗已暂停"
+    },
+    {
+      "key": "pause.note",
+      "value": "战斗、闪避、冷却与敌人预警均已停止。"
+    },
+    {
+      "key": "map.title",
+      "value": "区域地图"
+    },
+    {
+      "key": "map.legend",
+      "value": "青色圆点：你　灰色：墙与掩体\n金色：起点　出口：右侧门廊"
+    },
+    {
+      "key": "map.close",
+      "value": "关闭地图 · Tab / Esc"
+    },
+    {
+      "key": "hud.health",
+      "value": "生命 {current} / {max}"
+    },
+    {
+      "key": "hud.coins",
+      "value": "金币 {coins}"
+    },
+    {
+      "key": "hud.weapon",
+      "value": "均衡手枪 · 无限弹药"
+    },
+    {
+      "key": "hud.dodge.ready",
+      "value": "闪避 · Space · 就绪"
+    },
+    {
+      "key": "hud.dodge.wait",
+      "value": "闪避冷却 {seconds} 秒"
+    },
+    {
+      "key": "hud.enemies",
+      "value": "目标：清除守卫　剩余 {count} / 5"
+    },
+    {
+      "key": "hud.exit",
+      "value": "目标：前往右侧出口，按 E 离开"
+    },
+    {
+      "key": "hud.stage",
+      "value": "M1 · 苔光试验庭 · 样板"
+    },
+    {
+      "key": "hud.controls",
+      "value": "WASD 移动 · 鼠标/左键射击 · Space 闪避 · E 交互 · Q 主动 · 1/2 换枪 · Tab 地图 · Esc 暂停"
+    },
+    {
+      "key": "hud.pickups",
+      "value": "金币自动拾取；治疗 +25，满生命时保留。"
+    },
+    {
+      "key": "hud.interact",
+      "value": "E · 离开试验庭"
+    },
+    {
+      "key": "room.start",
+      "value": "清除五名守卫。注意金色攻击预警，借助石墙躲避弹道。"
+    },
+    {
+      "key": "room.clear",
+      "value": "守卫已清除！出口开启，获得 10 金币。"
+    },
+    {
+      "key": "combat.hit",
+      "value": "受到伤害 · 短暂无敌保护"
+    },
+    {
+      "key": "pickup.coin",
+      "value": "拾取金币 +3"
+    },
+    {
+      "key": "pickup.heal",
+      "value": "生命恢复 +25"
+    },
+    {
+      "key": "death.title",
+      "value": "此程止步，冒险未完。"
+    },
+    {
+      "key": "death.body",
+      "value": "稍作休整，带上这次的经验再出发。\n这一轮的金币与战斗状态不会带入下一轮。"
+    },
+    {
+      "key": "clear.title",
+      "value": "试验庭完成！"
+    },
+    {
+      "key": "clear.body",
+      "value": "你完成了基础操作样板。\n正式第一关、成长与个人纪录将在后续阶段提供。"
+    },
+    {
+      "key": "result.stats",
+      "value": "击败守卫 {kills} / 5　获得金币 {coins}"
+    },
+    {
+      "key": "result.practice",
+      "value": "练习成绩，不计入个人纪录"
+    },
+    {
+      "key": "save.failed",
+      "value": "设置保存失败。当前选择已生效，请检查存档目录权限后重试。"
+    },
+    {
+      "key": "save.recovered",
+      "value": "设置文件损坏或版本不支持，已尝试恢复备份；原文件已保留。"
+    },
+    {
+      "key": "intro.title",
+      "value": "准备好启程了吗？"
+    },
+    {
+      "key": "intro.body",
+      "value": "启程试炼一步步教你操作；也可以直接冒险。\n以后可从主菜单重玩教学或自由进入训练营。"
+    },
+    {
+      "key": "intro.adventure",
+      "value": "直接冒险 · 跳过首次引导"
+    },
+    {
+      "key": "hud.loadout",
+      "value": "{weapon} · 能量 {energy}/100 · 1/2 换枪"
+    },
+    {
+      "key": "station.prompt",
+      "value": "E · {name}"
+    },
+    {
+      "key": "station.beacon",
+      "value": "训练信标"
+    },
+    {
+      "key": "item.limit",
+      "value": "已达到携带或叠加上限，未消耗任何资源。"
+    },
+    {
+      "key": "weapon.noEnergy",
+      "value": "能量不足！按 1 换回无限弹药手枪。"
+    },
+    {
+      "key": "pickup.energy",
+      "value": "能量恢复 +35"
+    },
+    {
+      "key": "active.dead",
+      "value": "倒下后不能使用道具。"
+    },
+    {
+      "key": "active.dodging",
+      "value": "闪避期间不能使用主动道具。"
+    },
+    {
+      "key": "active.none",
+      "value": "未装备主动道具"
+    },
+    {
+      "key": "active.cooldown",
+      "value": "主动道具正在冷却，未消耗充能。"
+    },
+    {
+      "key": "active.empty",
+      "value": "充能不足，请补充或在整备区恢复。"
+    },
+    {
+      "key": "active.full",
+      "value": "生命已满，急救包没有消耗。"
+    },
+    {
+      "key": "active.used",
+      "value": "主动道具已生效。"
+    },
+    {
+      "key": "item.pistol",
+      "value": "均衡手枪"
+    },
+    {
+      "key": "item.shotgun",
+      "value": "近距霰弹枪"
+    },
+    {
+      "key": "item.smg",
+      "value": "快速冲锋枪"
+    },
+    {
+      "key": "item.medkit",
+      "value": "急救包"
+    },
+    {
+      "key": "item.shield",
+      "value": "短时护盾"
+    },
+    {
+      "key": "item.rapid",
+      "value": "射速模块"
+    },
+    {
+      "key": "item.magnet",
+      "value": "拾取磁环"
+    },
+    {
+      "key": "item.vitality",
+      "value": "生命矩阵"
+    },
+    {
+      "key": "item.agile",
+      "value": "闪避调校"
+    },
+    {
+      "key": "desc.pistol",
+      "value": "每发 {damage} 伤害，间隔 {interval} 秒。无限弹药；按 1 切换。"
+    },
+    {
+      "key": "desc.shotgun",
+      "value": "每发 {pellets} 枚弹丸，各 {damage} 伤害；间隔 {interval} 秒，消耗 {energy} 能量。按 2 切换。"
+    },
+    {
+      "key": "desc.smg",
+      "value": "每发 {damage} 伤害；间隔 {interval} 秒，消耗 {energy} 能量。按 2 切换。"
+    },
+    {
+      "key": "desc.medkit",
+      "value": "Q 恢复 {value} 生命，最多 {charges} 次充能；冷却 {cooldown} 秒。满生命不消耗。"
+    },
+    {
+      "key": "desc.shield",
+      "value": "Q 获得 {value} 秒无敌护盾，最多 {charges} 次充能；冷却 {cooldown} 秒。换装或重置清除护盾。"
+    },
+    {
+      "key": "desc.rapid",
+      "value": "每层增加 {value}% 射速，按基础射击间隔除以攻速倍率计算；最多两层。"
+    },
+    {
+      "key": "desc.magnet",
+      "value": "每层增加 {value} 单位自动拾取范围；最多两层。"
+    },
+    {
+      "key": "desc.vitality",
+      "value": "每层增加 {value} 最大生命并补足新增部分；移除后生命不超过新上限。最多两层。"
+    },
+    {
+      "key": "desc.agile",
+      "value": "每层减少 {value}% 基础闪避冷却，最短保留基础值的 35%；最多两层。"
+    },
+    {
+      "key": "desc.unavailable",
+      "value": "后续阶段实现，当前不可试用。"
+    },
+    {
+      "key": "remove.rapid",
+      "value": "移除射速层数"
+    },
+    {
+      "key": "remove.magnet",
+      "value": "移除磁环层数"
+    },
+    {
+      "key": "remove.vitality",
+      "value": "移除生命层数"
+    },
+    {
+      "key": "remove.agile",
+      "value": "移除闪避层数"
+    },
+    {
+      "key": "tutorial.progress",
+      "value": "启程试炼 · 第 {step}/7 步"
+    },
+    {
+      "key": "tutorial.reenter",
+      "value": "重进教学从起点开始，不改变冒险装备或检查点。"
+    },
+    {
+      "key": "tutorial.step.0",
+      "value": "1 移动与观察：WASD 到达金色标记（左侧中部），再用鼠标瞄准左上方靶场。"
+    },
+    {
+      "key": "tutorial.step.1",
+      "value": "2 射击与掩体：左键命中左上两座金色靶。第二座在石墙后，绕过掩体再射击。"
+    },
+    {
+      "key": "tutorial.step.2",
+      "value": "3 闪避预警：在中部横廊迎向慢速弹丸，Space 闪避实际穿过一次攻击。失败可安全重试。"
+    },
+    {
+      "key": "tutorial.step.3",
+      "value": "4 拾取换装：沿下方领取金币，E 领取霰弹枪，命中其上方靶；耗尽到出现能量不足提示，按 1 换回手枪。"
+    },
+    {
+      "key": "tutorial.step.4",
+      "value": "5 主被动：E 领取下方急救包，Q 实际治疗；再在右侧两个被动站任选一个，观察效果差异。"
+    },
+    {
+      "key": "tutorial.step.5",
+      "value": "6 地图任务：Tab 打开并关闭地图；到右上信标按 E 激活，再前往右侧出口按 E 通过任务门。"
+    },
+    {
+      "key": "tutorial.step.6",
+      "value": "7 综合演练：击败右区两名普通守卫和一名低伤害精英，清场后前往右侧出口按 E。"
+    },
+    {
+      "key": "tutorial.step.7",
+      "value": "教学完成。"
+    },
+    {
+      "key": "tutorial.safeHint",
+      "value": "跟随金色标记。按 Esc 可暂停或退出；重试仅重置当前步骤。"
+    },
+    {
+      "key": "tutorial.strongHint",
+      "value": "卡住时可重试本步。闪避步骤已开放跳过；也可以跳过整个教学。"
+    },
+    {
+      "key": "tutorial.retry",
+      "value": "重试当前步骤"
+    },
+    {
+      "key": "tutorial.skipDodge",
+      "value": "跳过闪避步骤"
+    },
+    {
+      "key": "tutorial.skipAll",
+      "value": "跳过教学 · 返回菜单"
+    },
+    {
+      "key": "tutorial.retryDone",
+      "value": "已在安全位置重置本步，资源已补足。"
+    },
+    {
+      "key": "tutorial.useFirst",
+      "value": "请先领取并用 Q 成功使用急救包，再选择被动。"
+    },
+    {
+      "key": "tutorial.passiveChanged",
+      "value": "被动已生效：射速间隔减少，或最大生命增加 25。"
+    },
+    {
+      "key": "tutorial.mapFirst",
+      "value": "先用 Tab 打开并关闭地图，再激活信标。"
+    },
+    {
+      "key": "tutorial.beaconReady",
+      "value": "信标已激活，任务门开启；前往出口按 E。"
+    },
+    {
+      "key": "tutorial.complete",
+      "value": "启程试炼完成！"
+    },
+    {
+      "key": "tutorial.completeBody",
+      "value": "你已掌握基础操作。教学装备只属于本次教学，不带入主线。\n可开始冒险样板、进入训练营或返回菜单。"
+    },
+    {
+      "key": "tutorial.completedAll",
+      "value": "教学完成标记已记录 · 无正式纪录或装备奖励"
+    },
+    {
+      "key": "tutorial.completedWithSkip",
+      "value": "教学完成与跳过标记分别保留 · 无正式纪录"
+    },
+    {
+      "key": "zone.equipment",
+      "value": "整备区"
+    },
+    {
+      "key": "zone.range",
+      "value": "测试靶场"
+    },
+    {
+      "key": "zone.dodge",
+      "value": "闪避跑道"
+    },
+    {
+      "key": "zone.simulation",
+      "value": "模拟战区"
+    },
+    {
+      "key": "zone.environment",
+      "value": "环境体验区"
+    },
+    {
+      "key": "training.welcome",
+      "value": "欢迎来到星港靶场：靠近五个青色工作站按 E，或使用底部整备与控制按钮。"
+    },
+    {
+      "key": "training.objective",
+      "value": "星港靶场 · 自由练习 · 守卫 {count}/12"
+    },
+    {
+      "key": "training.controls",
+      "value": "练习控制"
+    },
+    {
+      "key": "training.aids",
+      "value": "练习辅助 · 无限能量 {energy} · 无限充能 {charges} · 无敌 {invincible}"
+    },
+    {
+      "key": "training.active",
+      "value": "Q：{item} · 充能 {charges} · 冷却 {cooldown}s · 护盾 {shield}s"
+    },
+    {
+      "key": "training.equipment",
+      "value": "当前武器：{weapon} · 被动种类 {count}/6 · 模拟数量 {simulation}/12"
+    },
+    {
+      "key": "training.layers",
+      "value": "{name} {layers}/2"
+    },
+    {
+      "key": "training.dpsRule",
+      "value": "最近 10 秒有效游戏时间平均 DPS：不足 10 秒时使用自重置以来的时间。暂停不推进窗口。\n护甲靶减伤 50%；显示有效伤害。换装、换枪与重置清空统计。"
+    },
+    {
+      "key": "training.damage",
+      "value": "单次 {last} · 累计 {total} · DPS {dps}"
+    },
+    {
+      "key": "training.resetStats",
+      "value": "清空输出统计"
+    },
+    {
+      "key": "training.targetKinds",
+      "value": "左上靶场：左为静止靶，中为移动靶，右为护甲靶。关闭面板后可真实射击。"
+    },
+    {
+      "key": "training.hazardRule",
+      "value": "右上跑道：慢速弹幕、金色预警冲锋带与地面危险。金色先提示，橙色才造成伤害。\n关闭控制面板后开始运行，正常闪避与受伤保护仍生效。"
+    },
+    {
+      "key": "training.intensity.1",
+      "value": "启动 · 低强度"
+    },
+    {
+      "key": "training.intensity.2",
+      "value": "启动 · 中强度"
+    },
+    {
+      "key": "training.intensity.3",
+      "value": "启动 · 高强度"
+    },
+    {
+      "key": "training.hazardStop",
+      "value": "停止危险并清除弹丸"
+    },
+    {
+      "key": "training.simulationRule",
+      "value": "选择 3/6/12 名守卫和一种组合，手动开始。不会自动无限生成。\n每次开始替换旧模拟敌人；死亡仅在营地安全复位。"
+    },
+    {
+      "key": "training.count.3",
+      "value": "数量 3"
+    },
+    {
+      "key": "training.count.6",
+      "value": "数量 6"
+    },
+    {
+      "key": "training.count.12",
+      "value": "数量 12"
+    },
+    {
+      "key": "enemy.chaser",
+      "value": "追击者"
+    },
+    {
+      "key": "enemy.shooter",
+      "value": "直线射手"
+    },
+    {
+      "key": "enemy.elite",
+      "value": "精英追击者"
+    },
+    {
+      "key": "enemy.mix",
+      "value": "混合组合"
+    },
+    {
+      "key": "training.stop",
+      "value": "停止模拟并清场"
+    },
+    {
+      "key": "training.toggleEnergy",
+      "value": "切换无限能量"
+    },
+    {
+      "key": "training.toggleCharges",
+      "value": "切换无限充能"
+    },
+    {
+      "key": "training.toggleInvincible",
+      "value": "切换无敌"
+    },
+    {
+      "key": "training.restore",
+      "value": "恢复生命/资源/冷却"
+    },
+    {
+      "key": "training.reset",
+      "value": "重置练习 · 保留装备"
+    },
+    {
+      "key": "training.defaults",
+      "value": "恢复默认装备"
+    },
+    {
+      "key": "training.respawn",
+      "value": "已回营地安全复位，旧敌人、危险与状态已清理。"
+    },
+    {
+      "key": "training.environmentPending",
+      "value": "环境体验区已预留。传送带、冰面、周期电网将随正式关卡开发接入；M2a 不宣称可用。"
+    },
+    {
+      "key": "training.futureItems",
+      "value": "未实现：穿透弩/爆炸发射器/电弧枪；减速场/震荡波/诱饵/手雷；穿透/弹射/暴击/击杀回能/低血防护/爆炸范围/受控增伤/无伤治疗。"
+    },
+    {
+      "key": "flag.on",
+      "value": "开启"
+    },
+    {
+      "key": "flag.off",
+      "value": "关闭"
+    },
+    {
+      "key": "item.crossbow",
+      "value": "蓄力穿透弩"
+    },
+    {
+      "key": "item.launcher",
+      "value": "延迟爆炸发射器"
+    },
+    {
+      "key": "item.arc",
+      "value": "连锁电弧枪"
+    },
+    {
+      "key": "item.slow",
+      "value": "减速场"
+    },
+    {
+      "key": "item.shock",
+      "value": "击退震荡波"
+    },
+    {
+      "key": "item.decoy",
+      "value": "诱饵信标"
+    },
+    {
+      "key": "item.grenade",
+      "value": "爆破手雷"
+    },
+    {
+      "key": "item.pierce",
+      "value": "穿透弹"
+    },
+    {
+      "key": "item.bounce",
+      "value": "有限弹射"
+    },
+    {
+      "key": "item.critical",
+      "value": "暴击强化"
+    },
+    {
+      "key": "item.recharge",
+      "value": "击杀回能"
+    },
+    {
+      "key": "item.lowhealth",
+      "value": "低生命防护"
+    },
+    {
+      "key": "item.blast",
+      "value": "爆炸范围"
+    },
+    {
+      "key": "item.controlled",
+      "value": "受控增伤"
+    },
+    {
+      "key": "item.flawless",
+      "value": "无伤治疗"
+    },
+    {
+      "key": "hud.active",
+      "value": "Q：{item} · {charges} 次 · {cooldown}秒"
+    },
+    {
+      "key": "tutorial.comparison.vitality",
+      "value": "最大生命：{before} → {after}。生命被动已生效。"
+    },
+    {
+      "key": "tutorial.comparison.rapid",
+      "value": "手枪射击间隔：{before}秒 → {after}秒。射速被动已生效。"
+    }
+  ]
+}

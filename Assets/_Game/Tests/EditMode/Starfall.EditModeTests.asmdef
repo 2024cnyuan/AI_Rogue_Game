@@ -1,0 +1,6 @@
+{
+  "name": "Starfall.EditModeTests",
+  "references": ["Starfall.Runtime"],
+  "includePlatforms": ["Editor"],
+  "optionalUnityReferences": ["TestAssemblies"]
+}

@@ -1,0 +1,423 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58773d42d3a066143ada8342429e4324, type: 3}
+  m_Name: ItemCatalog
+  m_EditorClassIdentifier: Starfall.Runtime::Starfall.ItemCatalog
+  items:
+  - id: pistol
+    nameKey: item.pistol
+    descriptionKey: desc.pistol
+    icon: arrow
+    rarity: common
+    tags: projectile
+    kind: 0
+    implemented: 1
+    damage: 20
+    interval: 0.23
+    energyCost: 0
+    spread: 0
+    value: 0
+    cooldown: 0
+    pellets: 1
+    maxCharges: 2
+    stackLimit: 2
+  - id: shotgun
+    nameKey: item.shotgun
+    descriptionKey: desc.shotgun
+    icon: arrow
+    rarity: common
+    tags: projectile
+    kind: 0
+    implemented: 1
+    damage: 9
+    interval: 0.62
+    energyCost: 12
+    spread: 20
+    value: 0
+    cooldown: 0
+    pellets: 6
+    maxCharges: 2
+    stackLimit: 2
+  - id: smg
+    nameKey: item.smg
+    descriptionKey: desc.smg
+    icon: arrow
+    rarity: common
+    tags: projectile
+    kind: 0
+    implemented: 1
+    damage: 8
+    interval: 0.1
+    energyCost: 3
+    spread: 0
+    value: 0
+    cooldown: 0
+    pellets: 1
+    maxCharges: 2
+    stackLimit: 2
+  - id: medkit
+    nameKey: item.medkit
+    descriptionKey: desc.medkit
+    icon: cross
+    rarity: common
+    tags: support
+    kind: 1
+    implemented: 1
+    damage: 0
+    interval: 0
+    energyCost: 0
+    spread: 0
+    value: 40
+    cooldown: 8
+    pellets: 1
+    maxCharges: 2
+    stackLimit: 2
+  - id: shield
+    nameKey: item.shield
+    descriptionKey: desc.shield
+    icon: orb
+    rarity: common
+    tags: support
+    kind: 1
+    implemented: 1
+    damage: 0
+    interval: 0
+    energyCost: 0
+    spread: 0
+    value: 3
+    cooldown: 10
+    pellets: 1
+    maxCharges: 2
+    stackLimit: 2
+  - id: rapid
+    nameKey: item.rapid
+    descriptionKey: desc.rapid
+    icon: orb
+    rarity: common
+    tags: stats
+    kind: 2
+    implemented: 1
+    damage: 0
+    interval: 0
+    energyCost: 0
+    spread: 0
+    value: 18
+    cooldown: 0
+    pellets: 1
+    maxCharges: 2
+    stackLimit: 2
+  - id: magnet
+    nameKey: item.magnet
+    descriptionKey: desc.magnet
+    icon: orb
+    rarity: common
+    tags: stats
+    kind: 2
+    implemented: 1
+    damage: 0
+    interval: 0
+    energyCost: 0
+    spread: 0
+    value: 0.65
+    cooldown: 0
+    pellets: 1
+    maxCharges: 2
+    stackLimit: 2
+  - id: vitality
+    nameKey: item.vitality
+    descriptionKey: desc.vitality
+    icon: orb
+    rarity: common
+    tags: stats
+    kind: 2
+    implemented: 1
+    damage: 0
+    interval: 0
+    energyCost: 0
+    spread: 0
+    value: 25
+    cooldown: 0
+    pellets: 1
+    maxCharges: 2
+    stackLimit: 2
+  - id: agile
+    nameKey: item.agile
+    descriptionKey: desc.agile
+    icon: orb
+    rarity: common
+    tags: stats
+    kind: 2
+    implemented: 1
+    damage: 0
+    interval: 0
+    energyCost: 0
+    spread: 0
+    value: 15
+    cooldown: 0
+    pellets: 1
+    maxCharges: 2
+    stackLimit: 2
+  - id: crossbow
+    nameKey: item.crossbow
+    descriptionKey: desc.unavailable
+    icon: orb
+    rarity: common
+    tags: 
+    kind: 0
+    implemented: 0
+    damage: 0
+    interval: 0
+    energyCost: 0
+    spread: 0
+    value: 0
+    cooldown: 0
+    pellets: 1
+    maxCharges: 2
+    stackLimit: 2
+  - id: launcher
+    nameKey: item.launcher
+    descriptionKey: desc.unavailable
+    icon: orb
+    rarity: common
+    tags: 
+    kind: 0
+    implemented: 0
+    damage: 0
+    interval: 0
+    energyCost: 0
+    spread: 0
+    value: 0
+    cooldown: 0
+    pellets: 1
+    maxCharges: 2
+    stackLimit: 2
+  - id: arc
+    nameKey: item.arc
+    descriptionKey: desc.unavailable
+    icon: orb
+    rarity: common
+    tags: 
+    kind: 0
+    implemented: 0
+    damage: 0
+    interval: 0
+    energyCost: 0
+    spread: 0
+    value: 0
+    cooldown: 0
+    pellets: 1
+    maxCharges: 2
+    stackLimit: 2
+  - id: slow
+    nameKey: item.slow
+    descriptionKey: desc.unavailable
+    icon: orb
+    rarity: common
+    tags: 
+    kind: 1
+    implemented: 0
+    damage: 0
+    interval: 0
+    energyCost: 0
+    spread: 0
+    value: 0
+    cooldown: 0
+    pellets: 1
+    maxCharges: 2
+    stackLimit: 2
+  - id: shock
+    nameKey: item.shock
+    descriptionKey: desc.unavailable
+    icon: orb
+    rarity: common
+    tags: 
+    kind: 1
+    implemented: 0
+    damage: 0
+    interval: 0
+    energyCost: 0
+    spread: 0
+    value: 0
+    cooldown: 0
+    pellets: 1
+    maxCharges: 2
+    stackLimit: 2
+  - id: decoy
+    nameKey: item.decoy
+    descriptionKey: desc.unavailable
+    icon: orb
+    rarity: common
+    tags: 
+    kind: 1
+    implemented: 0
+    damage: 0
+    interval: 0
+    energyCost: 0
+    spread: 0
+    value: 0
+    cooldown: 0
+    pellets: 1
+    maxCharges: 2
+    stackLimit: 2
+  - id: grenade
+    nameKey: item.grenade
+    descriptionKey: desc.unavailable
+    icon: orb
+    rarity: common
+    tags: 
+    kind: 1
+    implemented: 0
+    damage: 0
+    interval: 0
+    energyCost: 0
+    spread: 0
+    value: 0
+    cooldown: 0
+    pellets: 1
+    maxCharges: 2
+    stackLimit: 2
+  - id: pierce
+    nameKey: item.pierce
+    descriptionKey: desc.unavailable
+    icon: orb
+    rarity: common
+    tags: 
+    kind: 2
+    implemented: 0
+    damage: 0
+    interval: 0
+    energyCost: 0
+    spread: 0
+    value: 0
+    cooldown: 0
+    pellets: 1
+    maxCharges: 2
+    stackLimit: 2
+  - id: bounce
+    nameKey: item.bounce
+    descriptionKey: desc.unavailable
+    icon: orb
+    rarity: common
+    tags: 
+    kind: 2
+    implemented: 0
+    damage: 0
+    interval: 0
+    energyCost: 0
+    spread: 0
+    value: 0
+    cooldown: 0
+    pellets: 1
+    maxCharges: 2
+    stackLimit: 2
+  - id: critical
+    nameKey: item.critical
+    descriptionKey: desc.unavailable
+    icon: orb
+    rarity: common
+    tags: 
+    kind: 2
+    implemented: 0
+    damage: 0
+    interval: 0
+    energyCost: 0
+    spread: 0
+    value: 0
+    cooldown: 0
+    pellets: 1
+    maxCharges: 2
+    stackLimit: 2
+  - id: recharge
+    nameKey: item.recharge
+    descriptionKey: desc.unavailable
+    icon: orb
+    rarity: common
+    tags: 
+    kind: 2
+    implemented: 0
+    damage: 0
+    interval: 0
+    energyCost: 0
+    spread: 0
+    value: 0
+    cooldown: 0
+    pellets: 1
+    maxCharges: 2
+    stackLimit: 2
+  - id: lowhealth
+    nameKey: item.lowhealth
+    descriptionKey: desc.unavailable
+    icon: orb
+    rarity: common
+    tags: 
+    kind: 2
+    implemented: 0
+    damage: 0
+    interval: 0
+    energyCost: 0
+    spread: 0
+    value: 0
+    cooldown: 0
+    pellets: 1
+    maxCharges: 2
+    stackLimit: 2
+  - id: blast
+    nameKey: item.blast
+    descriptionKey: desc.unavailable
+    icon: orb
+    rarity: common
+    tags: 
+    kind: 2
+    implemented: 0
+    damage: 0
+    interval: 0
+    energyCost: 0
+    spread: 0
+    value: 0
+    cooldown: 0
+    pellets: 1
+    maxCharges: 2
+    stackLimit: 2
+  - id: controlled
+    nameKey: item.controlled
+    descriptionKey: desc.unavailable
+    icon: orb
+    rarity: common
+    tags: 
+    kind: 2
+    implemented: 0
+    damage: 0
+    interval: 0
+    energyCost: 0
+    spread: 0
+    value: 0
+    cooldown: 0
+    pellets: 1
+    maxCharges: 2
+    stackLimit: 2
+  - id: flawless
+    nameKey: item.flawless
+    descriptionKey: desc.unavailable
+    icon: orb
+    rarity: common
+    tags: 
+    kind: 2
+    implemented: 0
+    damage: 0
+    interval: 0
+    energyCost: 0
+    spread: 0
+    value: 0
+    cooldown: 0
+    pellets: 1
+    maxCharges: 2
+    stackLimit: 2

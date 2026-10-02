@@ -1,0 +1,6 @@
+{
+  "name": "Starfall.Runtime",
+  "rootNamespace": "Starfall",
+  "references": ["Unity.InputSystem", "Unity.ugui"],
+  "autoReferenced": true
+}

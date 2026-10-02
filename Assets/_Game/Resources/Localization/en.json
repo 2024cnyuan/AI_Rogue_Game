@@ -1,0 +1,708 @@
+{
+  "entries": [
+    {
+      "key": "title",
+      "value": "STARCORE LABYRINTH"
+    },
+    {
+      "key": "subtitle",
+      "value": "M2a · First Steps & Starport Range"
+    },
+    {
+      "key": "menu.intro",
+      "value": "Learn in First Steps or experiment in Starport Range.\nAdventure still opens the M1 single-room prototype."
+    },
+    {
+      "key": "menu.start",
+      "value": "Start Adventure · M1 Prototype"
+    },
+    {
+      "key": "menu.continue",
+      "value": "Continue Adventure · Unavailable"
+    },
+    {
+      "key": "menu.noCheckpoint",
+      "value": "M1 has no campaign checkpoint. Returning starts a fresh room."
+    },
+    {
+      "key": "menu.tutorial",
+      "value": "Tutorial · First Steps"
+    },
+    {
+      "key": "menu.training",
+      "value": "Training Grounds · Starport Range"
+    },
+    {
+      "key": "menu.records",
+      "value": "Personal Bests · In Development"
+    },
+    {
+      "key": "menu.settings",
+      "value": "Settings"
+    },
+    {
+      "key": "menu.quit",
+      "value": "Quit"
+    },
+    {
+      "key": "language.label",
+      "value": "语言 / Language"
+    },
+    {
+      "key": "language.welcome",
+      "value": "选择语言 / Choose your language"
+    },
+    {
+      "key": "language.confirm",
+      "value": "Confirm · Open Main Menu"
+    },
+    {
+      "key": "language.firstHint",
+      "value": "After choosing a language, try the tutorial or enter the adventure prototype."
+    },
+    {
+      "key": "settings.title",
+      "value": "Settings"
+    },
+    {
+      "key": "settings.display",
+      "value": "Display mode: {mode}"
+    },
+    {
+      "key": "settings.windowed",
+      "value": "Windowed"
+    },
+    {
+      "key": "settings.fullscreen",
+      "value": "Fullscreen"
+    },
+    {
+      "key": "settings.note",
+      "value": "Language updates immediately and is saved locally.\nNo camera shake in M1. Audio and flash settings arrive with later feedback systems."
+    },
+    {
+      "key": "button.back",
+      "value": "Back"
+    },
+    {
+      "key": "button.resume",
+      "value": "Resume Combat"
+    },
+    {
+      "key": "button.restart",
+      "value": "Restart · Room Entrance"
+    },
+    {
+      "key": "button.menu",
+      "value": "Return to Main Menu"
+    },
+    {
+      "key": "pause.title",
+      "value": "Paused"
+    },
+    {
+      "key": "pause.focus",
+      "value": "Window out of focus · Combat paused"
+    },
+    {
+      "key": "pause.note",
+      "value": "Combat, dodges, cooldowns and enemy warnings are paused."
+    },
+    {
+      "key": "map.title",
+      "value": "Area Map"
+    },
+    {
+      "key": "map.legend",
+      "value": "Cyan dot: you · Grey: walls and cover\nGold: entrance · Exit: passage on the right"
+    },
+    {
+      "key": "map.close",
+      "value": "Close Map · Tab / Esc"
+    },
+    {
+      "key": "hud.health",
+      "value": "Health {current} / {max}"
+    },
+    {
+      "key": "hud.coins",
+      "value": "Coins {coins}"
+    },
+    {
+      "key": "hud.weapon",
+      "value": "Balanced Pistol · Unlimited Ammo"
+    },
+    {
+      "key": "hud.dodge.ready",
+      "value": "Dodge · Space · Ready"
+    },
+    {
+      "key": "hud.dodge.wait",
+      "value": "Dodge cooldown: {seconds}s"
+    },
+    {
+      "key": "hud.enemies",
+      "value": "Objective: defeat the guards · {count} / 5 left"
+    },
+    {
+      "key": "hud.exit",
+      "value": "Objective: reach the right-hand exit and press E"
+    },
+    {
+      "key": "hud.stage",
+      "value": "M1 · Mosslight Test Court · Prototype"
+    },
+    {
+      "key": "hud.controls",
+      "value": "WASD Move · LMB Fire · Space Dodge · E Interact · Q Active · 1/2 Switch · Tab Map · Esc Pause"
+    },
+    {
+      "key": "hud.pickups",
+      "value": "Coins collect automatically. Health restores 25; kept on the ground at full health."
+    },
+    {
+      "key": "hud.interact",
+      "value": "E · Leave the Test Court"
+    },
+    {
+      "key": "room.start",
+      "value": "Defeat five guards. Watch for gold attack warnings and use stone walls as cover."
+    },
+    {
+      "key": "room.clear",
+      "value": "All guards defeated! Exit open. Room reward: 10 coins."
+    },
+    {
+      "key": "combat.hit",
+      "value": "Damage taken · Brief protection"
+    },
+    {
+      "key": "pickup.coin",
+      "value": "Collected 3 coins"
+    },
+    {
+      "key": "pickup.heal",
+      "value": "Restored 25 health"
+    },
+    {
+      "key": "death.title",
+      "value": "The Run Ends. The Adventure Continues."
+    },
+    {
+      "key": "death.body",
+      "value": "Take a breather, then return with what you've learned.\nCoins and combat state reset for your next attempt."
+    },
+    {
+      "key": "clear.title",
+      "value": "Test Court Complete!"
+    },
+    {
+      "key": "clear.body",
+      "value": "You finished the controls prototype.\nThe full first stage, upgrades and personal bests arrive in later milestones."
+    },
+    {
+      "key": "result.stats",
+      "value": "Guards defeated: {kills} / 5 · Coins collected: {coins}"
+    },
+    {
+      "key": "result.practice",
+      "value": "Practice result — not eligible for a personal best"
+    },
+    {
+      "key": "save.failed",
+      "value": "Could not save settings. Your choice is active; check save-folder permissions and try again."
+    },
+    {
+      "key": "save.recovered",
+      "value": "Settings were damaged or incompatible. Backup recovery was attempted; the original file was preserved."
+    },
+    {
+      "key": "intro.title",
+      "value": "Ready for your first steps?"
+    },
+    {
+      "key": "intro.body",
+      "value": "Learn the controls one step at a time, or head straight into adventure.\nThe tutorial and training grounds stay available in the menu."
+    },
+    {
+      "key": "intro.adventure",
+      "value": "Go to Adventure · Skip Introduction"
+    },
+    {
+      "key": "hud.loadout",
+      "value": "{weapon} · Energy {energy}/100 · 1/2 Switch"
+    },
+    {
+      "key": "station.prompt",
+      "value": "E · {name}"
+    },
+    {
+      "key": "station.beacon",
+      "value": "Training Beacon"
+    },
+    {
+      "key": "item.limit",
+      "value": "Loadout or stack limit reached. No resources spent."
+    },
+    {
+      "key": "weapon.noEnergy",
+      "value": "Not enough energy! Press 1 for the unlimited-ammo pistol."
+    },
+    {
+      "key": "pickup.energy",
+      "value": "Restored 35 energy"
+    },
+    {
+      "key": "active.dead",
+      "value": "Cannot use items while down."
+    },
+    {
+      "key": "active.dodging",
+      "value": "Cannot use an active item during a dodge."
+    },
+    {
+      "key": "active.none",
+      "value": "No active item equipped"
+    },
+    {
+      "key": "active.cooldown",
+      "value": "Active item cooling down. No charge spent."
+    },
+    {
+      "key": "active.empty",
+      "value": "No charges left. Restore them at the equipment zone."
+    },
+    {
+      "key": "active.full",
+      "value": "Health is full. Medkit charge preserved."
+    },
+    {
+      "key": "active.used",
+      "value": "Active item applied."
+    },
+    {
+      "key": "item.pistol",
+      "value": "Balanced Pistol"
+    },
+    {
+      "key": "item.shotgun",
+      "value": "Close-range Shotgun"
+    },
+    {
+      "key": "item.smg",
+      "value": "Rapid SMG"
+    },
+    {
+      "key": "item.medkit",
+      "value": "Medkit"
+    },
+    {
+      "key": "item.shield",
+      "value": "Short Shield"
+    },
+    {
+      "key": "item.rapid",
+      "value": "Rapid Fire"
+    },
+    {
+      "key": "item.magnet",
+      "value": "Pickup Magnet"
+    },
+    {
+      "key": "item.vitality",
+      "value": "Health Matrix"
+    },
+    {
+      "key": "item.agile",
+      "value": "Dodge Tuning"
+    },
+    {
+      "key": "desc.pistol",
+      "value": "{damage} damage per shot; {interval}s interval. Unlimited ammo. Press 1 to switch."
+    },
+    {
+      "key": "desc.shotgun",
+      "value": "{pellets} pellets at {damage} damage each; {interval}s interval; {energy} energy. Press 2 to switch."
+    },
+    {
+      "key": "desc.smg",
+      "value": "{damage} damage; {interval}s interval; {energy} energy per shot. Press 2 to switch."
+    },
+    {
+      "key": "desc.medkit",
+      "value": "Q restores {value} health. Up to {charges} charges; {cooldown}s cooldown. Cannot waste at full health."
+    },
+    {
+      "key": "desc.shield",
+      "value": "Q grants {value}s invulnerability. Up to {charges} charges; {cooldown}s cooldown. Replacing or resetting clears it."
+    },
+    {
+      "key": "desc.rapid",
+      "value": "Each layer adds {value}% fire rate. Base interval is divided by the rate multiplier. Maximum two layers."
+    },
+    {
+      "key": "desc.magnet",
+      "value": "Each layer adds {value} units to auto-pickup range. Maximum two layers."
+    },
+    {
+      "key": "desc.vitality",
+      "value": "Each layer adds {value} maximum health and fills that extra health. Removing clamps health to the new cap. Two layers max."
+    },
+    {
+      "key": "desc.agile",
+      "value": "Each layer reduces base dodge cooldown by {value}%. Minimum cooldown is 35% of base. Two layers max."
+    },
+    {
+      "key": "desc.unavailable",
+      "value": "Planned for later milestones. Not available yet."
+    },
+    {
+      "key": "remove.rapid",
+      "value": "Remove Rapid Fire"
+    },
+    {
+      "key": "remove.magnet",
+      "value": "Remove Magnet"
+    },
+    {
+      "key": "remove.vitality",
+      "value": "Remove Health Matrix"
+    },
+    {
+      "key": "remove.agile",
+      "value": "Remove Dodge Tuning"
+    },
+    {
+      "key": "tutorial.progress",
+      "value": "First Steps · Step {step}/7"
+    },
+    {
+      "key": "tutorial.reenter",
+      "value": "Tutorial restarts at its entrance. Adventure gear and checkpoints stay separate."
+    },
+    {
+      "key": "tutorial.step.0",
+      "value": "1 Move & observe: reach the gold marker on the left with WASD, then aim toward the upper-left range."
+    },
+    {
+      "key": "tutorial.step.1",
+      "value": "2 Fire & cover: hit both gold targets in the upper-left. Walk around the wall to hit the covered target."
+    },
+    {
+      "key": "tutorial.step.2",
+      "value": "3 Dodge warnings: meet a slow bullet in the centre lane and dodge through it with Space. Retry safely if hit."
+    },
+    {
+      "key": "tutorial.step.3",
+      "value": "4 Gear: collect a coin below, take the shotgun with E and hit its target above. Fire until energy runs short, then press 1 for the pistol."
+    },
+    {
+      "key": "tutorial.step.4",
+      "value": "5 Items: take the medkit below with E and heal with Q. Then choose one of the two passive stations to the right and inspect the change."
+    },
+    {
+      "key": "tutorial.step.5",
+      "value": "6 Map & objective: open and close Tab map. Activate the upper-right beacon with E, then press E at the right-hand gate."
+    },
+    {
+      "key": "tutorial.step.6",
+      "value": "7 Final drill: defeat two guards and a low-damage elite on the right. After clearing them, press E at the exit."
+    },
+    {
+      "key": "tutorial.step.7",
+      "value": "Tutorial complete."
+    },
+    {
+      "key": "tutorial.safeHint",
+      "value": "Follow the gold marker. Esc pauses or exits. Retry resets this step only."
+    },
+    {
+      "key": "tutorial.strongHint",
+      "value": "You can retry this step. Dodge-step skipping is now available, or skip the whole tutorial."
+    },
+    {
+      "key": "tutorial.retry",
+      "value": "Retry This Step"
+    },
+    {
+      "key": "tutorial.skipDodge",
+      "value": "Skip Dodge Step"
+    },
+    {
+      "key": "tutorial.skipAll",
+      "value": "Skip Tutorial · Menu"
+    },
+    {
+      "key": "tutorial.retryDone",
+      "value": "Step reset at a safe position. Resources restored."
+    },
+    {
+      "key": "tutorial.useFirst",
+      "value": "Take and successfully use the medkit with Q before choosing a passive."
+    },
+    {
+      "key": "tutorial.passiveChanged",
+      "value": "Passive applied: a shorter firing interval or 25 extra maximum health."
+    },
+    {
+      "key": "tutorial.mapFirst",
+      "value": "Open and close the Tab map before activating the beacon."
+    },
+    {
+      "key": "tutorial.beaconReady",
+      "value": "Beacon activated. Objective gate open; reach the exit and press E."
+    },
+    {
+      "key": "tutorial.complete",
+      "value": "First Steps Complete!"
+    },
+    {
+      "key": "tutorial.completeBody",
+      "value": "You've learned the basics. Tutorial equipment stays in this session.\nTry the adventure prototype, explore the training grounds, or return to the menu."
+    },
+    {
+      "key": "tutorial.completedAll",
+      "value": "Tutorial completion recorded · No personal best or transferable gear"
+    },
+    {
+      "key": "tutorial.completedWithSkip",
+      "value": "Completion and skipped-step marks are separate · No personal best"
+    },
+    {
+      "key": "zone.equipment",
+      "value": "Equipment Zone"
+    },
+    {
+      "key": "zone.range",
+      "value": "Target Range"
+    },
+    {
+      "key": "zone.dodge",
+      "value": "Dodge Lane"
+    },
+    {
+      "key": "zone.simulation",
+      "value": "Combat Simulator"
+    },
+    {
+      "key": "zone.environment",
+      "value": "Environment Zone"
+    },
+    {
+      "key": "training.welcome",
+      "value": "Welcome to Starport Range! Press E near any cyan station, or use the equipment and controls buttons below."
+    },
+    {
+      "key": "training.objective",
+      "value": "Starport Range · Free practice · Guards {count}/12"
+    },
+    {
+      "key": "training.controls",
+      "value": "Practice Controls"
+    },
+    {
+      "key": "training.aids",
+      "value": "Practice aids · Infinite energy {energy} · Infinite charges {charges} · Invincible {invincible}"
+    },
+    {
+      "key": "training.active",
+      "value": "Q: {item} · Charges {charges} · Cooldown {cooldown}s · Shield {shield}s"
+    },
+    {
+      "key": "training.equipment",
+      "value": "Weapon: {weapon} · Passive types {count}/6 · Simulation count {simulation}/12"
+    },
+    {
+      "key": "training.layers",
+      "value": "{name} {layers}/2"
+    },
+    {
+      "key": "training.dpsRule",
+      "value": "DPS uses the last 10 seconds of effective game time, or time since reset when shorter. Pauses do not age samples.\nThe armored target reduces damage by 50%. Statistics use effective damage and reset on gear changes."
+    },
+    {
+      "key": "training.damage",
+      "value": "Last {last} · Total {total} · DPS {dps}"
+    },
+    {
+      "key": "training.resetStats",
+      "value": "Reset Damage Statistics"
+    },
+    {
+      "key": "training.targetKinds",
+      "value": "Upper-left range: static target on the left, moving target in the middle, armored target on the right. Close this panel to fire."
+    },
+    {
+      "key": "training.hazardRule",
+      "value": "Upper-right lane: slow bullets, a warned charge strip, and ground hazards. Gold warns; orange deals damage.\nThe drill runs after closing the panel. Normal dodge and hit protection still apply."
+    },
+    {
+      "key": "training.intensity.1",
+      "value": "Start · Low"
+    },
+    {
+      "key": "training.intensity.2",
+      "value": "Start · Medium"
+    },
+    {
+      "key": "training.intensity.3",
+      "value": "Start · High"
+    },
+    {
+      "key": "training.hazardStop",
+      "value": "Stop Drill & Clear Bullets"
+    },
+    {
+      "key": "training.simulationRule",
+      "value": "Select 3, 6 or 12 guards, then a group to start manually. No endless spawning.\nStarting replaces the previous group. Death returns you safely to camp."
+    },
+    {
+      "key": "training.count.3",
+      "value": "Count 3"
+    },
+    {
+      "key": "training.count.6",
+      "value": "Count 6"
+    },
+    {
+      "key": "training.count.12",
+      "value": "Count 12"
+    },
+    {
+      "key": "enemy.chaser",
+      "value": "Pursuers"
+    },
+    {
+      "key": "enemy.shooter",
+      "value": "Sentinels"
+    },
+    {
+      "key": "enemy.elite",
+      "value": "Elite Pursuers"
+    },
+    {
+      "key": "enemy.mix",
+      "value": "Mixed Group"
+    },
+    {
+      "key": "training.stop",
+      "value": "Stop & Clear Simulation"
+    },
+    {
+      "key": "training.toggleEnergy",
+      "value": "Toggle Infinite Energy"
+    },
+    {
+      "key": "training.toggleCharges",
+      "value": "Toggle Infinite Charges"
+    },
+    {
+      "key": "training.toggleInvincible",
+      "value": "Toggle Invincibility"
+    },
+    {
+      "key": "training.restore",
+      "value": "Restore Health / Resources"
+    },
+    {
+      "key": "training.reset",
+      "value": "Reset · Keep Equipment"
+    },
+    {
+      "key": "training.defaults",
+      "value": "Restore Default Equipment"
+    },
+    {
+      "key": "training.respawn",
+      "value": "Safely returned to camp. Old enemies, hazards and effects cleared."
+    },
+    {
+      "key": "training.environmentPending",
+      "value": "This environment zone is reserved. Conveyors, ice and periodic grids will arrive with their campaign stages; they are not available in M2a."
+    },
+    {
+      "key": "training.futureItems",
+      "value": "Not implemented: crossbow/launcher/arc gun; slow field/shockwave/decoy/grenade; pierce/bounce/critical/kill-energy/low-health guard/blast/controlled bonus/flawless heal."
+    },
+    {
+      "key": "flag.on",
+      "value": "ON"
+    },
+    {
+      "key": "flag.off",
+      "value": "OFF"
+    },
+    {
+      "key": "item.crossbow",
+      "value": "Charged Crossbow"
+    },
+    {
+      "key": "item.launcher",
+      "value": "Delayed Launcher"
+    },
+    {
+      "key": "item.arc",
+      "value": "Chain Arc Gun"
+    },
+    {
+      "key": "item.slow",
+      "value": "Slow Field"
+    },
+    {
+      "key": "item.shock",
+      "value": "Knockback Wave"
+    },
+    {
+      "key": "item.decoy",
+      "value": "Decoy Beacon"
+    },
+    {
+      "key": "item.grenade",
+      "value": "Blast Grenade"
+    },
+    {
+      "key": "item.pierce",
+      "value": "Piercing Rounds"
+    },
+    {
+      "key": "item.bounce",
+      "value": "Limited Ricochet"
+    },
+    {
+      "key": "item.critical",
+      "value": "Critical Boost"
+    },
+    {
+      "key": "item.recharge",
+      "value": "Kill Recharge"
+    },
+    {
+      "key": "item.lowhealth",
+      "value": "Low-health Guard"
+    },
+    {
+      "key": "item.blast",
+      "value": "Blast Radius"
+    },
+    {
+      "key": "item.controlled",
+      "value": "Controlled-target Bonus"
+    },
+    {
+      "key": "item.flawless",
+      "value": "Flawless Room Heal"
+    },
+    {
+      "key": "hud.active",
+      "value": "Q: {item} · {charges} charges · {cooldown}s"
+    },
+    {
+      "key": "tutorial.comparison.vitality",
+      "value": "Maximum health: {before} → {after}. The health passive is now active."
+    },
+    {
+      "key": "tutorial.comparison.rapid",
+      "value": "Pistol interval: {before}s → {after}s. The fire-rate passive is now active."
+    }
+  ]
+}
