@@ -29,7 +29,7 @@ namespace Starfall
             Health.Hit += OnHit; Health.Died += OnDeath;
             Health.Evaded += OnEvaded;
         }
-        void OnHit() { hitLeft = .18f; game.Notify("combat.hit"); }
+        void OnHit() { hitLeft = .18f; game.Notify("combat.hit"); game.Audio?.Play(GameSound.Hurt); game.ShakeCamera(.12f); }
         void OnDeath() { body.linearVelocity = Vector2.zero; GetComponent<Collider2D>().enabled = false; view.color = new Color(.35f, .4f, .45f); Flush(); }
         void OnEvaded(DamageContext hit) { if (DodgeProtected) game.Tutorial?.DodgedAttack(); }
         public void RestoreAt(Vector2 at)
@@ -41,6 +41,10 @@ namespace Starfall
         {
             Health.State.SetMaximum(config.health + game.Loadout.ExtraHealth);
             Health.Invulnerable = DodgeProtected || game.Loadout.ShieldLeft > 0 || game.Loadout.Invincible;
+        }
+        public void MoveTo(Vector2 at)
+        {
+            body.position = at; dodgeLeft = dodgeAge = bufferLeft = 0; Flush(); Health.Invulnerable = game.Loadout.Invincible || game.Loadout.ShieldLeft > 0;
         }
         public void ResetCooldowns() { dodgeAge = dodgeLeft = cooldown = shotLeft = 0; Health.Invulnerable = game.Loadout.Invincible || game.Loadout.ShieldLeft > 0; }
         public void Flush() { move = Vector2.zero; bufferLeft = 0; if (body != null) body.linearVelocity = Vector2.zero; }
@@ -54,6 +58,7 @@ namespace Starfall
             if (game.Input.ActivePressed)
             {
                 string failure = game.Loadout.TryUse(Health.State, IsDodging);
+                if (failure == null) game.Audio?.Play(GameSound.Pickup);
                 game.Notify(failure ?? "active.used"); if (failure == null) game.Tutorial?.ActiveUsed();
             }
             Vector2 target = game.GameCamera.ScreenToWorldPoint(game.Input.Pointer);
@@ -64,13 +69,14 @@ namespace Starfall
             {
                 bufferLeft = 0; cooldown = config.dodgeCooldown * game.Loadout.DodgeMultiplier; dodgeLeft = config.dodgeDuration; dodgeAge = 0;
                 dodgeDirection = move.sqrMagnitude > .01f ? move.normalized : aim;
+                game.Audio?.Play(GameSound.Dodge);
             }
             if (game.Input.Attack && !IsDodging && shotLeft <= 0 && (EventSystem.current == null || !EventSystem.current.IsPointerOverGameObject())) Fire();
             float angle = Mathf.Atan2(aim.y, aim.x) * Mathf.Rad2Deg;
             gun.transform.localPosition = aim * .4f; gun.transform.rotation = Quaternion.Euler(0, 0, angle);
-            flash.transform.localPosition = aim * .68f; flashLeft -= dt; flash.enabled = flashLeft > 0;
+            flash.transform.localPosition = aim * .68f; flashLeft -= dt; flash.enabled = flashLeft > 0 && !game.Settings.reduceFlash;
             hitLeft -= dt;
-            view.color = hitLeft > 0 ? Color.white : IsDodging || game.Loadout.ShieldLeft > 0 ? new Color(.64f, 1, 1) : PrototypeVisuals.Teal;
+            view.color = hitLeft > 0 && !game.Settings.reduceFlash ? Color.white : IsDodging || game.Loadout.ShieldLeft > 0 ? new Color(.64f, 1, 1) : PrototypeVisuals.Teal;
             view.transform.localScale = new Vector3(.8f, IsDodging ? .62f : .9f + Mathf.Sin(Time.time * 12) * .025f * move.magnitude, 1);
         }
         void Fire()
@@ -88,6 +94,7 @@ namespace Starfall
                 game.Projectiles.Spawn(body.position + aim * .68f, direction, Faction.Player, weapon.damage, config.bulletSpeed, weapon.id);
             }
             flashLeft = .045f;
+            game.Audio?.Play(GameSound.Shot);
         }
         void FixedUpdate()
         {

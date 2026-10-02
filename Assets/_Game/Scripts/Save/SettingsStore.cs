@@ -12,6 +12,8 @@ namespace Starfall
         public bool languageSelected;
         public bool fullscreen;
         public bool tutorialCompleted, tutorialSkipped, introductionSeen;
+        public float masterVolume = .8f, musicVolume = .3f, effectsVolume = .8f, shake = .3f;
+        public bool reduceFlash, hideTimer;
     }
     public sealed class SettingsStore
     {
@@ -35,6 +37,8 @@ namespace Starfall
             }
             if (result == null) result = new GameSettings { language = defaultLanguage };
             if (result.language != "zh-CN" && result.language != "en") { result.language = defaultLanguage; ReadProblem = true; }
+            result.masterVolume = Mathf.Clamp01(result.masterVolume); result.musicVolume = Mathf.Clamp01(result.musicVolume);
+            result.effectsVolume = Mathf.Clamp01(result.effectsVolume); result.shake = Mathf.Clamp01(result.shake);
             return result;
         }
         static GameSettings Read(string file)

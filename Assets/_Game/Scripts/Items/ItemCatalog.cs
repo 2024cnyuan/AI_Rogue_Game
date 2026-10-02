@@ -25,7 +25,7 @@ namespace Starfall
         public string Describe(LocalizationService text, ItemDefinition item) => text.Get(item.descriptionKey,
             ("damage", item.damage.ToString("0.#", System.Globalization.CultureInfo.InvariantCulture)),
             ("interval", item.interval.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)),
-            ("energy", item.energyCost.ToString("0.#")), ("value", item.value.ToString("0.#")),
+            ("energy", item.energyCost.ToString("0.##")), ("value", item.value.ToString("0.##")),
             ("cooldown", item.cooldown.ToString("0.#")), ("charges", item.maxCharges.ToString()), ("pellets", item.pellets.ToString()));
         public static ItemCatalog Defaults()
         {

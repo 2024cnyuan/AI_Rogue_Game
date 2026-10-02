@@ -6,15 +6,15 @@
     },
     {
       "key": "subtitle",
-      "value": "M2a · First Steps & Starport Range"
+      "value": "M2b · Mosslight Gardens"
     },
     {
       "key": "menu.intro",
-      "value": "Learn in First Steps or experiment in Starport Range.\nAdventure still opens the M1 single-room prototype."
+      "value": "Explore Mosslight Gardens, activate two beacons and face the Stone Captain."
     },
     {
       "key": "menu.start",
-      "value": "Start Adventure · M1 Prototype"
+      "value": "Start Adventure · Stage 1"
     },
     {
       "key": "menu.continue",
@@ -22,7 +22,7 @@
     },
     {
       "key": "menu.noCheckpoint",
-      "value": "M1 has no campaign checkpoint. Returning starts a fresh room."
+      "value": "No checkpoint — continuation arrives in M3."
     },
     {
       "key": "menu.tutorial",
@@ -34,7 +34,7 @@
     },
     {
       "key": "menu.records",
-      "value": "Personal Bests · In Development"
+      "value": "Personal Bests"
     },
     {
       "key": "menu.settings",
@@ -78,7 +78,7 @@
     },
     {
       "key": "settings.note",
-      "value": "Language updates immediately and is saved locally.\nNo camera shake in M1. Audio and flash settings arrive with later feedback systems."
+      "value": "Settings apply immediately and are saved locally. Hiding the timer does not stop timing."
     },
     {
       "key": "button.back",
@@ -222,7 +222,7 @@
     },
     {
       "key": "intro.body",
-      "value": "Learn the controls one step at a time, or head straight into adventure.\nThe tutorial and training grounds stay available in the menu."
+      "value": "Learn the controls in First Steps, or enter Stage 1. Training is always available from the menu."
     },
     {
       "key": "intro.adventure",
@@ -458,7 +458,7 @@
     },
     {
       "key": "tutorial.completeBody",
-      "value": "You've learned the basics. Tutorial equipment stays in this session.\nTry the adventure prototype, explore the training grounds, or return to the menu."
+      "value": "Your practice equipment stays in this tutorial. Start Stage 1, enter training, or return to the menu."
     },
     {
       "key": "tutorial.completedAll",
@@ -703,6 +703,342 @@
     {
       "key": "tutorial.comparison.rapid",
       "value": "Pistol interval: {before}s → {after}s. The fire-rate passive is now active."
+    },
+    {
+      "key": "settings.master",
+      "value": "Master volume"
+    },
+    {
+      "key": "settings.music",
+      "value": "Music volume"
+    },
+    {
+      "key": "settings.effects",
+      "value": "Effects volume"
+    },
+    {
+      "key": "settings.shake",
+      "value": "Screen shake"
+    },
+    {
+      "key": "settings.flash",
+      "value": "Reduced flashes: {value}"
+    },
+    {
+      "key": "settings.timer",
+      "value": "HUD timer: {value}"
+    },
+    {
+      "key": "room.entry",
+      "value": "Safe Entrance"
+    },
+    {
+      "key": "room.courtyard",
+      "value": "Moss Courtyard"
+    },
+    {
+      "key": "room.north",
+      "value": "North Beacon Hall"
+    },
+    {
+      "key": "room.crossing",
+      "value": "Staggered Crossing"
+    },
+    {
+      "key": "room.south",
+      "value": "South Beacon Hall"
+    },
+    {
+      "key": "room.seal",
+      "value": "Pulse Relay Chamber"
+    },
+    {
+      "key": "room.supply",
+      "value": "Captain's Antechamber"
+    },
+    {
+      "key": "room.boss",
+      "value": "Stone Captain Arena"
+    },
+    {
+      "key": "room.challenge",
+      "value": "Optional Timed Trial"
+    },
+    {
+      "key": "stage.gardens",
+      "value": "1 · Mosslight Gardens"
+    },
+    {
+      "key": "stage.workshop",
+      "value": "2 · Copperworks"
+    },
+    {
+      "key": "stage.reservoir",
+      "value": "3 · Frostmirror Reservoir"
+    },
+    {
+      "key": "stage.greenhouse",
+      "value": "4 · Sporeglass Greenhouse"
+    },
+    {
+      "key": "stage.hub",
+      "value": "5 · Thunderrail Hub"
+    },
+    {
+      "key": "stage.sanctum",
+      "value": "6 · Starcore Sanctum"
+    },
+    {
+      "key": "adventure.start",
+      "value": "Stage 1: collect optional supplies with E, then use the right portal. Space dodges; 1 returns to the unlimited pistol."
+    },
+    {
+      "key": "adventure.enter",
+      "value": "Follow the room's right portal. Back routes and the optional trial use E."
+    },
+    {
+      "key": "adventure.objective",
+      "value": "Beacons {count}/2 · Guards {enemies}"
+    },
+    {
+      "key": "adventure.roomTitle",
+      "value": "Mosslight Gardens · {room} · Beacons {count}/2"
+    },
+    {
+      "key": "adventure.timer",
+      "value": "Stage time {time} · Personal best {best}"
+    },
+    {
+      "key": "adventure.routeHint",
+      "value": "Clear the room, then press E at a portal. Beacon halls also require activation."
+    },
+    {
+      "key": "adventure.mechanismHint",
+      "value": "Gold stripe warns before a pulse. Use the upper/lower routes; E activates the relay at upper right."
+    },
+    {
+      "key": "adventure.challengeTime",
+      "value": "Optional trial: {seconds}s remaining. The back portal is always available; failure does not block the main route."
+    },
+    {
+      "key": "adventure.route",
+      "value": "Stage route / current ◆ / cleared ✓ — Beacons {count}/2\n{rooms}"
+    },
+    {
+      "key": "adventure.locked",
+      "value": "Clear this room and complete its objective before travelling."
+    },
+    {
+      "key": "adventure.needBeacons",
+      "value": "Both beacons and the pulse relay are required. Main tasks never require a special weapon or coins."
+    },
+    {
+      "key": "adventure.roomClear",
+      "value": "Room clear! Energy, health and an active charge restored once. Choose your route."
+    },
+    {
+      "key": "adventure.activateBeacon",
+      "value": "Guards defeated. Press E at the beacon in the upper-right area to unlock the route."
+    },
+    {
+      "key": "adventure.beacon",
+      "value": "Activate Beacon"
+    },
+    {
+      "key": "adventure.beaconReady",
+      "value": "Beacon activated. The main route is now open."
+    },
+    {
+      "key": "adventure.relay",
+      "value": "Disable Pulse Relay"
+    },
+    {
+      "key": "adventure.sealReady",
+      "value": "Pulse relay disabled. Proceed to the free supply room."
+    },
+    {
+      "key": "adventure.restore",
+      "value": "One-time Full Supply"
+    },
+    {
+      "key": "adventure.restored",
+      "value": "Health, energy, charges and cooldowns restored. This supply can only be claimed once."
+    },
+    {
+      "key": "adventure.claimed",
+      "value": "This supply was already claimed this run."
+    },
+    {
+      "key": "adventure.challengeFailed",
+      "value": "Trial time expired. Return to the main route; no trial passive awarded."
+    },
+    {
+      "key": "adventure.retryRun",
+      "value": "New Run · Stage 1"
+    },
+    {
+      "key": "adventure.nextStagePending",
+      "value": "Stage 1 ends here in M2b. Stage 2 and entrance checkpoints arrive in M3."
+    },
+    {
+      "key": "boss.caption",
+      "value": "Stone Captain · {move}"
+    },
+    {
+      "key": "boss.move.fan",
+      "value": "Fan volley — leave the marked direction"
+    },
+    {
+      "key": "boss.move.charge",
+      "value": "Charge — gold lane warns first"
+    },
+    {
+      "key": "boss.move.ring",
+      "value": "Radial pulse — gaps between slow shots"
+    },
+    {
+      "key": "records.title",
+      "value": "Personal Bests"
+    },
+    {
+      "key": "records.none",
+      "value": "No record yet"
+    },
+    {
+      "key": "records.rules",
+      "value": "Timing starts at first control and ends when objectives and the Boss are complete while alive. Esc, map, focus loss, settings and loading are excluded once; exploration and decisions count. Times are floored to milliseconds. Different seeds/loadouts share a stage best; this is not an identical-map race."
+    },
+    {
+      "key": "records.scope",
+      "value": "Standard difficulty · timing v{timing} · balance v{balance}. Stages 2–6 are not playable in M2b. Scroll to view older rule groups."
+    },
+    {
+      "key": "records.metadata",
+      "value": "Seed {seed} · {date} · Rules {rules}\nLoadout: {gear}"
+    },
+    {
+      "key": "records.archived",
+      "value": "Previous rules {rules}: {time} (not compared with current rules)"
+    },
+    {
+      "key": "records.saved",
+      "value": "Personal-best result saved."
+    },
+    {
+      "key": "records.saveFailed",
+      "value": "This result is not saved. Retry here or in Personal Bests before closing the app."
+    },
+    {
+      "key": "records.retrySave",
+      "value": "Retry Saving This Result"
+    },
+    {
+      "key": "records.failureExcluded",
+      "value": "Failure time is not a clear record."
+    },
+    {
+      "key": "result.times",
+      "value": "This run {time} · Previous best {best}\n{comparison}"
+    },
+    {
+      "key": "result.faster",
+      "value": "Faster by {delta}"
+    },
+    {
+      "key": "result.slower",
+      "value": "Slower by {delta}"
+    },
+    {
+      "key": "result.equal",
+      "value": "Matched to the millisecond."
+    },
+    {
+      "key": "result.failureTime",
+      "value": "Mosslight Gardens · Attempt time {time}"
+    },
+    {
+      "key": "feedback.first.title",
+      "value": "First Clear!"
+    },
+    {
+      "key": "feedback.first.body",
+      "value": "Your first clear time: {time}. A new benchmark for your next adventure."
+    },
+    {
+      "key": "feedback.improved.title",
+      "value": "New Personal Best!"
+    },
+    {
+      "key": "feedback.improved.body",
+      "value": "You beat your best by {delta}. Look how far you've come!"
+    },
+    {
+      "key": "feedback.matched.title",
+      "value": "Best Time Matched!"
+    },
+    {
+      "key": "feedback.matched.body",
+      "value": "You've matched your best. A new record could be next."
+    },
+    {
+      "key": "feedback.close.title",
+      "value": "So Close!"
+    },
+    {
+      "key": "feedback.close.body",
+      "value": "Just {delta} off your best. Your next run could be the one."
+    },
+    {
+      "key": "feedback.cleared.title",
+      "value": "Stage Clear!"
+    },
+    {
+      "key": "feedback.cleared.body",
+      "value": "Another successful clear. Try a new loadout or route on your next run."
+    },
+    {
+      "key": "feedback.failed.title",
+      "value": "The Run Ends. The Adventure Continues."
+    },
+    {
+      "key": "feedback.failed.body",
+      "value": "Take a breather, then return with what you've learned."
+    },
+    {
+      "key": "feedback.practice.title",
+      "value": "Practice Clear"
+    },
+    {
+      "key": "feedback.practice.body",
+      "value": "This attempt was modified. Practice result — not eligible for a personal best."
+    },
+    {
+      "key": "reward.choose",
+      "value": "Choose one passive. The stage timer has already stopped."
+    },
+    {
+      "key": "reward.selected",
+      "value": "Reward received: {item}. This reward cannot be claimed again."
+    },
+    {
+      "key": "reward.coins",
+      "value": "20 Coins"
+    },
+    {
+      "key": "reward.heal",
+      "value": "Restore 30 Health"
+    },
+    {
+      "key": "reward.energy",
+      "value": "Restore 40 Energy"
+    },
+    {
+      "key": "adventure.safeHint",
+      "value": "E claims free supplies once per run; use the right portal when ready."
+    },
+    {
+      "key": "records.pending",
+      "value": "Retry Unsaved Results · retained until this app closes"
     }
   ]
 }

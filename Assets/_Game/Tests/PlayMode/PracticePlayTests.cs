@@ -149,7 +149,7 @@ namespace Starfall.Tests
             game.SetPause(PauseReason.Menu, true); game.RestartMode(); Assert.IsFalse(game.Pause.IsPaused);
             game.ReturnToMenu(); yield return null; Assert.IsNull(game.Loadout); Assert.IsNull(game.Training);
             game.StartAdventure(); yield return new WaitForFixedUpdate(); Assert.IsFalse(game.Loadout.Invincible); Assert.IsFalse(game.Loadout.InfiniteEnergy); Assert.IsFalse(game.Player.Health.Invulnerable);
-            Assert.IsEmpty(game.Loadout.Passives); Assert.AreEqual(100, game.Player.Health.State.Maximum); Assert.AreEqual(5, game.LivingEnemies);
+            Assert.IsEmpty(game.Loadout.Passives); Assert.AreEqual(100, game.Player.Health.State.Maximum); Assert.IsNotNull(game.Adventure); Assert.AreEqual("entry", game.Adventure.Current.Id);
             Assert.AreEqual("checkpoint-sentinel", File.ReadAllText(checkpoint));
         }
         [UnityTest] public IEnumerator TrainingDamageArmorAndPausesUseEffectiveTime()
@@ -189,7 +189,7 @@ namespace Starfall.Tests
         void Capture(string name, int width, int height)
         {
             Assert.AreNotEqual(UnityEngine.Rendering.GraphicsDeviceType.Null, SystemInfo.graphicsDeviceType, "Screens require actual graphics");
-            string directory = Path.Combine(Application.dataPath, "../Logs/M2a-Screens"); Directory.CreateDirectory(directory);
+            string directory = Path.Combine(Application.dataPath, "../Logs/M2b-Screens/M2a-regression"); Directory.CreateDirectory(directory);
             var camera = game.GameCamera; var canvas = game.Interface.Canvas; var target = new RenderTexture(width, height, 24);
             var scaler = canvas.GetComponent<CanvasScaler>(); float oldScale = canvas.scaleFactor, oldSize = camera.orthographicSize;
             var oldTarget = camera.targetTexture; var oldActive = RenderTexture.active; var oldMode = canvas.renderMode;

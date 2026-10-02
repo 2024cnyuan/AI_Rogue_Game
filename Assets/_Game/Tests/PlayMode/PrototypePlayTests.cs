@@ -48,7 +48,7 @@ namespace Starfall.Tests
         [UnityTest]
         public IEnumerator EntryInputAimDodgeAndPauseArePlayable()
         {
-            Assert.IsNull(game.Context); game.StartAdventure(); yield return new WaitForFixedUpdate();
+            Assert.IsNull(game.Context); game.StartPrototypeForTests(); yield return new WaitForFixedUpdate();
             Assert.AreEqual(5, game.LivingEnemies); Assert.IsFalse(game.Context.RecordEligible);
             InputSystem.QueueStateEvent(keyboard, new KeyboardState(Key.W, Key.D));
             InputSystem.QueueStateEvent(mouse, new MouseState { position = game.GameCamera.WorldToScreenPoint(new Vector3(8, -4, 0)) });
@@ -69,7 +69,7 @@ namespace Starfall.Tests
         [UnityTest]
         public IEnumerator MouseAttackUsesRealPistolToDamageEnemies()
         {
-            game.StartAdventure(); yield return null; game.Player.Body.position = new Vector2(8, -4);
+            game.StartPrototypeForTests(); yield return null; game.Player.Body.position = new Vector2(8, -4);
             Physics2D.SyncTransforms(); var enemy = game.Enemies[4]; float initial = enemy.Health.State.Health;
             var pointer = (Vector2)game.GameCamera.WorldToScreenPoint(enemy.transform.position);
             InputSystem.QueueStateEvent(mouse, new MouseState { position = pointer }); yield return null;
@@ -80,7 +80,7 @@ namespace Starfall.Tests
         [UnityTest]
         public IEnumerator DodgeAndMuzzleCannotCrossSolidWalls()
         {
-            game.StartAdventure(); yield return new WaitForFixedUpdate();
+            game.StartPrototypeForTests(); yield return new WaitForFixedUpdate();
             game.Player.Body.position = new Vector2(-10.6f, -4); Physics2D.SyncTransforms();
             InputSystem.QueueStateEvent(keyboard, new KeyboardState(Key.A, Key.Space));
             yield return null; yield return new WaitForSeconds(.25f);
@@ -94,13 +94,13 @@ namespace Starfall.Tests
         [UnityTest]
         public IEnumerator RoomClearDeathAndRestartCleanEveryRun()
         {
-            game.StartAdventure(); yield return null;
+            game.StartPrototypeForTests(); yield return null;
             foreach (var enemy in game.Enemies) enemy.Health.Receive(new DamageContext(1000, Faction.Player));
             yield return null; Assert.AreEqual(RunPhase.RoomClear, game.Context.Phase); Assert.IsTrue(game.Room.DoorOpen);
             Assert.AreEqual(10, game.Context.Coins); Assert.IsFalse(game.Context.GrantRoomReward());
             game.Player.Health.Receive(new DamageContext(1000, Faction.Enemy)); yield return null;
             Assert.AreEqual(RunPhase.Dead, game.Context.Phase); Assert.AreEqual(0, game.Projectiles.ActiveCount);
-            game.StartAdventure(); yield return null; Assert.AreEqual(5, game.LivingEnemies); Assert.AreEqual(0, game.Context.Coins);
+            game.StartPrototypeForTests(); yield return null; Assert.AreEqual(5, game.LivingEnemies); Assert.AreEqual(0, game.Context.Coins);
             Assert.AreEqual(100, game.Player.Health.State.Health); Assert.IsFalse(game.Room.DoorOpen);
             game.ReturnToMenu(); yield return null; Assert.IsNull(game.Context); Assert.AreEqual(1, Time.timeScale);
             Assert.IsNull(UnityEngine.Object.FindFirstObjectByType<ExplorerController>());
@@ -108,7 +108,7 @@ namespace Starfall.Tests
         [UnityTest]
         public IEnumerator OpenExitRequiresInteractionAndCompletesOnlyOnce()
         {
-            game.StartAdventure(); yield return null;
+            game.StartPrototypeForTests(); yield return null;
             foreach (var enemy in game.Enemies) enemy.Health.Receive(new DamageContext(1000, Faction.Player));
             yield return null; game.Player.Body.position = game.Room.Exit; Physics2D.SyncTransforms();
             yield return null; Assert.AreEqual(RunPhase.RoomClear, game.Context.Phase);
@@ -119,7 +119,7 @@ namespace Starfall.Tests
         [UnityTest]
         public IEnumerator FullHealthPickupStaysAndPoolReuseCannotKeepOldFaction()
         {
-            game.StartAdventure(); yield return null;
+            game.StartPrototypeForTests(); yield return null;
             game.Player.Body.position = new Vector2(-7, -5); yield return new WaitForSeconds(.12f);
             Assert.AreEqual(3, UnityEngine.Object.FindObjectsByType<SupplyPickup>(FindObjectsSortMode.None).Length, "Full-health supply was consumed");
             game.Player.Health.Receive(new DamageContext(30, Faction.Enemy)); yield return new WaitForSeconds(.2f);
@@ -132,7 +132,7 @@ namespace Starfall.Tests
         [UnityTest]
         public IEnumerator LanguageSwitchKeepsRunAndRefreshesOpenMapAndSettings()
         {
-            game.StartAdventure(); yield return null; var run = game.Context; var player = game.Player;
+            game.StartPrototypeForTests(); yield return null; var run = game.Context; var player = game.Player;
             game.SetPause(PauseReason.Map, true); game.Interface.OpenSettings();
             game.SetLanguage("zh-CN"); yield return null; Assert.AreSame(run, game.Context); Assert.AreSame(player, game.Player);
             Assert.IsTrue(game.Pause.Has(PauseReason.Map)); Assert.IsTrue(game.Pause.Has(PauseReason.Settings));
@@ -147,19 +147,19 @@ namespace Starfall.Tests
             {
                 game.SetLanguage(language); game.ReturnToMenu(); yield return null;
                 Capture("menu-" + language, 1280, 720); CheckTextFits();
-                game.StartAdventure(); yield return null; game.SetPause(PauseReason.Menu, true);
+                game.StartPrototypeForTests(); yield return null; game.SetPause(PauseReason.Menu, true);
                 game.Resume(); yield return null; Capture("room-" + language, 1920, 1080); CheckTextFits();
                 game.SetPause(PauseReason.Map, true); yield return null; Capture("map-" + language, 1280, 720); CheckTextFits();
                 game.Interface.OpenSettings(); yield return null; Capture("settings-" + language, 1280, 720); CheckTextFits();
                 game.Interface.CloseSettings(); game.SetPause(PauseReason.Map, false);
                 game.Player.Health.Receive(new DamageContext(1000, Faction.Enemy)); yield return null; Capture("death-" + language, 1280, 720); CheckTextFits();
-                game.StartAdventure(); yield return null;
+                game.StartPrototypeForTests(); yield return null;
                 foreach (var enemy in game.Enemies) enemy.Health.Receive(new DamageContext(1000, Faction.Player));
                 yield return null; game.Context.Complete(true); yield return null; Capture("clear-" + language, 1280, 720);
                 foreach (var size in new[] { new Vector2Int(1280, 720), new Vector2Int(1920, 1080), new Vector2Int(2560, 1440), new Vector2Int(1280, 960) })
                 {
                     game.ReturnToMenu(); yield return null; Capture("menu-" + language + "-" + size.x + "x" + size.y, size.x, size.y);
-                    game.StartAdventure(); yield return null; Capture("room-" + language + "-" + size.x + "x" + size.y, size.x, size.y);
+                    game.StartPrototypeForTests(); yield return null; Capture("room-" + language + "-" + size.x + "x" + size.y, size.x, size.y);
                     game.SetPause(PauseReason.Menu, true); game.Interface.OpenSettings(); yield return null;
                     Capture("settings-" + language + "-" + size.x + "x" + size.y, size.x, size.y);
                     game.Interface.CloseSettings();
@@ -183,7 +183,7 @@ namespace Starfall.Tests
         void Capture(string name, int width, int height)
         {
             if (SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null) return;
-            string directory = Path.Combine(Application.dataPath, "../Logs/M2a-Screens/M1-regression"); Directory.CreateDirectory(directory);
+            string directory = Path.Combine(Application.dataPath, "../Logs/M2b-Screens/M1-regression"); Directory.CreateDirectory(directory);
             var camera = game.GameCamera; var canvas = game.Interface.Canvas; var target = new RenderTexture(width, height, 24);
             var scaler = canvas.GetComponent<CanvasScaler>(); float oldScale = canvas.scaleFactor, oldSize = camera.orthographicSize;
             var oldTarget = camera.targetTexture; var oldActive = RenderTexture.active; var oldMode = canvas.renderMode;

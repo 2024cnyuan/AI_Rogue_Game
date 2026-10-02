@@ -34,6 +34,7 @@ namespace Starfall
             if (kind == SupplyKind.Coin) { game.Context.AddCoins(3); game.Notify("pickup.coin"); }
             else game.Notify(kind == SupplyKind.Health ? "pickup.heal" : "pickup.energy");
             game.Tutorial?.SupplyCollected();
+            game.Audio?.Play(GameSound.Pickup);
             Destroy(gameObject);
         }
     }

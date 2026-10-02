@@ -11,6 +11,35 @@ namespace Starfall.Editor
     public static class PrototypeSetup
     {
         public const string EntryScene = "Assets/_Game/Scenes/Boot.unity";
+        [MenuItem("Starfall/Setup M2b")]
+        public static void SetupM2b()
+        {
+            SetupM2a();
+            if (AssetDatabase.LoadAssetAtPath<FirstLevelConfig>("Assets/_Game/Resources/FirstLevelConfig.asset") == null)
+                AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<FirstLevelConfig>(), "Assets/_Game/Resources/FirstLevelConfig.asset");
+            EditorUtility.SetDirty(AssetDatabase.LoadAssetAtPath<FirstLevelConfig>("Assets/_Game/Resources/FirstLevelConfig.asset"));
+            AssetDatabase.SaveAssets(); ValidateM2b(); Debug.Log("STARFALL_M2B_SETUP_OK");
+        }
+        [MenuItem("Starfall/Validate M2b Assets")]
+        public static void ValidateM2b()
+        {
+            Validate();
+            var config = AssetDatabase.LoadAssetAtPath<FirstLevelConfig>("Assets/_Game/Resources/FirstLevelConfig.asset");
+            if (config == null || config.bossHealth <= 0 || config.bossWarning <= 0 || config.bossRecovery <= 0 || config.challengeSeconds <= 0 || string.IsNullOrEmpty(config.timingVersion) || string.IsNullOrEmpty(config.balanceVersion))
+                throw new System.InvalidOperationException("Invalid first-level config");
+            var items = AssetDatabase.LoadAssetAtPath<ItemCatalog>("Assets/_Game/Resources/ItemCatalog.asset");
+            if (items == null || items.items == null || items.items.Select(item => item.id).Distinct().Count() != items.items.Length)
+                throw new System.InvalidOperationException("Missing or duplicate item definitions");
+            Debug.Log("STARFALL_M2B_ASSETS_OK");
+        }
+        [MenuItem("Starfall/Build M2b Windows")]
+        public static void BuildM2bWindows()
+        {
+            SetupM2b();
+            var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions { scenes = new[] { EntryScene }, locationPathName = "Builds/M2b/StarcoreLabyrinth.exe", target = BuildTarget.StandaloneWindows64, options = BuildOptions.None });
+            if (report.summary.result != BuildResult.Succeeded) throw new System.InvalidOperationException("M2b Windows build failed: " + report.summary.result);
+            Debug.Log("STARFALL_M2B_BUILD_OK: " + report.summary.totalSize + " bytes, " + report.summary.totalErrors + " errors");
+        }
         [MenuItem("Starfall/Setup M2a")]
         public static void SetupM2a()
         {

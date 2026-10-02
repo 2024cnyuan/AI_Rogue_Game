@@ -6,15 +6,15 @@
     },
     {
       "key": "subtitle",
-      "value": "M2a · 启程试炼与星港靶场"
+      "value": "M2b · 苔光遗庭"
     },
     {
       "key": "menu.intro",
-      "value": "先在启程试炼学会操作，或在星港靶场自由练习。\n当前冒险入口仍为 M1 单房样板，不计正式纪录。"
+      "value": "探索苔光遗庭，激活两座信标并挑战石卫队长。"
     },
     {
       "key": "menu.start",
-      "value": "开始冒险 · M1 样板"
+      "value": "开始冒险 · 第一关"
     },
     {
       "key": "menu.continue",
@@ -22,7 +22,7 @@
     },
     {
       "key": "menu.noCheckpoint",
-      "value": "M1 尚无主线检查点，退出后从房间起点开始。"
+      "value": "暂无检查点 · 继续功能在 M3 接入。"
     },
     {
       "key": "menu.tutorial",
@@ -34,7 +34,7 @@
     },
     {
       "key": "menu.records",
-      "value": "个人纪录 · 开发中"
+      "value": "个人纪录"
     },
     {
       "key": "menu.settings",
@@ -78,7 +78,7 @@
     },
     {
       "key": "settings.note",
-      "value": "语言即时生效并保存在本机。\n当前无震屏；音量与闪光设置随后续反馈系统提供。"
+      "value": "设置即时生效并保存在本机。隐藏 HUD 计时不会停止统计。"
     },
     {
       "key": "button.back",
@@ -222,7 +222,7 @@
     },
     {
       "key": "intro.body",
-      "value": "启程试炼一步步教你操作；也可以直接冒险。\n以后可从主菜单重玩教学或自由进入训练营。"
+      "value": "可先学习基础操作，也可直接进入第一关。训练营始终可从主菜单进入。"
     },
     {
       "key": "intro.adventure",
@@ -458,7 +458,7 @@
     },
     {
       "key": "tutorial.completeBody",
-      "value": "你已掌握基础操作。教学装备只属于本次教学，不带入主线。\n可开始冒险样板、进入训练营或返回菜单。"
+      "value": "教学装备只属于本次教学，不带入主线。可开始第一关、进入训练营或返回菜单。"
     },
     {
       "key": "tutorial.completedAll",
@@ -703,6 +703,342 @@
     {
       "key": "tutorial.comparison.rapid",
       "value": "手枪射击间隔：{before}秒 → {after}秒。射速被动已生效。"
+    },
+    {
+      "key": "settings.master",
+      "value": "主音量"
+    },
+    {
+      "key": "settings.music",
+      "value": "音乐音量"
+    },
+    {
+      "key": "settings.effects",
+      "value": "音效音量"
+    },
+    {
+      "key": "settings.shake",
+      "value": "震屏强度"
+    },
+    {
+      "key": "settings.flash",
+      "value": "闪光减弱：{value}"
+    },
+    {
+      "key": "settings.timer",
+      "value": "HUD 计时：{value}"
+    },
+    {
+      "key": "room.entry",
+      "value": "安全入口"
+    },
+    {
+      "key": "room.courtyard",
+      "value": "苔光庭院"
+    },
+    {
+      "key": "room.north",
+      "value": "北信标守卫厅"
+    },
+    {
+      "key": "room.crossing",
+      "value": "错位回廊"
+    },
+    {
+      "key": "room.south",
+      "value": "南信标守卫厅"
+    },
+    {
+      "key": "room.seal",
+      "value": "脉冲继电室"
+    },
+    {
+      "key": "room.supply",
+      "value": "队长前补给区"
+    },
+    {
+      "key": "room.boss",
+      "value": "石卫队长竞技场"
+    },
+    {
+      "key": "room.challenge",
+      "value": "可选限时试炼"
+    },
+    {
+      "key": "stage.gardens",
+      "value": "1 · 苔光遗庭"
+    },
+    {
+      "key": "stage.workshop",
+      "value": "2 · 赤铜工坊"
+    },
+    {
+      "key": "stage.reservoir",
+      "value": "3 · 寒镜水库"
+    },
+    {
+      "key": "stage.greenhouse",
+      "value": "4 · 幽孢温室"
+    },
+    {
+      "key": "stage.hub",
+      "value": "5 · 雷轨中枢"
+    },
+    {
+      "key": "stage.sanctum",
+      "value": "6 · 星核圣所"
+    },
+    {
+      "key": "adventure.start",
+      "value": "第一关：可按 E 领取入口装备，再从右侧入口出发。Space 闪避，1 换回无限弹药手枪。"
+    },
+    {
+      "key": "adventure.enter",
+      "value": "沿右侧入口推进；返回路线和可选试炼均按 E 交互。"
+    },
+    {
+      "key": "adventure.objective",
+      "value": "信标 {count}/2 · 守卫 {enemies}"
+    },
+    {
+      "key": "adventure.roomTitle",
+      "value": "苔光遗庭 · {room} · 信标 {count}/2"
+    },
+    {
+      "key": "adventure.timer",
+      "value": "本关用时 {time} · 历史最佳 {best}"
+    },
+    {
+      "key": "adventure.routeHint",
+      "value": "清场后到入口按 E。信标守卫厅还需战后激活信标。"
+    },
+    {
+      "key": "adventure.mechanismHint",
+      "value": "金色横条先预警再脉冲。走上/下侧安全通路，到右上方按 E 关闭继电器。"
+    },
+    {
+      "key": "adventure.challengeTime",
+      "value": "可选试炼：剩余 {seconds} 秒。返回入口始终可用；失败不阻断主路。"
+    },
+    {
+      "key": "adventure.route",
+      "value": "关卡路线 / 当前 ◆ / 已完成 ✓ — 信标 {count}/2\n{rooms}"
+    },
+    {
+      "key": "adventure.locked",
+      "value": "先清场并完成当前房间任务，再前往其他房间。"
+    },
+    {
+      "key": "adventure.needBeacons",
+      "value": "需完成两座信标与脉冲继电器。主路不要求特殊武器或金币。"
+    },
+    {
+      "key": "adventure.roomClear",
+      "value": "房间清理完成！已一次性恢复部分生命、能量与主动充能，可选择路线。"
+    },
+    {
+      "key": "adventure.activateBeacon",
+      "value": "守卫已击败。到右上方信标按 E，解锁前进路线。"
+    },
+    {
+      "key": "adventure.beacon",
+      "value": "激活信标"
+    },
+    {
+      "key": "adventure.beaconReady",
+      "value": "信标已激活，主路已开放。"
+    },
+    {
+      "key": "adventure.relay",
+      "value": "关闭脉冲继电器"
+    },
+    {
+      "key": "adventure.sealReady",
+      "value": "脉冲继电器已关闭，前往免费补给区。"
+    },
+    {
+      "key": "adventure.restore",
+      "value": "一次性完整补给"
+    },
+    {
+      "key": "adventure.restored",
+      "value": "生命、能量、充能与冷却已恢复。本轮此补给只能领取一次。"
+    },
+    {
+      "key": "adventure.claimed",
+      "value": "本轮已领取这份补给。"
+    },
+    {
+      "key": "adventure.challengeFailed",
+      "value": "试炼超时。可返回主路继续，本次不发试炼被动奖励。"
+    },
+    {
+      "key": "adventure.retryRun",
+      "value": "再试一次 · 从第一关开始"
+    },
+    {
+      "key": "adventure.nextStagePending",
+      "value": "M2b 在第一关结算结束。第二关与入口检查点将在 M3 接入。"
+    },
+    {
+      "key": "boss.caption",
+      "value": "石卫队长 · {move}"
+    },
+    {
+      "key": "boss.move.fan",
+      "value": "扇形连射 · 离开锁定方向"
+    },
+    {
+      "key": "boss.move.charge",
+      "value": "预警冲锋 · 先观察金色冲锋线"
+    },
+    {
+      "key": "boss.move.ring",
+      "value": "环形脉冲 · 利用慢弹间隙"
+    },
+    {
+      "key": "records.title",
+      "value": "个人纪录"
+    },
+    {
+      "key": "records.none",
+      "value": "尚无纪录"
+    },
+    {
+      "key": "records.rules",
+      "value": "获得操作权开始计时；任务完成且 Boss 死亡、当帧存活时停止。Esc、地图、失焦、设置与加载重叠只扣一次；探索和决策计时。向下量化到毫秒比较。不同种子与合法构筑比较同关个人最佳，不是同图竞速。"
+    },
+    {
+      "key": "records.scope",
+      "value": "标准难度 · 计时 v{timing} · 平衡 v{balance}。M2b 尚不能游玩第 2～6 关。旧规则纪录可滚动查看。"
+    },
+    {
+      "key": "records.metadata",
+      "value": "种子 {seed} · {date} · 规则 {rules}\n构筑：{gear}"
+    },
+    {
+      "key": "records.archived",
+      "value": "旧规则 {rules}：{time}（不参与当前规则比较）"
+    },
+    {
+      "key": "records.saved",
+      "value": "纪录结果已保存。"
+    },
+    {
+      "key": "records.saveFailed",
+      "value": "本次成绩尚未保存，可在此页或个人纪录页重试；请在关闭程序前保存。"
+    },
+    {
+      "key": "records.retrySave",
+      "value": "重试保存本次成绩"
+    },
+    {
+      "key": "records.failureExcluded",
+      "value": "失败用时不作为通关纪录保存。"
+    },
+    {
+      "key": "result.times",
+      "value": "本次用时 {time} · 原最佳 {best}\n{comparison}"
+    },
+    {
+      "key": "result.faster",
+      "value": "快了 {delta}"
+    },
+    {
+      "key": "result.slower",
+      "value": "慢了 {delta}"
+    },
+    {
+      "key": "result.equal",
+      "value": "毫秒成绩追平。"
+    },
+    {
+      "key": "result.failureTime",
+      "value": "苔光遗庭 · 本次挑战用时 {time}"
+    },
+    {
+      "key": "feedback.first.title",
+      "value": "初次告捷！"
+    },
+    {
+      "key": "feedback.first.body",
+      "value": "你的首个通关纪录：{time}。下一次，试试更进一步。"
+    },
+    {
+      "key": "feedback.improved.title",
+      "value": "新纪录！"
+    },
+    {
+      "key": "feedback.improved.body",
+      "value": "比个人最佳快了 {delta}。这一程，更进一步！"
+    },
+    {
+      "key": "feedback.matched.title",
+      "value": "追平最佳！"
+    },
+    {
+      "key": "feedback.matched.body",
+      "value": "再现了你的最佳表现，下一次向新纪录出发。"
+    },
+    {
+      "key": "feedback.close.title",
+      "value": "离新纪录只差一步！"
+    },
+    {
+      "key": "feedback.close.body",
+      "value": "距离个人最佳仅差 {delta}，再试一次，也许就在下一局。"
+    },
+    {
+      "key": "feedback.cleared.title",
+      "value": "顺利通关！"
+    },
+    {
+      "key": "feedback.cleared.body",
+      "value": "又一次走到了终点。调整装备与路线，继续挑战自己吧。"
+    },
+    {
+      "key": "feedback.failed.title",
+      "value": "此程止步，冒险未完。"
+    },
+    {
+      "key": "feedback.failed.body",
+      "value": "稍作休整，带上这次的经验再出发。"
+    },
+    {
+      "key": "feedback.practice.title",
+      "value": "练习完成"
+    },
+    {
+      "key": "feedback.practice.body",
+      "value": "本次尝试经过修改。练习成绩，不计入个人纪录。"
+    },
+    {
+      "key": "reward.choose",
+      "value": "三选一被动奖励。本关计时已经停止。"
+    },
+    {
+      "key": "reward.selected",
+      "value": "已领取：{item}。此奖励不能重复领取。"
+    },
+    {
+      "key": "reward.coins",
+      "value": "20 金币"
+    },
+    {
+      "key": "reward.heal",
+      "value": "恢复 30 生命"
+    },
+    {
+      "key": "reward.energy",
+      "value": "恢复 40 能量"
+    },
+    {
+      "key": "adventure.safeHint",
+      "value": "E 领取免费补给，每轮每份一次；准备好后从右侧入口前进。"
+    },
+    {
+      "key": "records.pending",
+      "value": "重试未保存成绩 · 保留至本次程序关闭"
     }
   ]
 }

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ee684c02ebe28448aa26bca677e9a5, type: 3}
+  m_Name: FirstLevelConfig
+  m_EditorClassIdentifier: Starfall.Runtime::Starfall.FirstLevelConfig
+  timingVersion: 1
+  balanceVersion: 1
+  bossHealth: 700
+  bossBulletDamage: 7
+  bossChargeDamage: 14
+  bossWarning: 0.7
+  bossRecovery: 1.2
+  roomCoins: 8
+  roomEnergy: 25
+  roomHeal: 10
+  challengeSeconds: 35

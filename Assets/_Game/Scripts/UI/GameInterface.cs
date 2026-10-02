@@ -23,7 +23,7 @@ namespace Starfall
         public bool SettingsOpen { get; private set; }
         public Canvas Canvas { get; private set; }
         public Font SharedFont => font;
-        Text weaponLabel, activeLabel;
+        Text weaponLabel, activeLabel, flashSetting, timerSetting;
         public void Initialize(StarfallGame owner)
         {
             game = owner; FirstLaunch = !game.Settings.languageSelected;
@@ -84,7 +84,7 @@ namespace Starfall
             var colors = button.colors; colors.highlightedColor = new Color(.65f, .86f, .82f); colors.pressedColor = new Color(.46f, .68f, .62f);
             colors.disabledColor = new Color(.4f, .45f, .5f); button.colors = colors;
             var navigation = button.navigation; navigation.mode = Navigation.Mode.None; button.navigation = navigation;
-            if (action != null) button.onClick.AddListener(() => action());
+            if (action != null) button.onClick.AddListener(() => { game.Audio?.Play(GameSound.Ui); action(); });
             var text = Label(image.transform, key, 19, height); Stretch(text.rectTransform); text.color = enabled ? Color.white : new Color(.57f, .65f, .69f);
         }
         void LanguageButtons(Transform parent)
@@ -108,7 +108,7 @@ namespace Starfall
             Button(panel, "menu.start", game.StartAdventure, true, true, 44);
             Button(panel, "menu.continue", null, false, false, 33); Label(panel, "menu.noCheckpoint", 15, 34);
             Button(panel, "menu.tutorial", game.StartTutorial, true, false, 33); Button(panel, "menu.training", game.StartTraining, true, false, 33);
-            Button(panel, "menu.records", null, false, false, 33);
+            Button(panel, "menu.records", () => game.AdventureUI.OpenRecords(), true, false, 33);
             Button(panel, "menu.settings", OpenSettings); Button(panel, "menu.quit", game.Quit);
         }
         void BuildFirst()
@@ -120,11 +120,28 @@ namespace Starfall
         }
         void BuildSettings()
         {
-            var panel = Panel("Settings", 650, 430, out settings);
-            Label(panel, "settings.title", 28, 50, PrototypeVisuals.Gold); LanguageButtons(panel);
-            Button(panel, null, game.ToggleFullscreen, true, false, 44);
+            var panel = Panel("Settings", 820, 660, out settings);
+            panel.GetComponent<VerticalLayoutGroup>().spacing = 5;
+            Label(panel, "settings.title", 27, 40, PrototypeVisuals.Gold); LanguageButtons(panel);
+            Button(panel, null, game.ToggleFullscreen, true, false, 34);
             displayMode = panel.GetChild(panel.childCount - 1).GetComponentInChildren<Text>();
-            Label(panel, "settings.note", 18, 93); Button(panel, "button.back", CloseSettings, true, true, 44);
+            VolumeSlider(panel, "master", game.Settings.masterVolume); VolumeSlider(panel, "music", game.Settings.musicVolume); VolumeSlider(panel, "effects", game.Settings.effectsVolume); VolumeSlider(panel, "shake", game.Settings.shake);
+            Button(panel, null, game.ToggleFlash, true, false, 32); flashSetting = panel.GetChild(panel.childCount - 1).GetComponentInChildren<Text>();
+            Button(panel, null, game.ToggleTimer, true, false, 32); timerSetting = panel.GetChild(panel.childCount - 1).GetComponentInChildren<Text>();
+            Label(panel, "settings.note", 16, 44); Button(panel, "button.back", CloseSettings, true, true, 34);
+        }
+        void VolumeSlider(Transform parent, string channel, float value)
+        {
+            var row = Rect(parent, "settings." + channel); row.gameObject.AddComponent<LayoutElement>().preferredHeight = 34;
+            var caption = Label(row, "settings." + channel, 18, 34); caption.rectTransform.anchorMin = Vector2.zero; caption.rectTransform.anchorMax = new Vector2(.4f, 1);
+            caption.rectTransform.offsetMin = caption.rectTransform.offsetMax = Vector2.zero;
+            var back = Image(row, "Slider track", new Color(.14f, .27f, .29f)); back.raycastTarget = true;
+            back.rectTransform.anchorMin = new Vector2(.43f, .25f); back.rectTransform.anchorMax = new Vector2(.98f, .75f); back.rectTransform.offsetMin = back.rectTransform.offsetMax = Vector2.zero;
+            var fill = Image(back.transform, "Slider fill", PrototypeVisuals.Teal); Stretch(fill.rectTransform);
+            var handle = Image(back.transform, "Slider handle", PrototypeVisuals.Gold); handle.rectTransform.sizeDelta = new Vector2(15, 24); handle.raycastTarget = true;
+            var slider = back.gameObject.AddComponent<Slider>(); slider.fillRect = fill.rectTransform; slider.handleRect = handle.rectTransform; slider.targetGraphic = handle;
+            slider.value = value; var navigation = slider.navigation; navigation.mode = Navigation.Mode.None; slider.navigation = navigation;
+            slider.onValueChanged.AddListener(amount => game.SetVolume(channel, amount));
         }
         void BuildPause()
         {
@@ -210,13 +227,15 @@ namespace Starfall
             GameObject visible = null;
             if (FirstLaunch) visible = first;
             else if (SettingsOpen) visible = settings;
-            else if (!playing) visible = menu;
-            else if (context.Phase == RunPhase.Dead) visible = death;
-            else if (context.Phase == RunPhase.Complete && context.Mode != GameMode.Tutorial) visible = complete;
+            else if (!playing && (game.AdventureUI == null || !game.AdventureUI.RecordsOpen)) visible = menu;
+            else if (context != null && context.Phase == RunPhase.Dead && game.Adventure == null) visible = death;
+            else if (context != null && context.Phase == RunPhase.Complete && context.Mode != GameMode.Tutorial && game.Adventure == null) visible = complete;
             else if (game.Pause.Has(PauseReason.Focus) || game.Pause.Has(PauseReason.Menu)) visible = pause;
             else if (game.Pause.Has(PauseReason.Map)) visible = map;
             foreach (var overlay in overlays) overlay.SetActive(overlay == visible);
             if (displayMode != null) displayMode.text = game.Text.Get("settings.display", ("mode", game.Text.Get(game.Settings.fullscreen ? "settings.fullscreen" : "settings.windowed")));
+            if (flashSetting != null) flashSetting.text = game.Text.Get("settings.flash", ("value", game.Text.Get(game.Settings.reduceFlash ? "flag.on" : "flag.off")));
+            if (timerSetting != null) timerSetting.text = game.Text.Get("settings.timer", ("value", game.Text.Get(game.Settings.hideTimer ? "flag.off" : "flag.on")));
             if (pauseTitle != null) pauseTitle.text = game.Text.Get(game.Pause.Has(PauseReason.Focus) ? "pause.focus" : "pause.title");
             if (saveError != null) { saveError.text = game.SaveErrorKey == null ? "" : game.Text.Get(game.SaveErrorKey); saveError.gameObject.SetActive(game.SaveErrorKey != null); }
             if (!playing || game.Player == null) return;
@@ -231,6 +250,7 @@ namespace Starfall
             objective.text = context.Phase == RunPhase.RoomClear ? game.Text.Get("hud.exit") : game.Text.Get("hud.enemies", ("count", game.LivingEnemies.ToString()));
             if (context.Mode == GameMode.Tutorial) objective.text = game.Text.Get("tutorial.progress", ("step", ((int)game.Tutorial.Step + 1).ToString()));
             else if (context.Mode == GameMode.Training) objective.text = game.Text.Get("training.objective", ("count", game.LivingEnemies.ToString()));
+            else if (game.Adventure != null) objective.text = game.Text.Get("adventure.objective", ("count", game.Adventure.Progress.Beacons.ToString()), ("enemies", game.LivingEnemies.ToString()));
             notice.text = game.Text.Get(game.NotificationKey ?? "hud.pickups");
             interact.text = game.CanAct && context.Phase == RunPhase.RoomClear && Vector2.Distance(game.Player.Body.position, game.Room.Exit) < 1.8f ? game.Text.Get("hud.interact") : "";
             if (game.CanAct && game.Interaction != null) interact.text = game.Text.Get("station.prompt", ("name", game.Text.Get(game.Interaction.NameKey)));

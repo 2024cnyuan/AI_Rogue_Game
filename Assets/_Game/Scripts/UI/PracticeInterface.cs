@@ -46,7 +46,7 @@ namespace Starfall
             var box = Box(parent, key, new Color(.16f, .31f, .36f), true); var layout = box.gameObject.AddComponent<LayoutElement>(); layout.preferredHeight = layout.minHeight = height;
             var button = box.gameObject.AddComponent<Button>(); button.targetGraphic = box; button.interactable = enabled;
             var navigation = button.navigation; navigation.mode = Navigation.Mode.None; button.navigation = navigation;
-            button.onClick.AddListener(() => callback?.Invoke()); var label = Label(box.transform, key, height);
+            button.onClick.AddListener(() => { game.Audio?.Play(GameSound.Ui); callback?.Invoke(); }); var label = Label(box.transform, key, height);
             label.rectTransform.anchorMin = Vector2.zero; label.rectTransform.anchorMax = Vector2.one; label.rectTransform.offsetMin = label.rectTransform.offsetMax = Vector2.zero; return button;
         }
         Transform Row(Transform parent, float height = 35)

@@ -61,6 +61,8 @@ namespace Starfall
         public void Tick(float delta) { ActiveCooldown = Mathf.Max(0, ActiveCooldown - delta); ShieldLeft = Mathf.Max(0, ShieldLeft - delta); }
         public void Restore() { Energy = 100; Charges = Active != null ? catalog.Find(Active).maxCharges : 0; ActiveCooldown = ShieldLeft = 0; }
         public void ClearEffects() { ShieldLeft = 0; ActiveCooldown = 0; }
+        public void EndRoom() { ShieldLeft = 0; }
+        public void RefillCharge() { if (Active != null) Charges = Mathf.Min(catalog.Find(Active).maxCharges, Charges + 1); }
         public void DefaultEquipment() { SpecialWeapon = Active = null; Weapon = "pistol"; passives.Clear(); Restore(); }
         public LoadoutState Copy()
         {

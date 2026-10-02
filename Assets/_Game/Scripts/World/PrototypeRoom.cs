@@ -12,10 +12,11 @@ namespace Starfall
         static readonly Vector2Int[] directions = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left };
         BoxCollider2D exitBarrier;
         SpriteRenderer exitVisual;
+        SpriteRenderer pulse;
         public bool DoorOpen { get; private set; }
         public Vector2 Spawn => new Vector2(-8, -4);
         public Vector2 Exit => new Vector2(10.4f, 0);
-        public void Build(GameMode mode = GameMode.Adventure)
+        public void Build(GameMode mode = GameMode.Adventure, LevelRoomPlan plan = null)
         {
             var dark = new Color(.07f, .11f, .16f);
             PrototypeVisuals.Draw(transform, "Foundation", Vector2.zero, new Vector2(26, 18), dark, -30);
@@ -29,7 +30,17 @@ namespace Starfall
             Wall(new Vector2(-11.5f, 0), new Vector2(1, 14));
             Wall(new Vector2(11.5f, 4.5f), new Vector2(1, 5)); Wall(new Vector2(11.5f, -4.5f), new Vector2(1, 5));
             Wall(new Vector2(12, 0), new Vector2(1, 4));
-            if (mode == GameMode.Adventure || mode == GameMode.None)
+            if (plan != null)
+            {
+                foreach (var cover in plan.Cover) Wall(cover.center, cover.size);
+                Zone(Vector2.zero, new Vector2(20, 12), new Color(.13f, .24f, .2f));
+                if (plan.Kind == LevelRoomKind.Mechanism)
+                {
+                    pulse = PrototypeVisuals.Draw(transform, "Seal pulse warning", Vector2.zero, new Vector2(19, 1.3f), PrototypeVisuals.Gold, -10);
+                    pulse.enabled = false;
+                }
+            }
+            else if (mode == GameMode.Adventure || mode == GameMode.None)
             {
                 Wall(new Vector2(-3.5f, 2.5f), new Vector2(3, 1)); Wall(new Vector2(3.5f, -2.5f), new Vector2(3, 1));
                 Wall(new Vector2(-4, -2), new Vector2(1, 2)); Wall(new Vector2(4, 2), new Vector2(1, 2));
@@ -87,6 +98,7 @@ namespace Starfall
         }
         public void OpenDoor() { DoorOpen = true; exitBarrier.enabled = false; exitVisual.color = PrototypeVisuals.Teal; }
         public void CloseDoor() { DoorOpen = false; exitBarrier.enabled = true; exitVisual.color = PrototypeVisuals.Enemy; }
+        public void SetPulse(bool visible, bool active) { if (pulse != null) { pulse.enabled = visible; pulse.color = active ? PrototypeVisuals.Enemy : PrototypeVisuals.Gold; } }
         public void RefreshNavigation(Vector2 target)
         {
             for (int x = 0; x < 23; x++) for (int y = 0; y < 15; y++) distance[x, y] = -1;

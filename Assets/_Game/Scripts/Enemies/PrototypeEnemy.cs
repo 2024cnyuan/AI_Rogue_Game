@@ -26,7 +26,7 @@ namespace Starfall
             if (elite) { Health.State.SetMaximum(Health.State.Maximum * 2); view.transform.localScale *= 1.25f; }
             Health.Hit += OnHit; Health.Died += OnDeath; attackTimer = ranged ? .9f : .3f;
         }
-        void OnHit() { hitLeft = .09f; healthBar.transform.localScale = new Vector3(.7f * Health.State.Health / Health.State.Maximum, .07f, 1); }
+        void OnHit() { hitLeft = .09f; game.Audio?.Play(GameSound.Hit); healthBar.transform.localScale = new Vector3(.7f * Health.State.Health / Health.State.Maximum, .07f, 1); }
         void OnDeath()
         {
             body.linearVelocity = Vector2.zero; GetComponent<Collider2D>().enabled = false; warning.enabled = false;
@@ -39,7 +39,7 @@ namespace Starfall
             Vector2 toward = target - from; float distance = toward.magnitude;
             bool sight = !Physics2D.Raycast(from, toward.normalized, distance, 1);
             hitLeft -= dt;
-            view.color = hitLeft > 0 ? Color.white : shooter ? new Color(.88f, .56f, .92f) : PrototypeVisuals.Enemy;
+            view.color = hitLeft > 0 && !game.Settings.reduceFlash ? Color.white : shooter ? new Color(.88f, .56f, .92f) : PrototypeVisuals.Enemy;
             if (winding)
             {
                 velocity = Vector2.zero; warningLeft -= dt;

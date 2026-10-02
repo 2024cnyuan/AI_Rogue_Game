@@ -5,7 +5,7 @@ namespace Starfall
 {
     public enum GameMode { None, Adventure, Tutorial, Training }
     public enum RunPhase { Menu, Loading, Combat, RoomClear, Dead, Complete }
-    [Flags] public enum PauseReason { None = 0, Menu = 1, Map = 2, Focus = 4, Settings = 8, PracticePanel = 16 }
+    [Flags] public enum PauseReason { None = 0, Menu = 1, Map = 2, Focus = 4, Settings = 8, PracticePanel = 16, Loading = 32 }
     public enum Faction { Player, Enemy }
 
     // A new context owns every mutable run value; future modes cannot inherit training aids.
@@ -41,6 +41,8 @@ namespace Starfall
         public void RegisterKill() { if (Phase == RunPhase.Combat) Kills++; }
         public void ClearPracticeCounters() { if (Mode == GameMode.Training || Mode == GameMode.Tutorial) Coins = Kills = 0; }
         public void InvalidateRecord() => RecordEligible = false;
+        public void EndLevel(bool success) { if (Phase == RunPhase.Combat || Phase == RunPhase.RoomClear) Phase = success ? RunPhase.Complete : RunPhase.Dead; }
+        public void AddCompletedCoins(int amount) { if (Phase == RunPhase.Complete) Coins += Math.Max(0, amount); }
         public bool FinishTutorial(bool alive)
         {
             if (Mode != GameMode.Tutorial || Phase != RunPhase.Combat || !alive) return false;
