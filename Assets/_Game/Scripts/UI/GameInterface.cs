@@ -209,6 +209,10 @@ namespace Starfall
         public void ResetPanels()
         {
             SettingsOpen = false;
+            RefreshMap();
+        }
+        public void RefreshMap()
+        {
             if (map != null)
             {
                 var old = map; overlays.Remove(old); bindings.RemoveAll(b => b.View == null || b.View.transform.IsChildOf(old.transform));

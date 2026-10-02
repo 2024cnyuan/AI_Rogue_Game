@@ -16,7 +16,8 @@ namespace Starfall
     [Serializable] public sealed class EntryCheckpoint
     {
         public int schema = 1, stage = 1, seed, coins;
-        public string runId, contentVersion = "m3-v1";
+        public string runId, contentVersion = "m4-v1";
+        public List<long> completedTimes = new List<long>();
         public bool active = true, eligible = true;
         public float health = 100;
         public LoadoutSnapshot loadout = new LoadoutSnapshot();
@@ -42,7 +43,9 @@ namespace Starfall
             try
             {
                 var value = JsonUtility.FromJson<EntryCheckpoint>(File.ReadAllText(file));
-                if (value == null || value.schema != 1 || value.contentVersion != "m3-v1" || value.active && !Valid(value)) throw new InvalidDataException();
+                if (value == null || value.schema != 1 || (value.contentVersion != "m4-v1" && value.contentVersion != "m3-v1") || value.active && !Valid(value) || value.contentVersion == "m3-v1" && value.stage > 3) throw new InvalidDataException();
+                if (value.completedTimes == null) value.completedTimes = new List<long>();
+                value.contentVersion = "m4-v1";
                 return value;
             }
             catch (Exception error) when (error is IOException || error is InvalidDataException || error is UnauthorizedAccessException || error is ArgumentException)
@@ -54,10 +57,11 @@ namespace Starfall
         }
         public static bool Valid(EntryCheckpoint value)
         {
-            if (value.stage < 1 || value.stage > 3 || value.seed < 0 || value.coins < 0 || string.IsNullOrEmpty(value.runId) || value.loadout == null || value.loadout.passives == null || value.loadout.passives.Count > 6 ||
+            if (value.stage < 1 || value.stage > 6 || value.seed < 0 || value.coins < 0 || string.IsNullOrEmpty(value.runId) || value.loadout == null || value.loadout.passives == null || value.loadout.passives.Count > 6 ||
                 float.IsNaN(value.health) || float.IsInfinity(value.health) || value.health <= 0 || value.health > 1000 || value.loadout.energy < 0 || value.loadout.energy > 100 || float.IsNaN(value.loadout.energy) || value.loadout.charges < 0 || value.loadout.charges > 20 ||
                 float.IsNaN(value.loadout.cooldown) || float.IsInfinity(value.loadout.cooldown) || value.loadout.cooldown < 0 || value.loadout.cooldown > 300) return false;
             var ids = new HashSet<string>();
+            if (value.completedTimes != null) { if (value.completedTimes.Count > value.stage - 1) return false; foreach (long time in value.completedTimes) if (time < 0) return false; }
             foreach (var passive in value.loadout.passives) if (passive == null || string.IsNullOrEmpty(passive.id) || passive.layers < 1 || passive.layers > 2 || !ids.Add(passive.id)) return false;
             return true;
         }

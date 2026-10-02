@@ -32,8 +32,12 @@ namespace Starfall
             Wall(new Vector2(12, 0), new Vector2(1, 4));
             if (plan != null)
             {
-                foreach (var cover in plan.Cover) Wall(cover.center, cover.size);
-                Zone(Vector2.zero, new Vector2(20, 12), plan.Stage == 1 ? new Color(.13f, .24f, .2f) : plan.Stage == 2 ? new Color(.26f, .17f, .13f) : new Color(.13f, .23f, .35f));
+                foreach (var cover in plan.Cover) Wall(cover.center, cover.size, plan.Stage == 4);
+                Zone(Vector2.zero, new Vector2(20, 12), plan.Stage == 1 ? new Color(.13f, .24f, .2f) : plan.Stage == 2 ? new Color(.26f, .17f, .13f) : plan.Stage == 3 ? new Color(.13f, .23f, .35f) : plan.Stage == 4 ? new Color(.23f, .14f, .3f) : plan.Stage == 5 ? new Color(.1f, .17f, .28f) : new Color(.2f, .14f, .28f));
+                if (plan.Stage == 5 || plan.Stage == 6) {
+                    PrototypeVisuals.Draw(transform, "Horizontal aisle", Vector2.zero, new Vector2(19, 1.1f), plan.Stage == 5 ? new Color(.35f, .34f, .17f) : new Color(.47f, .43f, .38f), -16);
+                    PrototypeVisuals.Draw(transform, "Vertical aisle", Vector2.zero, new Vector2(1.1f, 11), plan.Stage == 5 ? new Color(.35f, .34f, .17f) : new Color(.47f, .43f, .38f), -16);
+                }
                 if (plan.Stage == 3)
                 {
                     // Raised walkway and island markings sit on the traversable floor.
@@ -88,10 +92,16 @@ namespace Starfall
             for (int x = 0; x < 23; x++) for (int y = 0; y < 15; y++) walkable[x, y] = IsClear(new Vector2(x - 11, y - 7), .48f);
         }
         void Zone(Vector2 at, Vector2 size, Color color) => PrototypeVisuals.Draw(transform, "Practice zone", at, size, color, -18);
-        void Wall(Vector2 at, Vector2 size)
+        readonly List<DestructibleCover> mushrooms = new List<DestructibleCover>();
+        public void AttachDestructibles(StarfallGame game) { foreach (var cover in mushrooms) cover.Initialize(game, this); }
+        public void RemoveCover(Rect rect) { Walls.Remove(rect); RebuildNavigation(); }
+        public void AddCover(Rect rect) { Walls.Add(rect); RebuildNavigation(); }
+        void RebuildNavigation() { for (int x = 0; x < 23; x++) for (int y = 0; y < 15; y++) walkable[x,y] = IsClear(new Vector2(x - 11, y - 7), .48f); }
+        void Wall(Vector2 at, Vector2 size, bool destructible = false)
         {
             var wall = PrototypeVisuals.Draw(transform, "Stone wall", at, size, new Color(.28f, .38f, .4f), 1);
             wall.gameObject.AddComponent<BoxCollider2D>(); Walls.Add(new Rect(at - size / 2, size));
+            if (destructible) { wall.color = new Color(.55f, .42f, .7f); wall.sprite = PrototypeVisuals.Sprite("orb"); var cover = wall.gameObject.AddComponent<DestructibleCover>(); cover.Bounds = new Rect(at - size / 2, size); mushrooms.Add(cover); return; }
             PrototypeVisuals.Draw(transform, "Wall cap", at + new Vector2(0, size.y / 2 - .09f), new Vector2(size.x, .15f),
                 new Color(.4f, .53f, .51f), 2);
             if (Mathf.Abs(at.x) < 6 && Mathf.Abs(at.y) < 6)

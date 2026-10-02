@@ -24,6 +24,24 @@ namespace Starfall
         public ExplorerController Player { get; private set; }
         public PrototypeRoom Room { get; private set; }
         public ProjectilePool Projectiles { get; private set; }
+        public CombatEffects Effects { get; private set; }
+        System.Random combatRandom;
+        public List<long> RunTimes { get; private set; } = new List<long>();
+        public string PendingPassive { get; private set; }
+        System.Func<string,bool> pendingReplacement;
+        public void RequestPassiveReplacement(string id, System.Func<string,bool> action = null) { PendingPassive = id; pendingReplacement = action; SetPause(PauseReason.PracticePanel,true); }
+        public void CancelPassive() { PendingPassive = null; pendingReplacement = null; SetPause(PauseReason.PracticePanel, false); }
+        public bool ReplacePassive(string old) {
+            if (PendingPassive == null || !(pendingReplacement != null ? pendingReplacement(old) : Loadout.ReplacePassive(old, PendingPassive))) return false;
+            CancelPassive(); EquipmentChanged(); return true;
+        }
+        public float ModifyDamage(Damageable target, DamageContext hit) {
+            if (target == Player?.Health) return hit.Amount * Loadout.IncomingMultiplier(target.State);
+            if (hit.Source != Faction.Player) return hit.Amount;
+            float amount = hit.Amount * (target.Controlled ? 1 + Loadout.PassiveValue("controlled") / 100 : 1);
+            if (combatRandom != null && Loadout.CritChance > 0 && combatRandom.NextDouble() < Loadout.CritChance) amount *= 1.75f;
+            return amount;
+        }
         public GameInterface Interface { get; private set; }
         public PracticeInterface ModeUI { get; private set; }
         public ItemCatalog Catalog { get; private set; }
@@ -107,6 +125,7 @@ namespace Starfall
             Interface = new GameObject("M1 Interface").AddComponent<GameInterface>(); Interface.transform.SetParent(transform, false); Interface.Initialize(this);
             ModeUI = gameObject.AddComponent<PracticeInterface>(); ModeUI.Initialize(this);
             AdventureUI = gameObject.AddComponent<AdventureInterface>(); AdventureUI.Initialize(this);
+            gameObject.AddComponent<LoadoutInterface>().Initialize(this);
         }
         void CreateRoom(GameMode mode = GameMode.Adventure)
         {
@@ -162,9 +181,11 @@ namespace Starfall
             Settings.introductionSeen = true; SaveSettings(); ModeUI?.HideIntroduction();
             DisposeRun(); CreateRoom(mode); Context = new RunContext(mode); if (mode != GameMode.Adventure || prototype) Context.InvalidateRecord();
             Loadout = new LoadoutState(Catalog);
+            PendingPassive = null; combatRandom = new System.Random(entry?.seed ?? 1729); RunTimes = entry?.completedTimes != null ? new List<long>(entry.completedTimes) : new List<long>();
             var playerObject = new GameObject("Explorer"); playerObject.transform.SetParent(runRoot.transform, false); playerObject.transform.position = Room.Spawn;
             Player = playerObject.AddComponent<ExplorerController>(); Player.Initialize(this, config);
             Projectiles = new GameObject("Projectile Pool").AddComponent<ProjectilePool>(); Projectiles.transform.SetParent(runRoot.transform, false); Projectiles.Game = this;
+            Effects = new GameObject("Combat effects pool").AddComponent<CombatEffects>(); Effects.transform.SetParent(runRoot.transform, false); Effects.Initialize(this);
             Hazards = new GameObject("Practice hazards").AddComponent<PracticeHazards>(); Hazards.transform.SetParent(runRoot.transform, false); Hazards.Initialize(this);
             Context.BeginCombat(); EffectivePracticeTime = 0; ResetPracticeStats();
             if (mode == GameMode.Adventure && prototype)
@@ -189,11 +210,11 @@ namespace Starfall
             Physics2D.SyncTransforms(); Room.RefreshNavigation(Room.Spawn); navigationLeft = .25f;
             cameraFollow.ResetView(); Input.Flush(); Notify(mode == GameMode.Adventure ? "adventure.start" : mode == GameMode.Tutorial ? "tutorial.reenter" : "training.welcome"); Interface?.ResetPanels(); ModeUI?.Close();
         }
-        public void SpawnEnemy(Vector2 at, bool ranged, bool elite = false, float strength = 1, EnemyStyle style = EnemyStyle.Basic)
+        public void SpawnEnemy(Vector2 at, bool ranged, bool elite = false, float strength = 1, EnemyStyle style = EnemyStyle.Basic, bool reward = true)
         {
             if (LivingEnemies >= 12 || !Room.IsClear(at, .4f) || Vector2.Distance(at, Player.Body.position) < 1.2f) return;
             var go = new GameObject(ranged ? "Sentinel" : "Pursuer"); go.transform.SetParent(runRoot.transform, false); go.transform.position = at;
-            var enemy = go.AddComponent<PrototypeEnemy>(); enemy.Initialize(this, ranged, elite, strength, style); enemies.Add(enemy);
+            var enemy = go.AddComponent<PrototypeEnemy>(); enemy.Initialize(this, ranged, elite, strength, style); enemy.GivesReward = reward; enemies.Add(enemy);
         }
         public void Drop(Vector2 at, SupplyKind kind)
         {
@@ -203,7 +224,9 @@ namespace Starfall
         public void EnemyKilled(PrototypeEnemy enemy)
         {
             if (Context == null || Context.Phase != RunPhase.Combat) return;
-            Context.RegisterKill(); if (Context.Mode != GameMode.Training && Adventure?.Current.Kind != LevelRoomKind.Challenge) Drop(enemy.transform.position, SupplyKind.Coin);
+            if (!enemy.GivesReward || enemy.Health.LastDamage.Source != Faction.Player) return;
+            Context.RegisterKill(); Loadout.AddEnergy(Loadout.PassiveValue("recharge"));
+            if (Context.Mode != GameMode.Training && Adventure?.Current.Kind != LevelRoomKind.Challenge) Drop(enemy.transform.position, SupplyKind.Coin);
             if (Context.Mode != GameMode.Adventure) { gameObject.GetComponent<PracticeInterface>()?.RefreshNow(); }
         }
         public int LivingEnemies { get { int count = 0; foreach (var enemy in enemies) if (enemy != null && enemy.Alive) count++; return count; } }
@@ -212,8 +235,9 @@ namespace Starfall
             ClearPracticeObjects(); if (Room != null) { Room.gameObject.SetActive(false); Destroy(Room.gameObject); }
             var geometry = new GameObject("Room " + plan.Id); geometry.transform.SetParent(runRoot.transform, false);
             Room = geometry.AddComponent<PrototypeRoom>(); Room.Build(GameMode.Adventure, plan); cameraFollow.ResetView();
+            Room.AttachDestructibles(this);
             Surface = null;
-            if (plan.Stage > 1 && plan.Kind != LevelRoomKind.Safe && plan.Kind != LevelRoomKind.Shop)
+            if (plan.Stage > 1 && plan.Kind != LevelRoomKind.Safe && plan.Kind != LevelRoomKind.Shop && !(plan.Stage == 6 && plan.Kind == LevelRoomKind.Boss))
             { Surface = geometry.AddComponent<ThemeEnvironment>(); Surface.Initialize(this, plan.Stage, plan.Kind == LevelRoomKind.Mechanism); }
         }
         public StoneCaptain CreateCaptain(Vector2 at)
@@ -226,12 +250,16 @@ namespace Starfall
             var boss = new GameObject("Theme Boss"); boss.transform.SetParent(runRoot.transform, false); boss.transform.position = new Vector2(5, 0);
             var guardian = boss.AddComponent<ThemeBoss>(); guardian.Initialize(this, stage); return guardian;
         }
+        public LateCampaignBoss CreateLateBoss(int stage) {
+            var go = new GameObject("Campaign Boss"); go.transform.SetParent(runRoot.transform,false); go.transform.position = new Vector2(5,0);
+            var boss = go.AddComponent<LateCampaignBoss>(); boss.Initialize(this,stage); return boss;
+        }
         public Damageable CreateEscort()
         {
             var robot = new GameObject("Supply robot"); robot.transform.SetParent(practiceRoot.transform, false); robot.transform.position = new Vector2(-6, -2);
             PrototypeVisuals.Draw(robot.transform, "Robot", Vector2.zero, new Vector2(.8f, .8f), PrototypeVisuals.Teal, 5, "cross");
             PrototypeVisuals.Body(robot, .3f).bodyType = RigidbodyType2D.Kinematic;
-            var health = robot.AddComponent<Damageable>(); health.Initialize(Faction.Player, 60, .6f); return health;
+            var health = robot.AddComponent<Damageable>(); health.Initialize(Faction.Player, 60, .6f); health.Game = this; return health;
         }
         public void StartEnvironmentSample(int stage)
         {
@@ -250,7 +278,8 @@ namespace Starfall
             {
                 if (Input.PausePressed)
                 {
-                    if (AdventureUI.ShopOpen) AdventureUI.CloseShop();
+                    if (PendingPassive != null) CancelPassive();
+                    else if (AdventureUI.ShopOpen) AdventureUI.CloseShop();
                     else if (ModeUI != null && ModeUI.IsOpen) ModeUI.Close();
                     else if (Interface.SettingsOpen) Interface.CloseSettings();
                     else if (Pause.Has(PauseReason.Map)) SetPause(PauseReason.Map, false);
@@ -285,6 +314,7 @@ namespace Starfall
             if (Context.Mode != GameMode.Adventure)
             {
                 if (!Player.Health.State.Alive) { if (Tutorial != null) Tutorial.Retry(); else Training.OnDeath(); }
+                else if(CanAct) Training?.ResolveSimulation();
                 return;
             }
             if (!Context.Resolve(Player.Health.State.Alive, LivingEnemies)) return;
@@ -300,6 +330,7 @@ namespace Starfall
         public void SetPause(PauseReason reason, bool value)
         {
             Pause.Set(reason, value); Time.timeScale = Pause.IsPaused ? 0 : 1;
+            if(reason==PauseReason.Map && value) Interface?.RefreshMap();
             Adventure?.SyncTimerPause(); Audio?.Pause(Pause.IsPaused);
             if (reason == PauseReason.Map) Tutorial?.MapChanged(value);
             Input?.Flush(); Player?.Flush(); if (Pause.IsPaused) StopBodies();
@@ -309,10 +340,10 @@ namespace Starfall
         public void ReturnToMenu() { ModeUI?.Close(); AdventureUI?.CloseRecords(); DisposeRun(); CreateRoom(); cameraFollow.ResetView(); Interface.ResetPanels(); }
         void DisposeRun()
         {
-            Pause.Clear(); Time.timeScale = 1; Input?.Flush(); Projectiles?.Clear(); StopBodies();
+            Pause.Clear(); Time.timeScale = 1; Input?.Flush(); Projectiles?.Clear(); Effects?.Clear(); PendingPassive = null; pendingReplacement = null; StopBodies();
             Audio?.Pause(false); Adventure?.StopBosses(); AdventureUI?.CloseRecords(); AdventureUI?.CloseShop(); Surface = null;
             if (runRoot != null) { runRoot.SetActive(false); Destroy(runRoot); }
-            enemies.Clear(); Player = null; Projectiles = null; Context = null; notificationLeft = 0;
+            enemies.Clear(); Player = null; Projectiles = null; Effects = null; Context = null; notificationLeft = 0;
             Tutorial = null; Training = null; Loadout = null; Hazards = null; Interaction = null; stations.Clear(); targets.Clear(); discardedWeapon = null;
             Adventure = null;
         }
@@ -324,7 +355,7 @@ namespace Starfall
         public void ClearPracticeObjects()
         {
             if (Context?.Mode == GameMode.Training) StopEnvironmentSample();
-            ClearEnemies(); Projectiles?.Clear(); Hazards?.Stop(); stations.Clear(); targets.Clear(); Interaction = null; discardedWeapon = null;
+            ClearEnemies(); Projectiles?.Clear(); Effects?.Clear(); Player?.Health.ClearStatus(); Hazards?.Stop(); stations.Clear(); targets.Clear(); Interaction = null; discardedWeapon = null;
             if (practiceRoot != null) { practiceRoot.SetActive(false); Destroy(practiceRoot); }
             practiceRoot = new GameObject("Practice objects"); practiceRoot.transform.SetParent(runRoot.transform, false); ResetPracticeStats();
         }
@@ -356,7 +387,11 @@ namespace Starfall
         {
             if (Adventure != null && !gameplayGrant) Context.InvalidateRecord();
             var definition = Catalog.Find(id); string old = Loadout.SpecialWeapon;
+            if (definition != null && definition.kind == ItemKind.Passive && Loadout.Layers(id) == 0 && Loadout.Passives.Count >= 6) {
+                RequestPassiveReplacement(id); Notify("item.replace"); return false;
+            }
             if (!Loadout.Equip(id)) { Notify("item.limit"); return false; }
+            if (definition.kind == ItemKind.Active) Effects?.ClearActive();
             if (definition.kind == ItemKind.Weapon && id != "pistol" && old != null && old != id)
             {
                 if (discardedWeapon != null)
@@ -372,6 +407,7 @@ namespace Starfall
         }
         public void ReplaceLoadout(LoadoutState value) { Loadout = value; EquipmentChanged(); }
         public void EquipmentChanged() { Player?.ApplyStats(); ResetPracticeStats(); }
+        public void ClearCombatStatus() { Player?.Health.ClearStatus(); foreach(var enemy in enemies) if(enemy!=null) enemy.Health.ClearStatus(); foreach(var target in targets) if(target!=null) target.Health.ClearStatus(); }
         public void ResetPracticeStats() => PracticeStats.Reset(EffectivePracticeTime);
         public void SaveTutorialMark(bool complete, bool skip) { Settings.tutorialCompleted |= complete; Settings.tutorialSkipped |= skip; SaveSettings(); }
         public void Notify(string key) { notificationKey = key; notificationLeft = 2.5f; }

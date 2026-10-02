@@ -8,7 +8,7 @@ namespace Starfall.Tests
         ItemCatalog catalog;
         [SetUp] public void Setup() { catalog = ItemCatalog.Defaults(); }
         [TearDown] public void Cleanup() { Object.DestroyImmediate(catalog); }
-        [Test] public void CatalogHasNineUsableItemsAndExplicitFutureContent()
+        [Test] public void CatalogHasAllTwentyFourCoreItemsWithDescriptions()
         {
             int usable = 0; var text = new LocalizationService("en");
             foreach (var item in catalog.items)
@@ -17,13 +17,13 @@ namespace Starfall.Tests
                 Assert.AreNotEqual(item.nameKey, text.Get(item.nameKey));
                 if (item.implemented) { usable++; Assert.IsFalse(catalog.Describe(text, item).Contains("{")); }
             }
-            Assert.AreEqual(24, catalog.items.Length); Assert.AreEqual(9, usable);
+            Assert.AreEqual(24, catalog.items.Length); Assert.AreEqual(24, usable);
         }
         [Test] public void EquipmentLimitsAndIndependentCopiesCannotLeakBuilds()
         {
             var loadout = new LoadoutState(catalog); Assert.IsTrue(loadout.Equip("shotgun"));
             loadout.Switch(false); Assert.AreEqual("pistol", loadout.Weapon); loadout.Switch(true); Assert.AreEqual("shotgun", loadout.Weapon);
-            Assert.IsFalse(loadout.Equip("crossbow"));
+            Assert.IsFalse(loadout.Equip("missing"));
             Assert.IsTrue(loadout.Equip("rapid")); Assert.IsTrue(loadout.Equip("rapid")); Assert.IsFalse(loadout.Equip("rapid"));
             var copy = loadout.Copy(); copy.RemovePassive("rapid"); copy.Equip("smg");
             Assert.AreEqual(2, loadout.Layers("rapid")); Assert.AreEqual("shotgun", loadout.SpecialWeapon);
@@ -51,7 +51,7 @@ namespace Starfall.Tests
         }
         [Test] public void SixthPassiveTypeIsAllowedAndSeventhIsRejectedWithoutReplacing()
         {
-            // Future definitions exercise the slot rule without claiming their effects are implemented.
+            // The slot cap applies to the complete M4 catalog.
             foreach (var item in catalog.items) if (item.kind == ItemKind.Passive) item.implemented = true;
             var loadout = new LoadoutState(catalog);
             foreach (string id in new[] { "rapid", "magnet", "vitality", "agile", "pierce", "bounce" }) Assert.IsTrue(loadout.Equip(id));

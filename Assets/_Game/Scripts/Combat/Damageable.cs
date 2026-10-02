@@ -8,7 +8,10 @@ namespace Starfall
         public readonly float Amount;
         public readonly Faction Source;
         public readonly string Weapon;
-        public DamageContext(float amount, Faction source, string weapon = "pistol") { Amount = amount; Source = source; Weapon = weapon; }
+        public readonly int Depth;
+        public readonly Vector2 Knockback;
+        public DamageContext(float amount, Faction source, string weapon = "pistol", int depth = 0, Vector2 knockback = default)
+        { Amount = amount; Source = source; Weapon = weapon; Depth = depth; Knockback = knockback; }
     }
     public sealed class Damageable : MonoBehaviour
     {
@@ -21,15 +24,27 @@ namespace Starfall
         public event Action<DamageContext, float> Damaged;
         public event Action<DamageContext> Evaded;
         public float DamageMultiplier { get; set; } = 1;
+        public StarfallGame Game { get; set; }
+        public DamageContext LastDamage { get; private set; }
+        float controlLeft, slow = 1;
+        Vector2 impulse;
+        public bool Controlled => controlLeft > 0;
+        public float SpeedMultiplier => Controlled ? slow : 1;
+        public void Control(float duration, float speed) { controlLeft = Mathf.Max(controlLeft, duration); slow = Mathf.Min(slow, Mathf.Clamp(speed, .2f, 1)); }
+        public void ClearStatus() { controlLeft = 0; slow = 1; impulse = Vector2.zero; }
+        public Vector2 Impulse => impulse;
+        void Update() { if (Game == null || !Game.CanAct) return; controlLeft = Mathf.Max(0, controlLeft - Time.deltaTime); if (controlLeft == 0) slow = 1; impulse = Vector2.MoveTowards(impulse, Vector2.zero, Time.deltaTime * 12); }
         public void Initialize(Faction faction, float health, float protection)
         { Faction = faction; State = new VitalState(health); ProtectionDuration = protection; }
         public bool Receive(DamageContext context)
         {
-            if (State == null || context.Source == Faction) return false;
+            if (State == null || context.Source == Faction || context.Depth > 2 || context.Amount <= 0 || float.IsNaN(context.Amount) || float.IsInfinity(context.Amount)) return false;
             if (!State.Alive) return false;
             if (Invulnerable) { Evaded?.Invoke(context); return false; }
             float before = State.Health;
-            if (!State.Damage(context.Amount * DamageMultiplier, Time.timeAsDouble, false, ProtectionDuration)) return false;
+            float amount = Game != null ? Game.ModifyDamage(this, context) : context.Amount;
+            if (!State.Damage(amount * Mathf.Clamp(DamageMultiplier, .1f, 2), Time.timeAsDouble, false, ProtectionDuration)) return false;
+            LastDamage = context; impulse = Vector2.ClampMagnitude(context.Knockback, 8);
             Damaged?.Invoke(context, before - State.Health);
             Hit?.Invoke();
             if (!State.Alive) Died?.Invoke();

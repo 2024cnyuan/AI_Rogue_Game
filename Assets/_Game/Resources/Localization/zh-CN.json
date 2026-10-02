@@ -6,11 +6,11 @@
     },
     {
       "key": "subtitle",
-      "value": "M3 · 前三关冒险"
+      "value": "M4 · 六关完整冒险"
     },
     {
       "key": "menu.intro",
-      "value": "穿过苔光遗庭、赤铜工坊与寒镜水库。每关保存纪录，从当前关入口继续。"
+      "value": "探索六大区域，净化星核。独立新手指引与全装备训练营随时开放。"
     },
     {
       "key": "menu.start",
@@ -618,11 +618,11 @@
     },
     {
       "key": "training.environmentPending",
-      "value": "环境体验区已预留。传送带、冰面、周期电网将随正式关卡开发接入；M2a 不宣称可用。"
+      "value": "传送带、冰面和周期电网样本已开放。"
     },
     {
       "key": "training.futureItems",
-      "value": "未实现：穿透弩/爆炸发射器/电弧枪；减速场/震荡波/诱饵/手雷；穿透/弹射/暴击/击杀回能/低血防护/爆炸范围/受控增伤/无伤治疗。"
+      "value": "全部六类武器、六主动、十二被动已开放。"
     },
     {
       "key": "flag.on",
@@ -822,7 +822,7 @@
     },
     {
       "key": "adventure.route",
-      "value": "关卡路线 / 当前 ◆ / 已清 ✓ — 目标 {count}/2\n{rooms}"
+      "value": "{rooms}\n主线目标 {count}/{required}；完成后关闭机关进入 Boss 房。"
     },
     {
       "key": "adventure.locked",
@@ -830,7 +830,7 @@
     },
     {
       "key": "adventure.needBeacons",
-      "value": "需要两项主线目标及机关完成；不要求特殊装备、金币或支路。"
+      "value": "先完成本关全部主线目标并关闭机关。"
     },
     {
       "key": "adventure.roomClear",
@@ -878,7 +878,7 @@
     },
     {
       "key": "adventure.nextStagePending",
-      "value": "前三关已完成，后续关卡在 M4 开放。"
+      "value": "六关完整流程已开放。"
     },
     {
       "key": "boss.caption",
@@ -1046,7 +1046,7 @@
     },
     {
       "key": "adventure.themeTitle",
-      "value": "{stage} · {room} · 目标 {count}/2"
+      "value": "{stage} · {room} · 目标 {count}/{required}"
     },
     {
       "key": "adventure.s2.objective",
@@ -1086,7 +1086,7 @@
     },
     {
       "key": "adventure.m3End",
-      "value": "前三关已完成。第四至第六关将在 M4 开放。"
+      "value": "可继续进入第四关。"
     },
     {
       "key": "checkpoint.entryInfo",
@@ -1218,7 +1218,7 @@
     },
     {
       "key": "training.environmentRule",
-      "value": "免费试用真实主线表面规则：传送带推力与热脉冲、冰面惯性与水闸危险。默认无敌；关闭辅助可测试受伤。重置或离开时清理。"
+      "value": "传送带推力、轻微冰面惯性与周期电网使用正式关卡规则。电网先预警再通电，两侧与中央通道始终安全。"
     },
     {
       "key": "training.conveyor",
@@ -1234,7 +1234,7 @@
     },
     {
       "key": "training.environmentRemaining",
-      "value": "后续周期电网样本将在 M4 补齐。"
+      "value": "三种环境样本均使用真实规则。"
     },
     {
       "key": "item.workshop_smg",
@@ -1327,6 +1327,462 @@
     {
       "key": "checkpoint.runEnded",
       "value": "本轮检查点已失效。再试一次从第一关开始；此前个人纪录保留。"
+    },
+    {
+      "key": "desc.crossbow",
+      "value": "按住左键蓄力 {delay} 秒；伤害 {damage}，间隔 {interval} 秒，能量 {energy}；额外穿过 {piercing} 个目标。"
+    },
+    {
+      "key": "desc.launcher",
+      "value": "伤害 {damage}，间隔 {interval} 秒，能量 {energy}；落点延迟 {delay} 秒爆炸，半径 {radius}。"
+    },
+    {
+      "key": "desc.arc",
+      "value": "伤害 {damage}，间隔 {interval} 秒，能量 {energy}；向 {radius} 范围内最多 {chains} 个目标连锁，每次为原伤害的 75%。"
+    },
+    {
+      "key": "desc.slow",
+      "value": "半径 {radius}，持续 {duration} 秒，使敌人移速降低 {value}%；{charges} 次充能，冷却 {cooldown} 秒。"
+    },
+    {
+      "key": "desc.shock",
+      "value": "半径 {radius}，伤害 {value}，击退并标记受控 {duration} 秒；{charges} 次充能，冷却 {cooldown} 秒。"
+    },
+    {
+      "key": "desc.decoy",
+      "value": "诱饵生命 {value}，持续 {duration} 秒，吸引普通敌人；{charges} 次充能，冷却 {cooldown} 秒。"
+    },
+    {
+      "key": "desc.grenade",
+      "value": "延迟 {delay} 秒，半径 {radius}，伤害 {value}；{charges} 次充能，冷却 {cooldown} 秒。"
+    },
+    {
+      "key": "desc.pierce",
+      "value": "每层额外穿过 {value} 个目标；最多两层。墙体仍会阻挡。"
+    },
+    {
+      "key": "desc.bounce",
+      "value": "每层增加 {value} 次墙体反弹；最多两层，同一弹丸不重复命中同一目标。"
+    },
+    {
+      "key": "desc.critical",
+      "value": "每层暴击概率 +{value}%；暴击伤害 175%，概率上限 40%，最多两层。"
+    },
+    {
+      "key": "desc.recharge",
+      "value": "每层击杀回能 {value}；召唤物与分裂子体不触发，能量上限 100。"
+    },
+    {
+      "key": "desc.lowhealth",
+      "value": "生命不高于 35% 时，每层减伤 {value}%；总减伤上限 50%，最多两层。"
+    },
+    {
+      "key": "desc.blast",
+      "value": "每层爆炸半径 +{value}%，半径倍率上限 150%；影响发射器和手雷。"
+    },
+    {
+      "key": "desc.controlled",
+      "value": "每层对减速或震荡受控目标增伤 {value}%；最多两层。"
+    },
+    {
+      "key": "desc.flawless",
+      "value": "无伤清理战斗房时每层额外恢复 {value} 生命；同一房间只触发一次。"
+    },
+    {
+      "key": "active.blocked",
+      "value": "施放位置或效果池不可用；未消耗充能。"
+    },
+    {
+      "key": "kind.weapon",
+      "value": "武器"
+    },
+    {
+      "key": "kind.active",
+      "value": "主动道具"
+    },
+    {
+      "key": "kind.passive",
+      "value": "被动道具"
+    },
+    {
+      "key": "rarity.common",
+      "value": "普通"
+    },
+    {
+      "key": "rarity.rare",
+      "value": "稀有"
+    },
+    {
+      "key": "item.details",
+      "value": "{name} · {rarity}\n{effect}"
+    },
+    {
+      "key": "training.removeSelected",
+      "value": "移除所选被动的一层"
+    },
+    {
+      "key": "training.catalogRule",
+      "value": "六类武器、六种主动、十二种被动免费试用，另有稀有工坊冲锋枪。最多六种被动，每种两层；满槽可替换或放弃。"
+    },
+    {
+      "key": "training.grid",
+      "value": "启动周期电网样本"
+    },
+    {
+      "key": "item.replace",
+      "value": "被动槽已满，请选择替换或放弃。"
+    },
+    {
+      "key": "item.replaceTitle",
+      "value": "获得 {item}\n{effect}\n选择移除一种旧被动的全部层数。"
+    },
+    {
+      "key": "item.replaceOld",
+      "value": "替换 {item}（{layers} 层）"
+    },
+    {
+      "key": "item.discard",
+      "value": "放弃新道具（不扣金币）"
+    },
+    {
+      "key": "environment.countdown",
+      "value": "{state} · 脉冲倒计时 {seconds} 秒"
+    },
+    {
+      "key": "environment.safe",
+      "value": "安全间歇"
+    },
+    {
+      "key": "environment.warning",
+      "value": "地面预警"
+    },
+    {
+      "key": "environment.live",
+      "value": "脉冲生效"
+    },
+    {
+      "key": "adventure.s4.objective",
+      "value": "净化孢子巢 {count}/3 · 敌人 {enemies}"
+    },
+    {
+      "key": "adventure.s5.objective",
+      "value": "依次关闭继电器 {count}/3 · 敌人 {enemies}"
+    },
+    {
+      "key": "adventure.s6.objective",
+      "value": "关闭封印 {count}/2 · 敌人 {enemies}"
+    },
+    {
+      "key": "adventure.s4.hint",
+      "value": "净化三巢；绿色安全岛免受毒雾，菌丛可击碎。"
+    },
+    {
+      "key": "adventure.s5.hint",
+      "value": "依次关闭北、中央、南继电器；沿中央或外侧绕开电网。"
+    },
+    {
+      "key": "adventure.s6.hint",
+      "value": "关闭两道封印；冰面与电网沿用先前规则。"
+    },
+    {
+      "key": "adventure.s4.beacon",
+      "value": "净化孢子巢"
+    },
+    {
+      "key": "adventure.s5.beacon",
+      "value": "关闭继电器（北→中央→南）"
+    },
+    {
+      "key": "adventure.s6.beacon",
+      "value": "关闭星核封印"
+    },
+    {
+      "key": "adventure.s4.relay",
+      "value": "停用温室毒雾阀"
+    },
+    {
+      "key": "adventure.s5.relay",
+      "value": "停用电网主控"
+    },
+    {
+      "key": "adventure.s6.relay",
+      "value": "开启圣所核心"
+    },
+    {
+      "key": "challenge.nextRound",
+      "value": "开始下一轮净化"
+    },
+    {
+      "key": "challenge.stop",
+      "value": "结束挑战并保留奖励"
+    },
+    {
+      "key": "challenge.roundHint",
+      "value": "最多三轮：金币逐轮提高，第二轮被动，第三轮穿透弩；轮次之间可退出。"
+    },
+    {
+      "key": "challenge.roundDone",
+      "value": "本轮完成，奖励已保存到本关；可继续或主动结束。"
+    },
+    {
+      "key": "challenge.banked",
+      "value": "奖励已领取；主线进度保留。"
+    },
+    {
+      "key": "prepare.hint",
+      "value": "一次选择：免费全治疗，或与下方某个被动交互，重选为另一种一层被动。"
+    },
+    {
+      "key": "prepare.heal",
+      "value": "免费治疗（与被动重选二选一）"
+    },
+    {
+      "key": "prepare.rerolled",
+      "value": "被动已重选；本轮最终准备已使用。"
+    },
+    {
+      "key": "boss.name.4",
+      "value": "孢母"
+    },
+    {
+      "key": "boss.name.5",
+      "value": "磁轨执法者"
+    },
+    {
+      "key": "boss.name.6",
+      "value": "星核守卫"
+    },
+    {
+      "key": "boss.s4.0",
+      "value": "藤蔓封路 → 恢复窗口"
+    },
+    {
+      "key": "boss.s4.1",
+      "value": "有限召唤 → 恢复窗口"
+    },
+    {
+      "key": "boss.s4.2",
+      "value": "孢子环 → 恢复窗口"
+    },
+    {
+      "key": "boss.s5.0",
+      "value": "轨道冲刺 → 恢复窗口"
+    },
+    {
+      "key": "boss.s5.1",
+      "value": "电场分区 → 恢复窗口"
+    },
+    {
+      "key": "boss.s5.2",
+      "value": "磁轨扇射 → 恢复窗口"
+    },
+    {
+      "key": "boss.s6.0",
+      "value": "星核弹幕 → 恢复窗口"
+    },
+    {
+      "key": "boss.s6.1",
+      "value": "扇区封锁 → 恢复窗口"
+    },
+    {
+      "key": "boss.s6.2",
+      "value": "交替扇射与冲刺 → 恢复窗口"
+    },
+    {
+      "key": "boss.phase",
+      "value": "第 {phase} 阶段预警 · 短暂无敌 1 秒"
+    },
+    {
+      "key": "result.finalTitle",
+      "value": "星核已净化 · 六关通关"
+    },
+    {
+      "key": "result.finalBody",
+      "value": "本轮六关有效用时累计 {time}。下方为第六关成绩；各关纪录分别保存。"
+    },
+    {
+      "key": "result.finalPartial",
+      "value": "本轮已通关。旧检查点缺少早期用时；已记录阶段累计 {time}。"
+    },
+    {
+      "key": "checkpoint.finalEnded",
+      "value": "最终检查点已结束；可选择奖励、查看纪录或开始新冒险。"
+    },
+    {
+      "key": "enemy.turret",
+      "value": "炮台"
+    },
+    {
+      "key": "enemy.shield",
+      "value": "护盾兵"
+    },
+    {
+      "key": "enemy.bomber",
+      "value": "爆破机"
+    },
+    {
+      "key": "enemy.frost",
+      "value": "冰弹射手"
+    },
+    {
+      "key": "enemy.flanker",
+      "value": "侧翼游击者"
+    },
+    {
+      "key": "enemy.spore",
+      "value": "分裂孢体"
+    },
+    {
+      "key": "enemy.blocker",
+      "value": "区域封锁者"
+    },
+    {
+      "key": "enemy.assault",
+      "value": "快速突击者"
+    },
+    {
+      "key": "enemy.sniper",
+      "value": "狙击手"
+    },
+    {
+      "key": "enemy.drone",
+      "value": "支援无人机"
+    },
+    {
+      "key": "room.s4.entry",
+      "value": "温室入口"
+    },
+    {
+      "key": "room.s4.courtyard",
+      "value": "菌环岔路"
+    },
+    {
+      "key": "room.s4.north",
+      "value": "北孢子巢"
+    },
+    {
+      "key": "room.s4.crossing",
+      "value": "荧光廊"
+    },
+    {
+      "key": "room.s4.middle",
+      "value": "中央孢子巢"
+    },
+    {
+      "key": "room.s4.south",
+      "value": "南孢子巢"
+    },
+    {
+      "key": "room.s4.seal",
+      "value": "毒雾阀室"
+    },
+    {
+      "key": "room.s4.supply",
+      "value": "温室补给"
+    },
+    {
+      "key": "room.s4.boss",
+      "value": "孢母巢庭"
+    },
+    {
+      "key": "room.s4.shop",
+      "value": "温室商店"
+    },
+    {
+      "key": "room.s4.challenge",
+      "value": "连续净化区"
+    },
+    {
+      "key": "room.s5.entry",
+      "value": "中枢入口"
+    },
+    {
+      "key": "room.s5.courtyard",
+      "value": "十字枢纽"
+    },
+    {
+      "key": "room.s5.north",
+      "value": "第一继电器"
+    },
+    {
+      "key": "room.s5.crossing",
+      "value": "长轨走廊"
+    },
+    {
+      "key": "room.s5.middle",
+      "value": "第二继电器"
+    },
+    {
+      "key": "room.s5.south",
+      "value": "第三继电器"
+    },
+    {
+      "key": "room.s5.seal",
+      "value": "电网主控室"
+    },
+    {
+      "key": "room.s5.supply",
+      "value": "轨道补给"
+    },
+    {
+      "key": "room.s5.boss",
+      "value": "执法者轨场"
+    },
+    {
+      "key": "room.s5.shop",
+      "value": "轨道商店"
+    },
+    {
+      "key": "room.s5.challenge",
+      "value": "电网生存区"
+    },
+    {
+      "key": "room.s5.bypass",
+      "value": "轨道侧路"
+    },
+    {
+      "key": "room.s6.entry",
+      "value": "圣所入口"
+    },
+    {
+      "key": "room.s6.courtyard",
+      "value": "仪式广场"
+    },
+    {
+      "key": "room.s6.north",
+      "value": "第一封印"
+    },
+    {
+      "key": "room.s6.crossing",
+      "value": "双翼殿"
+    },
+    {
+      "key": "room.s6.south",
+      "value": "第二封印"
+    },
+    {
+      "key": "room.s6.seal",
+      "value": "核心门厅"
+    },
+    {
+      "key": "room.s6.supply",
+      "value": "核心补给"
+    },
+    {
+      "key": "room.s6.boss",
+      "value": "星核圣殿"
+    },
+    {
+      "key": "room.s6.shop",
+      "value": "圣所商店"
+    },
+    {
+      "key": "room.s6.prepare",
+      "value": "最终准备室"
+    },
+    {
+      "key": "training.waveDone",
+      "value": "模拟战完成；无伤治疗只触发一次。"
     }
   ]
 }

@@ -26,3 +26,9 @@ MonoBehaviour:
   weaponPrice: 42
   shopHeal: 35
   shopEnergy: 50
+  sporeHealth: 680
+  railHealth: 720
+  starcoreHealth: 1050
+  gridSurvivalSeconds: 18
+  sporeRounds: 3
+  summonLimit: 4

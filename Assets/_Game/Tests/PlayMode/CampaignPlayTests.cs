@@ -13,7 +13,7 @@ using UnityEngine.UI;
 
 namespace Starfall.Tests
 {
-    public sealed class CampaignPlayTests
+    public sealed partial class CampaignPlayTests
     {
         StarfallGame game;
         Keyboard keyboard;
@@ -53,7 +53,7 @@ namespace Starfall.Tests
         }
         IEnumerator ClearRoom()
         {
-            foreach (var enemy in game.Enemies) if (enemy.Alive) enemy.Health.Receive(new DamageContext(1000, Faction.Player));
+            for(int wave=0;wave<4 && game.LivingEnemies>0;wave++) { foreach(var enemy in new List<PrototypeEnemy>(game.Enemies)) if(enemy.Alive) enemy.Health.Receive(new DamageContext(1000,Faction.Player)); yield return null; }
             yield return null; yield return null;
         }
         IEnumerator WalkTo(Vector2 destination)
@@ -123,19 +123,19 @@ namespace Starfall.Tests
             yield return ReachGuardian(); game.Adventure.BossHealth.Receive(new DamageContext(10000, Faction.Player)); yield return null; yield return null;
             Assert.AreEqual(RunPhase.Complete, game.Context.Phase);
         }
-        [UnityTest] [Timeout(480000)] public IEnumerator NormalInputAdventureCompletesThreeStagesAndReloadsThreeRecords()
+        [UnityTest] [Timeout(900000)] public IEnumerator NormalInputAdventureCompletesSixStagesAndReloadsSixRecords()
         {
             game.StartAdventure(); yield return null;
             yield return WalkTo(new Vector2(2, -4)); yield return Press(Key.E); Assert.AreEqual("medkit", game.Loadout.Active);
             var report = new System.Text.StringBuilder("Normal keyboard/mouse run. No teleport, injected damage, god mode, extra gear or speed changes. Temporary records only.\n");
-            for (int stage = 1; stage <= 3; stage++)
+            for (int stage = 1; stage <= 6; stage++)
             {
                 Assert.AreEqual(stage, game.Adventure.Stage); yield return WalkTo(game.Room.Exit); yield return Press(Key.E);
-                foreach (string id in new[] { "courtyard", "north", "crossing", "south" })
+                foreach (string id in stage == 4 || stage == 5 ? new[] { "courtyard", "north", "crossing", "middle", "south" } : new[] { "courtyard", "north", "crossing", "south" })
                 {
                     Assert.AreEqual(id, game.Adventure.Current.Id); yield return FightUsingInput();
-                    if (id == "north" || id == "south") { yield return WalkTo(new Vector2(7, 2)); yield return Press(Key.E); }
-                    if (stage > 1 && id == "north")
+                    if (id == "north" || id == "south" || id == "middle") { yield return WalkTo(new Vector2(7, 2)); yield return Press(Key.E); }
+                    if (stage > 1 && stage < 4 && id == "north")
                     {
                         yield return WalkTo(new Vector2(0, -5)); yield return Press(Key.E); Assert.AreEqual("shop", game.Adventure.Current.Id);
                         yield return WalkTo(new Vector2(1, 0)); yield return Press(Key.E); Assert.IsTrue(game.AdventureUI.ShopOpen);
@@ -155,22 +155,22 @@ namespace Starfall.Tests
                 yield return WalkTo(new Vector2(-1, -1)); yield return Press(Key.E); yield return WalkTo(game.Room.Exit); yield return Press(Key.E);
                 Capture("boss-normal-s" + stage + "-en", 1920, 1080); yield return FightUsingInput();
                 Assert.IsTrue(game.Context.RecordEligible); Assert.IsTrue(game.Adventure.Result.Success); Assert.IsTrue(game.Adventure.Result.Saved);
-                Assert.AreEqual(game.Adventure.Result.Attempt.milliseconds, new PersonalBestStore(temporary).Find(game.Adventure.StageId).milliseconds);
+                Assert.AreEqual(game.Adventure.Result.Attempt.milliseconds, new PersonalBestStore(temporary).Find(game.Adventure.StageId,game.LevelConfig.timingVersion,game.LevelConfig.balanceVersion).milliseconds);
                 Capture("clear-normal-s" + stage + "-en", 1920, 1080);
                 report.Append(game.Adventure.StageId).Append(" seed=").Append(game.Adventure.Plan.Seed).Append(" time=").Append(LevelTimer.Format(game.Adventure.Result.Attempt.milliseconds)).Append(" health=").Append(game.Player.Health.State.Health).Append("\n");
-                if (stage < 3)
+                if (stage < 6)
                 {
                     string choice = game.Adventure.Rewards.Contains("vitality") ? "vitality" : game.Adventure.Rewards[0];
                     Assert.IsTrue(game.Adventure.SelectReward(choice)); Assert.IsTrue(game.Adventure.AdvanceStage()); yield return null;
                 }
             }
-            Assert.IsFalse(game.Checkpoints.HasEntry); Assert.AreEqual(3, new PersonalBestStore(temporary).Book.bests.Count);
+            Assert.IsFalse(game.Checkpoints.HasEntry); Assert.AreEqual(6, new PersonalBestStore(temporary).Book.bests.Count);
             game.AdventureUI.OpenRecords();
             foreach (string language in new[] { "en", "zh-CN" })
             {
-                game.SetLanguage(language); Capture("records-three-stages-" + language, 1920, 1080);
+                game.SetLanguage(language); Capture("records-six-stages-" + language, 1920, 1080);
             }
-            File.WriteAllText(Path.Combine(Application.dataPath, "../Logs/M3-normal-input.txt"), report.ToString());
+            File.WriteAllText(Path.Combine(Application.dataPath, "../Logs/M4-normal-input.txt"), report.ToString());
         }
         [UnityTest] public IEnumerator RewardSaveFailureCannotGrantOrDuplicateNextEntryAndCancelKeepsProgress()
         {
@@ -290,7 +290,7 @@ namespace Starfall.Tests
             var oldTarget = camera.targetTexture; var oldActive = RenderTexture.active; var oldMode = canvas.renderMode;
             camera.targetTexture = target; canvas.renderMode = RenderMode.ScreenSpaceCamera; canvas.worldCamera = camera; canvas.planeDistance = 5;
             scaler.enabled = false; canvas.scaleFactor = Mathf.Min(width / 1280f, height / 720f); camera.orthographicSize = Mathf.Max(9.3f, 13.4f / ((float)width / height));
-            game.Interface.RefreshNow(); game.ModeUI.RefreshNow(); game.AdventureUI.RefreshNow(); Canvas.ForceUpdateCanvases();
+            game.Interface.RefreshNow(); game.ModeUI.RefreshNow(); game.AdventureUI.RefreshNow(); game.GetComponent<LoadoutInterface>().RefreshNow(); Canvas.ForceUpdateCanvases();
             foreach (var view in game.Interface.GetComponentsInChildren<Text>())
             {
                 if (!view.gameObject.activeInHierarchy || string.IsNullOrEmpty(view.text)) continue;

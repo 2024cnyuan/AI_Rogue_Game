@@ -27,6 +27,9 @@ namespace Starfall
         public bool RestoreSnapshot(LoadoutSnapshot value)
         {
             if (value == null || value.passives == null) return false;
+            var ids = new HashSet<string>();
+            if(value.passives.Count>6 || float.IsNaN(value.energy) || value.energy<0 || value.energy>100 || float.IsNaN(value.cooldown) || value.cooldown<0 || value.cooldown>300 || value.charges<0) return false;
+            foreach(var pair in value.passives) if(pair==null || pair.layers<1 || pair.layers>2 || !ids.Add(pair.id)) return false;
             var copy = new LoadoutState(catalog);
             if (!string.IsNullOrEmpty(value.special) && (value.special == "pistol" || !copy.Equip(value.special) || catalog.Find(value.special).kind != ItemKind.Weapon)) return false;
             if (!string.IsNullOrEmpty(value.active) && (!copy.Equip(value.active) || catalog.Find(value.active).kind != ItemKind.Active)) return false;
@@ -41,7 +44,17 @@ namespace Starfall
         }
         public LoadoutState(ItemCatalog definitions) { catalog = definitions; }
         public int Layers(string id) => passives.TryGetValue(id, out int layers) ? layers : 0;
-        float PassiveValue(string id) => (catalog.Find(id)?.value ?? 0) * Layers(id);
+        public float PassiveValue(string id) => (catalog.Find(id)?.value ?? 0) * Layers(id);
+        public int Pierce => Mathf.Clamp(Mathf.RoundToInt(PassiveValue("pierce")), 0, 2);
+        public int Bounces => Mathf.Clamp(Mathf.RoundToInt(PassiveValue("bounce")), 0, 2);
+        public float CritChance => Mathf.Clamp(PassiveValue("critical") / 100, 0, .4f);
+        public float BlastMultiplier => Mathf.Clamp(1 + PassiveValue("blast") / 100, 1, 1.5f);
+        public float IncomingMultiplier(VitalState health) => health.Health <= health.Maximum * .35f + .0001f ? Mathf.Clamp(1 - PassiveValue("lowhealth") / 100, .5f, 1) : 1;
+        public bool ReplacePassive(string old, string replacement)
+        {
+            if (Layers(old) == 0 || Layers(replacement) != 0 || catalog.Find(replacement)?.kind != ItemKind.Passive) return false;
+            passives.Remove(old); return Equip(replacement);
+        }
         public float FireRateMultiplier => Mathf.Clamp(1 / (1 + PassiveValue("rapid") / 100), .45f, 1);
         public float DodgeMultiplier => Mathf.Clamp(1 - PassiveValue("agile") / 100, .35f, 1);
         public float ExtraHealth => PassiveValue("vitality");
@@ -67,7 +80,7 @@ namespace Starfall
             if (Energy < cost) return false; Energy = Mathf.Max(0, Energy - cost); return true;
         }
         public bool AddEnergy(float amount) { if (Energy >= 100) return false; Energy = Mathf.Clamp(Energy + amount, 0, 100); return true; }
-        public string TryUse(VitalState health, bool dodging)
+        public string TryUse(VitalState health, bool dodging, System.Func<bool> activate = null)
         {
             if (!health.Alive) return "active.dead";
             if (dodging) return "active.dodging";
@@ -76,6 +89,7 @@ namespace Starfall
             if (!InfiniteCharges && Charges <= 0) return "active.empty";
             var item = catalog.Find(Active);
             if (Active == "medkit" && health.Health >= health.Maximum) return "active.full";
+            if (Active != "medkit" && Active != "shield" && (activate == null || !activate())) return "active.blocked";
             if (Active == "medkit") health.Heal(item.value); else if (Active == "shield") ShieldLeft = item.value;
             if (!InfiniteCharges) Charges--; ActiveCooldown = item.cooldown; return null;
         }

@@ -21,6 +21,7 @@ namespace Starfall
             view = PrototypeVisuals.Draw(transform, "Stone Captain", Vector2.zero, new Vector2(1.5f, 1.5f), new Color(.5f, .7f, .5f), 5, "chaser");
             warning = PrototypeVisuals.Draw(transform, "Captain warning", Vector2.zero, Vector2.one, PrototypeVisuals.Gold, 4, "orb");
             Health = gameObject.AddComponent<Damageable>(); Health.Initialize(Faction.Enemy, game.LevelConfig.bossHealth, 0);
+            Health.Game = game;
             Health.Hit += Hit; Health.Died += Die; BeginWarning();
         }
         void Hit() { game.Audio?.Play(GameSound.Hit); }

@@ -17,6 +17,7 @@ namespace Starfall
             gameObject.layer = 2; gameObject.AddComponent<CircleCollider2D>().radius = .4f;
             var body = gameObject.AddComponent<Rigidbody2D>(); body.bodyType = RigidbodyType2D.Kinematic;
             Health = gameObject.AddComponent<Damageable>(); Health.Initialize(Faction.Enemy, 100000, 0); Health.DamageMultiplier = armored ? .5f : 1;
+            Health.Game = game;
             Health.Damaged += OnDamage;
         }
         void OnDamage(DamageContext context, float actual)

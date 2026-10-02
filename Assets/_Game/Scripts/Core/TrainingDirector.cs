@@ -5,6 +5,9 @@ namespace Starfall
     public sealed class TrainingDirector
     {
         readonly StarfallGame game;
+        bool simulating, hurt;
+        public void PlayerDamaged() { if(simulating) hurt=true; }
+        public void ResolveSimulation() { if(!simulating || game.LivingEnemies>0) return; simulating=false; if(!hurt) game.Player.Health.Heal(game.Loadout.PassiveValue("flawless")); game.Notify("training.waveDone"); }
         public int SimulationCount { get; private set; } = 3;
         public TrainingDirector(StarfallGame owner)
         {
@@ -33,18 +36,22 @@ namespace Starfall
             {
                 Vector2 candidate = new Vector2(5 + index % 3 * 1.8f, -3.7f + index / 3 * 1.6f);
                 if (Vector2.Distance(candidate, game.Player.Body.position) < 1.5f) candidate = new Vector2(-8 + index % 3 * 2, -.5f + index / 3 * 1.4f);
-                game.SpawnEnemy(candidate, type == "shooter" || type == "mix" && index % 2 == 0, type == "elite");
+                EnemyStyle style = EnemyStyle.Basic; System.Enum.TryParse(type,true,out style);
+                game.SpawnEnemy(candidate,type == "shooter" || type == "mix" && index%2 == 0,type == "elite",1,style);
             }
+            simulating=game.LivingEnemies>0; hurt=false;
         }
-        public void StopSimulation() { game.ClearEnemies(); game.Projectiles.Clear(); }
+        public void StopSimulation() { simulating=false; hurt=false; game.ClearEnemies(); game.Projectiles.Clear(); game.Effects.Clear(); }
         public void Reset(bool defaults = false)
         {
             game.ClearPracticeObjects(); game.Context.ClearPracticeCounters(); if (defaults) game.Loadout.DefaultEquipment(); else game.Loadout.ClearEffects();
+            simulating=hurt=false;
+            game.CancelPassive();
             game.Loadout.Restore(); game.Player.RestoreAt(game.Room.Spawn); game.ResetPracticeStats(); game.Input.Flush(); Build();
         }
         public void Restore()
         {
-            game.Loadout.Restore(); game.Player.Health.State.Restore(); game.Player.ResetCooldowns(); game.Input.Flush();
+            game.Effects.Clear(); game.Player.Health.ClearStatus(); game.Loadout.Restore(); game.Player.Health.State.Restore(); game.Player.ResetCooldowns(); game.Input.Flush();
         }
         public void OnDeath() { Reset(); game.Notify("training.respawn"); }
     }

@@ -52,7 +52,7 @@ namespace Starfall
             panel = Panel("Adventure result", 1000, 660, out resultPanel);
             resultOutline = panel.gameObject.AddComponent<Outline>(); resultOutline.effectDistance = new Vector2(1, -1);
             title = Label(panel, null, 42, 26); body = Label(panel, null, 58, 19); times = Label(panel, null, 58, 19);
-            saved = Label(panel, null, 32, 16); metadata = Label(panel, null, 44, 16); rewardStatus = Label(panel, null, 31, 17);
+            saved = Label(panel, null, 32, 16); metadata = Label(panel, null, 64, 15); rewardStatus = Label(panel, null, 31, 17);
             var row = Row(panel, 112); for (int i = 0; i < 3; i++) { int at = i; var choice = Button(row, null, () => { if (game.Adventure.Rewards.Count > at) game.Adventure.SelectReward(game.Adventure.Rewards[at]); }, 112); choice.GetComponentInChildren<Text>().fontSize = 16; rewardButtons.Add(choice); }
             retry = Button(panel, "records.retrySave", game.RetryRecordSaves, 33);
             nextHint = Label(panel, null, 32, 16);
@@ -128,7 +128,7 @@ namespace Starfall
             {
                 route.transform.SetAsLastSibling(); var text = new System.Text.StringBuilder();
                 foreach (var room in adventure.Plan.Rooms) text.Append(game.Text.Get(adventure.RoomKey(room.Id))).Append(room.Id == adventure.Current.Id ? " ◆" : adventure.Progress.IsClear(room.Id) ? " ✓" : " ·").Append("   ");
-                routeText.text = game.Text.Get("adventure.route", ("rooms", text.ToString()), ("count", adventure.Progress.Beacons.ToString()));
+                routeText.text = game.Text.Get("adventure.route", ("rooms", text.ToString()), ("count", adventure.Progress.Beacons.ToString()),("required",adventure.Progress.Required.ToString()));
             }
             if (recordsOpen)
             {
@@ -146,12 +146,13 @@ namespace Starfall
                 recordRows.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Mathf.Max(330, recordRows.preferredHeight + 12));
             }
             if (adventure == null) return;
-            roomTitle.text = game.Text.Get("adventure.themeTitle", ("stage", game.Text.Get("stage." + adventure.StageId)), ("room", game.Text.Get(adventure.RoomKey(adventure.Current.Id))), ("count", adventure.Progress.Beacons.ToString()));
+            roomTitle.text = game.Text.Get("adventure.themeTitle", ("stage", game.Text.Get("stage." + adventure.StageId)), ("room", game.Text.Get(adventure.RoomKey(adventure.Current.Id))), ("count", adventure.Progress.Beacons.ToString()),("required",adventure.Progress.Required.ToString()));
             timer.text = game.Settings.hideTimer ? "" : game.Text.Get("adventure.timer", ("time", LevelTimer.Format(adventure.Timer.Milliseconds)), ("best", CurrentBest(adventure.StageId)?.milliseconds is long bestTime ? LevelTimer.Format(bestTime) : "—"));
             bool boss = adventure.BossHealth != null && adventure.BossHealth.State.Alive;
             bossFill.transform.parent.gameObject.SetActive(boss);
-            bossTitle.text = boss ? game.Text.Get("boss.themeCaption", ("name", game.Text.Get("boss.name." + adventure.Stage)), ("move", game.Text.Get(adventure.Boss != null ? "boss.move." + adventure.Boss.Move.ToString().ToLowerInvariant() : adventure.Guardian.MoveKey))) : game.Text.Get(adventure.Current.Kind == LevelRoomKind.Challenge && adventure.Stage == 3 ? "adventure.escortHint" : adventure.Current.Kind == LevelRoomKind.Safe ? "adventure.safeHint" : adventure.Current.Kind == LevelRoomKind.Challenge ? "adventure.challengeTime" : adventure.Stage > 1 ? "adventure.s" + adventure.Stage + ".hint" : adventure.Current.Kind == LevelRoomKind.Mechanism ? "adventure.mechanismHint" : "adventure.routeHint",
+            bossTitle.text = boss ? game.Text.Get("boss.themeCaption", ("name", game.Text.Get("boss.name." + adventure.Stage)), ("move", game.Text.Get(adventure.Boss != null ? "boss.move." + adventure.Boss.Move.ToString().ToLowerInvariant() : adventure.Guardian != null ? adventure.Guardian.MoveKey : adventure.FinalGuardian.MoveKey, ("phase",adventure.FinalGuardian?.Phase.ToString() ?? "1")))) : game.Text.Get(adventure.Current.Id == "prepare" ? "prepare.hint" : adventure.Current.Kind == LevelRoomKind.Challenge && adventure.Stage == 4 ? "challenge.roundHint" : adventure.Current.Kind == LevelRoomKind.Challenge && adventure.Stage == 3 ? "adventure.escortHint" : adventure.Current.Kind == LevelRoomKind.Safe ? "adventure.safeHint" : adventure.Current.Kind == LevelRoomKind.Challenge ? "adventure.challengeTime" : adventure.Stage > 1 ? "adventure.s" + adventure.Stage + ".hint" : adventure.Current.Kind == LevelRoomKind.Mechanism ? "adventure.mechanismHint" : "adventure.routeHint",
                 ("seconds", Mathf.Max(0, adventure.ChallengeLimit - (float)adventure.ChallengeElapsed).ToString("0")), ("health", adventure.Escort != null ? adventure.Escort.State.Health.ToString("0") : "0"));
+            if (!boss && game.Surface != null && game.Surface.HasPulse && adventure.Stage >= 4) bossTitle.text = game.Text.Get("environment.countdown",("state",game.Text.Get(game.Surface.StateKey)),("seconds",game.Surface.Countdown.ToString("0.0"))) + "\n" + bossTitle.text;
             if (boss) bossFill.rectTransform.anchorMax = new Vector2(adventure.BossHealth.State.Health / adventure.BossHealth.State.Maximum, 1);
             if (!showingResult) return;
             var result = adventure.Result; string key = "feedback." + result.Feedback.ToString().ToLowerInvariant();
@@ -160,6 +161,7 @@ namespace Starfall
             resultOutline.effectColor = new Color(.65f, .7f, .42f, .3f + reveal * .4f);
             title.color = Color.Lerp(PrototypeVisuals.Gold, new Color(.9f, .95f, .91f), reveal);
             title.text = game.Text.Get(key + ".title"); body.text = game.Text.Get(key + ".body", ("time", LevelTimer.Format(result.Attempt.milliseconds)), ("delta", LevelTimer.Format(result.Delta)));
+            if (result.Success && adventure.Stage == 6) { title.text=game.Text.Get("result.finalTitle"); long total=0; foreach(long value in game.RunTimes) total+=value; body.text=game.Text.Get(game.RunTimes.Count==6 ? "result.finalBody" : "result.finalPartial",("time",LevelTimer.Format(total))) + "\n" + game.Text.Get(key+".title"); }
             times.text = result.Success ? game.Text.Get("result.times", ("time", LevelTimer.Format(result.Attempt.milliseconds)), ("best", result.Previous.HasValue ? LevelTimer.Format(result.Previous.Value) : "—"),
                 ("comparison", result.Previous.HasValue && result.Eligible ? game.Text.Get(result.Attempt.milliseconds < result.Previous.Value ? "result.faster" : result.Attempt.milliseconds == result.Previous.Value ? "result.equal" : "result.slower", ("delta", LevelTimer.Format(result.Delta))) : "—")) : game.Text.Get("result.failureTime", ("time", LevelTimer.Format(result.Attempt.milliseconds)));
             saved.text = game.Text.Get(!result.Success ? "records.failureExcluded" : !result.Eligible ? "result.practice" : result.Saved ? "records.saved" : "records.saveFailed");
@@ -173,8 +175,8 @@ namespace Starfall
                 rewardButtons[i].GetComponentInChildren<Text>().text = adventure.Rewards.Count > i ? RewardName(adventure.Rewards[i]) + (item == null ? "" : "\n" + game.Catalog.Describe(game.Text, item)) : "";
             }
             retry.gameObject.SetActive(result.Success && result.Eligible && !result.Saved);
-            nextStage.gameObject.SetActive(result.Success && adventure.Stage < 3); nextStage.interactable = adventure.RewardSelected;
-            nextHint.text = game.Text.Get(adventure.ResultErrorKey ?? (!result.Success ? "checkpoint.runEnded" : adventure.Stage < 3 ? adventure.RewardSelected ? "checkpoint.nextSaved" : "checkpoint.chooseFirst" : "adventure.m3End"));
+            nextStage.gameObject.SetActive(result.Success && adventure.Stage < 6); nextStage.interactable = adventure.RewardSelected;
+            nextHint.text = game.Text.Get(adventure.ResultErrorKey ?? (!result.Success ? "checkpoint.runEnded" : adventure.Stage < 6 ? adventure.RewardSelected ? "checkpoint.nextSaved" : "checkpoint.chooseFirst" : "checkpoint.finalEnded"));
             resultPanel.transform.SetAsLastSibling();
         }
         string RewardName(string id) => game.Catalog.Find(id) != null ? game.Text.Get(game.Catalog.Find(id).nameKey) : game.Text.Get("reward." + id);

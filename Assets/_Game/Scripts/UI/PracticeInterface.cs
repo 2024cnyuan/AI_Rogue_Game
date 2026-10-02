@@ -139,7 +139,7 @@ namespace Starfall
             {
                 Label(content, "training.environmentRule", 95);
                 Button(content, "training.conveyor", () => game.StartEnvironmentSample(2)); Button(content, "training.ice", () => game.StartEnvironmentSample(3));
-                Button(content, "training.surfaceStop", game.StopEnvironmentSample); Label(content, "training.environmentRemaining", 45);
+                Button(content, "training.grid", () => game.StartEnvironmentSample(5)); Button(content, "training.surfaceStop", game.StopEnvironmentSample);
             }
             var aids = Row(content); Button(aids, "training.toggleEnergy", () => game.Training.ToggleEnergy());
             Button(aids, "training.toggleCharges", () => game.Training.ToggleCharges()); Button(aids, "training.toggleInvincible", () => game.Training.ToggleInvincible());
@@ -150,31 +150,33 @@ namespace Starfall
         }
         void BuildEquipment()
         {
-            foreach (ItemKind kind in Enum.GetValues(typeof(ItemKind)))
-            {
-                var row = Row(content, 38);
-                foreach (var item in game.Catalog.items)
-                {
-                    if (item.kind != kind || !item.implemented) continue;
-                    string id = item.id; var button = Button(row, item.nameKey, () => { selectedItem = id; game.EquipItem(id); }, 38);
-                    itemLabels[id] = button.GetComponentInChildren<Text>();
-                }
+            if(game.Catalog.Find(selectedItem).kind != equipmentKind) foreach(var item in game.Catalog.items) if(item.kind==equipmentKind && item.implemented) { selectedItem=item.id; break; }
+            var tabs = Row(content,34);
+            foreach (ItemKind kind in Enum.GetValues(typeof(ItemKind))) { var selected = kind; Button(tabs,"kind."+kind.ToString().ToLowerInvariant(),() => { equipmentKind=selected; Open(PracticePanel.Equipment); },34); }
+            Transform row = null; int index = 0;
+            foreach (var item in game.Catalog.items) {
+                if (item.kind != equipmentKind || !item.implemented) continue;
+                if (index++ % 4 == 0) row = Row(content,46);
+                string id = item.id; var button = Button(row,item.nameKey,() => { selectedItem=id; game.EquipItem(id); RefreshNow(); },46);
+                itemLabels[id]=button.GetComponentInChildren<Text>(); itemLabels[id].fontSize=16;
+                var icon = Box(button.transform,"Item icon",Color.white); icon.sprite=PrototypeVisuals.Sprite(item.icon); icon.rectTransform.anchorMin=icon.rectTransform.anchorMax=new Vector2(0,.5f); icon.rectTransform.anchoredPosition=new Vector2(15,0); icon.rectTransform.sizeDelta=Vector2.one*16;
+                itemLabels[id].rectTransform.offsetMin = new Vector2(28,0);
             }
-            description = Label(content, null, 52, 17);
-            var remove = Row(content); foreach (var item in game.Catalog.items)
-            {
-                if (!item.implemented || item.kind != ItemKind.Passive) continue;
-                string id = item.id; var button = Button(remove, "remove." + id, () => { selectedItem = id; game.Loadout.RemovePassive(id); game.EquipmentChanged(); });
-            }
-            Label(content, "training.futureItems", 60, 15);
+            description = Label(content,null,80,17);
+            if(equipmentKind==ItemKind.Passive) Button(content,"training.removeSelected",() => { game.Loadout.RemovePassive(selectedItem); game.EquipmentChanged(); RefreshNow(); });
+            Label(content,"training.catalogRule",55,15);
         }
+        ItemKind equipmentKind;
+        public void OpenEquipment(ItemKind kind) { equipmentKind=kind; Open(PracticePanel.Equipment); }
         void BuildSimulation()
         {
-            Label(content, "training.simulationRule", 70);
+            Label(content, "training.simulationRule", 50);
             var count = Row(content); foreach (int number in new[] { 3, 6, 12 })
             { int value = number; Button(count, "training.count." + number, () => game.Training.SetCount(value)); }
             var kinds = Row(content); foreach (var type in new[] { "chaser", "shooter", "elite", "mix" })
             { string id = type; Button(kinds, "enemy." + type, () => game.Training.Simulate(id)); }
+            Transform styleRow = null; int index=0;
+            foreach (EnemyStyle style in Enum.GetValues(typeof(EnemyStyle))) { if (style==EnemyStyle.Basic || style==EnemyStyle.Sporelet) continue; if (index++%4==0) styleRow=Row(content,36); string id=style.ToString().ToLowerInvariant(); Button(styleRow,"enemy."+id,()=>game.Training.Simulate(id),36); }
             Button(content, "training.stop", () => game.Training.StopSimulation());
             var row = Row(content); Button(row, "zone.range", () => Open(PracticePanel.Range)); Button(row, "zone.dodge", () => Open(PracticePanel.Dodge));
         }
@@ -214,7 +216,7 @@ namespace Starfall
             activeStatus.text = game.Text.Get("training.active", ("item", activeItem), ("charges", game.Loadout.Charges.ToString()), ("cooldown", game.Loadout.ActiveCooldown.ToString("0.0")), ("shield", game.Loadout.ShieldLeft.ToString("0.0")));
             liveDamage.text = DamageText();
             if (equipmentStatus != null) equipmentStatus.text = status + "\n" + game.Text.Get("training.equipment", ("weapon", game.Text.Get(game.Catalog.Find(game.Loadout.Weapon).nameKey)), ("count", game.Loadout.Passives.Count.ToString()), ("simulation", game.Training.SimulationCount.ToString()));
-            if (description != null) description.text = current == PracticePanel.Range ? DamageText() : game.Catalog.Describe(game.Text, game.Catalog.Find(selectedItem));
+            if (description != null) description.text = current == PracticePanel.Range ? DamageText() : game.Text.Get("item.details",("name",game.Text.Get(game.Catalog.Find(selectedItem).nameKey)),("rarity",game.Text.Get("rarity."+game.Catalog.Find(selectedItem).rarity)),("effect",game.Catalog.Describe(game.Text,game.Catalog.Find(selectedItem))));
             foreach (var pair in itemLabels)
             {
                 var item = game.Catalog.Find(pair.Key); string name = game.Text.Get(item.nameKey);

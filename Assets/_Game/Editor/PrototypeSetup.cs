@@ -11,6 +11,31 @@ namespace Starfall.Editor
     public static class PrototypeSetup
     {
         public const string EntryScene = "Assets/_Game/Scenes/Boot.unity";
+        [MenuItem("Starfall/Setup M4")]
+        public static void SetupM4() {
+            SetupM3();
+            var catalog = AssetDatabase.LoadAssetAtPath<ItemCatalog>("Assets/_Game/Resources/ItemCatalog.asset");
+            var defaults = ItemCatalog.Defaults();
+            for (int i=0;i<catalog.items.Length;i++) if (!catalog.items[i].implemented) catalog.items[i]=defaults.Find(catalog.items[i].id);
+            Object.DestroyImmediate(defaults); EditorUtility.SetDirty(catalog);
+            var rules = AssetDatabase.LoadAssetAtPath<FirstLevelConfig>("Assets/_Game/Resources/FirstLevelConfig.asset");
+            if (rules.balanceVersion=="1") rules.balanceVersion="2"; EditorUtility.SetDirty(rules);
+            EditorUtility.SetDirty(AssetDatabase.LoadAssetAtPath<CampaignConfig>("Assets/_Game/Resources/CampaignConfig.asset"));
+            AssetDatabase.SaveAssets(); ValidateM4(); Debug.Log("STARFALL_M4_SETUP_OK");
+        }
+        [MenuItem("Starfall/Validate M4 Assets")]
+        public static void ValidateM4() {
+            ValidateM3(); var catalog=AssetDatabase.LoadAssetAtPath<ItemCatalog>("Assets/_Game/Resources/ItemCatalog.asset");
+            if(catalog.items.Any(item=>item==null || !item.implemented || string.IsNullOrEmpty(item.icon) || string.IsNullOrEmpty(item.tags)) || catalog.items.Count(item=>item.kind==ItemKind.Active)!=6 || catalog.items.Count(item=>item.kind==ItemKind.Passive)!=12 || catalog.items.Count(item=>item.kind==ItemKind.Weapon)!=7) throw new System.InvalidOperationException("M4 catalog incomplete");
+            var text=new LocalizationService("en"); foreach(var item in catalog.items) if(text.Get(item.nameKey)==item.nameKey || text.Get(item.descriptionKey)==item.descriptionKey) throw new System.InvalidOperationException("Missing item localization: "+item.id);
+            Debug.Log("STARFALL_M4_ASSETS_OK");
+        }
+        [MenuItem("Starfall/Build M4 Windows")]
+        public static void BuildM4Windows() {
+            SetupM4(); var report=BuildPipeline.BuildPlayer(new BuildPlayerOptions {scenes=new[]{EntryScene},locationPathName="Builds/M4/StarcoreLabyrinth.exe",target=BuildTarget.StandaloneWindows64,options=BuildOptions.None});
+            if(report.summary.result!=BuildResult.Succeeded) throw new System.InvalidOperationException("M4 Windows build failed: "+report.summary.result);
+            Debug.Log("STARFALL_M4_BUILD_OK: "+report.summary.totalSize+" bytes, "+report.summary.totalErrors+" errors");
+        }
         [MenuItem("Starfall/Setup M3")]
         public static void SetupM3()
         {

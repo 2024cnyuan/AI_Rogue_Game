@@ -10,6 +10,8 @@ namespace Starfall
         public float conveyorSpeed = 1.35f, iceResponse = .12f, escortSeconds = 45;
         public int healPrice = 18, energyPrice = 15, passivePrice = 32, weaponPrice = 42;
         public float shopHeal = 35, shopEnergy = 50;
+        public float sporeHealth = 680, railHealth = 720, starcoreHealth = 1050, gridSurvivalSeconds = 18;
+        public int sporeRounds = 3, summonLimit = 4;
     }
     public sealed class ShopLedger
     {

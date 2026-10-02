@@ -126,7 +126,7 @@ namespace Starfall.Tests
             yield return WalkTo(new Vector2(-1, -1)); yield return Press(Key.E); yield return WalkTo(game.Room.Exit); yield return Press(Key.E);
             yield return FightUsingInput(); Assert.AreEqual(RunPhase.Complete, game.Context.Phase); Assert.IsTrue(game.Context.RecordEligible);
             Assert.AreEqual(ClearFeedback.First, game.Adventure.Result.Feedback); Assert.IsTrue(game.Adventure.Result.Saved);
-            Assert.AreEqual(game.Adventure.Result.Attempt.milliseconds, new PersonalBestStore(temporary).Find().milliseconds);
+            Assert.AreEqual(game.Adventure.Result.Attempt.milliseconds, new PersonalBestStore(temporary).Find("gardens",game.LevelConfig.timingVersion,game.LevelConfig.balanceVersion).milliseconds);
             Capture("normal-input-clear-en", 1920, 1080);
             File.WriteAllText(Path.Combine(Application.dataPath, "../Logs/M2b-normal-input.txt"), "Seed: " + game.Adventure.Plan.Seed + "\nTime: " + LevelTimer.Format(game.Adventure.Result.Attempt.milliseconds) + "\nHealth: " + game.Player.Health.State.Health + "\nEquipment: pistol / medkit\nKeyboard/mouse input only, isolated temporary record directory.");
         }
@@ -226,7 +226,7 @@ namespace Starfall.Tests
             Capture("actual-save-failure-en", 1280, 720); game.ReturnToMenu(); game.AdventureUI.OpenRecords(); yield return null;
             Capture("pending-record-en", 1280, 720); Assert.AreSame(result, game.PendingRecords[0]);
             Directory.Delete(Path.Combine(temporary, "starfall-records.json.tmp")); game.RetryRecordSaves();
-            Assert.IsTrue(result.Saved); Assert.IsEmpty(game.PendingRecords); Assert.AreEqual(result.Attempt.milliseconds, new PersonalBestStore(temporary).Find().milliseconds);
+            Assert.IsTrue(result.Saved); Assert.IsEmpty(game.PendingRecords); Assert.AreEqual(result.Attempt.milliseconds, new PersonalBestStore(temporary).Find("gardens",game.LevelConfig.timingVersion,game.LevelConfig.balanceVersion).milliseconds);
             game.RetryRecordSaves(); Assert.AreEqual(1, game.Records.Book.receipts.Count);
         }
         void Capture(string name, int width, int height)

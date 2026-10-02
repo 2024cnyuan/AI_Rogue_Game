@@ -13,6 +13,8 @@ namespace Starfall
             public Faction Faction;
             public string Weapon;
             public bool Active;
+            public int Pierce, Bounces, HitCount;
+            public readonly Damageable[] HitIds = new Damageable[16];
         }
         readonly List<Shot> shots = new List<Shot>(180);
         readonly RaycastHit2D[] hits = new RaycastHit2D[24];
@@ -34,6 +36,10 @@ namespace Starfall
             shot.Active = true; shot.Position = origin; shot.Direction = direction.normalized;
             shot.Speed = speed; shot.Damage = damage; shot.Faction = faction; shot.Life = 3;
             shot.Weapon = weapon;
+            var item = Game.Catalog.Find(weapon);
+            shot.Pierce = faction == Faction.Player ? (item?.piercing ?? 0) + Game.Loadout.Pierce : 0;
+            shot.Bounces = faction == Faction.Player ? Game.Loadout.Bounces : 0; shot.HitCount = 0;
+            if (weapon == "launcher") shot.Life = 1;
             shot.View.sprite = PrototypeVisuals.Sprite(faction == Faction.Player ? "square" : "orb");
             shot.View.transform.localScale = faction == Faction.Player ? new Vector3(.3f, .1f, 1) : new Vector3(.27f, .27f, 1);
             shot.View.transform.position = origin; shot.View.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
@@ -54,23 +60,37 @@ namespace Starfall
                 {
                     var hit = hits[i]; var target = hit.collider.GetComponent<Damageable>();
                     if (target != null && (target.Faction == shot.Faction || !target.State.Alive)) continue;
+                    bool seen = false; if (target != null) for (int j = 0; j < shot.HitCount; j++) if (shot.HitIds[j] == target) seen = true;
+                    if (seen) continue;
                     if (hit.distance < nearestDistance) { nearest = hit; nearestDistance = hit.distance; }
                 }
                 if (nearest.collider != null)
                 {
                     var target = nearest.collider.GetComponent<Damageable>();
-                    if (target != null) target.Receive(new DamageContext(shot.Damage, shot.Faction, shot.Weapon));
+                    if (shot.Weapon == "launcher") { Detonate(shot, nearest.centroid); Return(shot); continue; }
+                    if (target != null) {
+                        bool accepted = target.Receive(new DamageContext(shot.Damage, shot.Faction, shot.Weapon));
+                        if (accepted && shot.Weapon == "arc") { var arc = Game.Catalog.Find("arc"); Game.Effects.Chain(target, shot.Damage * .75f, arc.chains, arc.radius); }
+                        if (shot.HitCount < shot.HitIds.Length) shot.HitIds[shot.HitCount++] = target;
+                        if (nearest.collider.gameObject.layer == 2 && shot.Pierce-- > 0 && shot.HitCount < shot.HitIds.Length) { shot.Position += shot.Direction * step; shot.View.transform.position = shot.Position; shot.Life -= Time.fixedDeltaTime; if (shot.Life <= 0) Return(shot); continue; }
+                    }
+                    else if (shot.Bounces-- > 0) {
+                        shot.Position = nearest.centroid + nearest.normal * .03f; shot.Direction = Vector2.Reflect(shot.Direction, nearest.normal).normalized;
+                        shot.Life -= Time.fixedDeltaTime; if (shot.Life <= 0) Return(shot); continue;
+                    }
                     Return(shot); continue;
                 }
                 shot.Position += shot.Direction * step; shot.View.transform.position = shot.Position;
-                shot.Life -= Time.fixedDeltaTime; if (shot.Life <= 0) Return(shot);
+                shot.Life -= Time.fixedDeltaTime; if (shot.Life <= 0) { if (shot.Weapon == "launcher") Detonate(shot, shot.Position); Return(shot); }
             }
         }
+        void Detonate(Shot shot, Vector2 at) { var item = Game.Catalog.Find("launcher"); Game.Effects.Explosion(at, shot.Damage, item.radius * Game.Loadout.BlastMultiplier, item.delay, "launcher.explosion"); }
         void Return(Shot shot)
         {
             if (!shot.Active) return;
             shot.Active = false; shot.Life = shot.Damage = shot.Speed = 0; shot.Position = shot.Direction = Vector2.zero;
             shot.Weapon = null;
+            shot.HitCount = shot.Pierce = shot.Bounces = 0; System.Array.Clear(shot.HitIds, 0, shot.HitIds.Length);
             shot.View.gameObject.SetActive(false); ActiveCount--;
         }
         public void Clear() { foreach (var shot in shots) Return(shot); }

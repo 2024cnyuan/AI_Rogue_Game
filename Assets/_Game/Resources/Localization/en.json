@@ -6,11 +6,11 @@
     },
     {
       "key": "subtitle",
-      "value": "M3 · Three-stage Adventure"
+      "value": "M4 · Six-stage Adventure"
     },
     {
       "key": "menu.intro",
-      "value": "Explore the Gardens, Workshop and Reservoir. Keep each stage record and resume from its entrance."
+      "value": "Explore six regions and purify the Starcore. Tutorial and the full training catalog are always available."
     },
     {
       "key": "menu.start",
@@ -618,11 +618,11 @@
     },
     {
       "key": "training.environmentPending",
-      "value": "This environment zone is reserved. Conveyors, ice and periodic grids will arrive with their campaign stages; they are not available in M2a."
+      "value": "Conveyor, ice and periodic grid samples are available."
     },
     {
       "key": "training.futureItems",
-      "value": "Not implemented: crossbow/launcher/arc gun; slow field/shockwave/decoy/grenade; pierce/bounce/critical/kill-energy/low-health guard/blast/controlled bonus/flawless heal."
+      "value": "All six weapon classes, six actives and twelve passives are available."
     },
     {
       "key": "flag.on",
@@ -822,7 +822,7 @@
     },
     {
       "key": "adventure.route",
-      "value": "Stage route / current ◆ / cleared ✓ — Objectives {count}/2\n{rooms}"
+      "value": "{rooms}\nObjectives {count}/{required}; shut down the mechanism to reach the Boss."
     },
     {
       "key": "adventure.locked",
@@ -830,7 +830,7 @@
     },
     {
       "key": "adventure.needBeacons",
-      "value": "Complete both main objectives and the mechanism. Special gear, coins and side routes are optional."
+      "value": "Complete all stage objectives and shut down the mechanism first."
     },
     {
       "key": "adventure.roomClear",
@@ -878,7 +878,7 @@
     },
     {
       "key": "adventure.nextStagePending",
-      "value": "Three stages complete; later stages arrive in M4."
+      "value": "The complete six-stage adventure is available."
     },
     {
       "key": "boss.caption",
@@ -1046,7 +1046,7 @@
     },
     {
       "key": "adventure.themeTitle",
-      "value": "{stage} · {room} · Objectives {count}/2"
+      "value": "{stage} · {room} · Objectives {count}/{required}"
     },
     {
       "key": "adventure.s2.objective",
@@ -1086,7 +1086,7 @@
     },
     {
       "key": "adventure.m3End",
-      "value": "Three stages complete. Stages 4–6 arrive in M4."
+      "value": "Continue into stage four."
     },
     {
       "key": "checkpoint.entryInfo",
@@ -1218,7 +1218,7 @@
     },
     {
       "key": "training.environmentRule",
-      "value": "Try real adventure surfaces: belt force and heat pulses, ice inertia and sluice hazards. Invincible by default; disable aids to test damage. Reset or exit clears the sample."
+      "value": "Practice real conveyor, ice and periodic grid rules. Grids warn before activation; outer lanes and the central aisle remain safe."
     },
     {
       "key": "training.conveyor",
@@ -1234,7 +1234,7 @@
     },
     {
       "key": "training.environmentRemaining",
-      "value": "The later electric-grid sample arrives in M4."
+      "value": "All three environment samples use real rules."
     },
     {
       "key": "item.workshop_smg",
@@ -1327,6 +1327,462 @@
     {
       "key": "checkpoint.runEnded",
       "value": "This run has ended. Try again from stage 1; earlier personal bests remain."
+    },
+    {
+      "key": "desc.crossbow",
+      "value": "Hold fire to charge for {delay}s. Damage {damage}, interval {interval}s, energy {energy}; passes through {piercing} extra targets."
+    },
+    {
+      "key": "desc.launcher",
+      "value": "Damage {damage}, interval {interval}s, energy {energy}. Detonates {delay}s after landing; radius {radius}."
+    },
+    {
+      "key": "desc.arc",
+      "value": "Damage {damage}, interval {interval}s, energy {energy}. Chains to {chains} targets within {radius}, each at 75% damage."
+    },
+    {
+      "key": "desc.slow",
+      "value": "Slows enemies by {value}% within radius {radius} for {duration}s. {charges} charges, {cooldown}s cooldown."
+    },
+    {
+      "key": "desc.shock",
+      "value": "Radius {radius}, damage {value}. Knocks back and controls for {duration}s. {charges} charges, {cooldown}s cooldown."
+    },
+    {
+      "key": "desc.decoy",
+      "value": "Beacon health {value}, lasts {duration}s and attracts ordinary enemies. {charges} charges, {cooldown}s cooldown."
+    },
+    {
+      "key": "desc.grenade",
+      "value": "Detonates after {delay}s; radius {radius}, damage {value}. {charges} charges, {cooldown}s cooldown."
+    },
+    {
+      "key": "desc.pierce",
+      "value": "Each layer passes through {value} extra target. Max two layers; walls still block shots."
+    },
+    {
+      "key": "desc.bounce",
+      "value": "Adds {value} wall bounce per layer. Max two layers; a shot hits each target once."
+    },
+    {
+      "key": "desc.critical",
+      "value": "+{value}% critical chance per layer. Critical damage 175%, chance capped at 40%; max two layers."
+    },
+    {
+      "key": "desc.recharge",
+      "value": "Kills restore {value} energy per layer. Summons and split children do not trigger this; energy cap 100."
+    },
+    {
+      "key": "desc.lowhealth",
+      "value": "At 35% health or less, reduces damage by {value}% per layer. Reduction capped at 50%; max two layers."
+    },
+    {
+      "key": "desc.blast",
+      "value": "+{value}% explosion radius per layer, capped at 150%; affects launcher and grenade."
+    },
+    {
+      "key": "desc.controlled",
+      "value": "+{value}% damage per layer against slowed or shock-controlled targets. Max two layers."
+    },
+    {
+      "key": "desc.flawless",
+      "value": "Flawless combat-room clears restore {value} extra health per layer, once per room."
+    },
+    {
+      "key": "active.blocked",
+      "value": "No valid placement or area capacity. No charge spent."
+    },
+    {
+      "key": "kind.weapon",
+      "value": "Weapons"
+    },
+    {
+      "key": "kind.active",
+      "value": "Active items"
+    },
+    {
+      "key": "kind.passive",
+      "value": "Passives"
+    },
+    {
+      "key": "rarity.common",
+      "value": "Common"
+    },
+    {
+      "key": "rarity.rare",
+      "value": "Rare"
+    },
+    {
+      "key": "item.details",
+      "value": "{name} · {rarity}\n{effect}"
+    },
+    {
+      "key": "training.removeSelected",
+      "value": "Remove one selected passive layer"
+    },
+    {
+      "key": "training.catalogRule",
+      "value": "Try six weapon classes, six actives and twelve passives, plus the rare Workshop SMG. Six passive types, two layers each; replace or discard at capacity."
+    },
+    {
+      "key": "training.grid",
+      "value": "Start periodic grid sample"
+    },
+    {
+      "key": "item.replace",
+      "value": "Passive slots full. Choose a replacement or discard."
+    },
+    {
+      "key": "item.replaceTitle",
+      "value": "Receive {item}\n{effect}\nRemove all layers of one old passive."
+    },
+    {
+      "key": "item.replaceOld",
+      "value": "Replace {item} ({layers} layers)"
+    },
+    {
+      "key": "item.discard",
+      "value": "Discard new item (no coins spent)"
+    },
+    {
+      "key": "environment.countdown",
+      "value": "{state} · Pulse in {seconds}s"
+    },
+    {
+      "key": "environment.safe",
+      "value": "Safe interval"
+    },
+    {
+      "key": "environment.warning",
+      "value": "Floor warning"
+    },
+    {
+      "key": "environment.live",
+      "value": "Pulse active"
+    },
+    {
+      "key": "adventure.s4.objective",
+      "value": "Spore nests {count}/3 · Enemies {enemies}"
+    },
+    {
+      "key": "adventure.s5.objective",
+      "value": "Ordered relays {count}/3 · Enemies {enemies}"
+    },
+    {
+      "key": "adventure.s6.objective",
+      "value": "Seals {count}/2 · Enemies {enemies}"
+    },
+    {
+      "key": "adventure.s4.hint",
+      "value": "Purify three nests. Green islands resist poison; mushrooms can be destroyed."
+    },
+    {
+      "key": "adventure.s5.hint",
+      "value": "Disable north, center then south relays. Use the center or outer lanes to avoid grids."
+    },
+    {
+      "key": "adventure.s6.hint",
+      "value": "Disable both seals. Ice and grid rules match earlier stages."
+    },
+    {
+      "key": "adventure.s4.beacon",
+      "value": "Purify spore nest"
+    },
+    {
+      "key": "adventure.s5.beacon",
+      "value": "Disable relay (north → center → south)"
+    },
+    {
+      "key": "adventure.s6.beacon",
+      "value": "Disable Starcore seal"
+    },
+    {
+      "key": "adventure.s4.relay",
+      "value": "Shut down poison valve"
+    },
+    {
+      "key": "adventure.s5.relay",
+      "value": "Shut down grid controller"
+    },
+    {
+      "key": "adventure.s6.relay",
+      "value": "Open sanctum core"
+    },
+    {
+      "key": "challenge.nextRound",
+      "value": "Start next purification round"
+    },
+    {
+      "key": "challenge.stop",
+      "value": "End challenge and keep rewards"
+    },
+    {
+      "key": "challenge.roundHint",
+      "value": "Three rounds: rising coins, a passive in round two, crossbow in round three. Leave between rounds."
+    },
+    {
+      "key": "challenge.roundDone",
+      "value": "Round complete. Reward banked for this stage; continue or stop."
+    },
+    {
+      "key": "challenge.banked",
+      "value": "Reward claimed. Main objectives preserved."
+    },
+    {
+      "key": "prepare.hint",
+      "value": "Choose once: free full healing, or interact with an owned passive below to reroll it into one new layer."
+    },
+    {
+      "key": "prepare.heal",
+      "value": "Free healing (or one passive reroll)"
+    },
+    {
+      "key": "prepare.rerolled",
+      "value": "Passive rerolled; final preparation used."
+    },
+    {
+      "key": "boss.name.4",
+      "value": "Spore Mother"
+    },
+    {
+      "key": "boss.name.5",
+      "value": "Magrail Enforcer"
+    },
+    {
+      "key": "boss.name.6",
+      "value": "Starcore Guardian"
+    },
+    {
+      "key": "boss.s4.0",
+      "value": "Vine barriers → recovery"
+    },
+    {
+      "key": "boss.s4.1",
+      "value": "Bounded summons → recovery"
+    },
+    {
+      "key": "boss.s4.2",
+      "value": "Spore ring → recovery"
+    },
+    {
+      "key": "boss.s5.0",
+      "value": "Rail dash → recovery"
+    },
+    {
+      "key": "boss.s5.1",
+      "value": "Electric partitions → recovery"
+    },
+    {
+      "key": "boss.s5.2",
+      "value": "Rail fan → recovery"
+    },
+    {
+      "key": "boss.s6.0",
+      "value": "Starcore barrage → recovery"
+    },
+    {
+      "key": "boss.s6.1",
+      "value": "Sector barriers → recovery"
+    },
+    {
+      "key": "boss.s6.2",
+      "value": "Alternating fan and dash → recovery"
+    },
+    {
+      "key": "boss.phase",
+      "value": "Phase {phase} warning · 1s invulnerability"
+    },
+    {
+      "key": "result.finalTitle",
+      "value": "Starcore Purified · Adventure Complete"
+    },
+    {
+      "key": "result.finalBody",
+      "value": "Six-stage effective time: {time}. Stage six result below; each stage record is saved separately."
+    },
+    {
+      "key": "result.finalPartial",
+      "value": "Adventure complete. Legacy checkpoint lacks early times; recorded stages total {time}."
+    },
+    {
+      "key": "checkpoint.finalEnded",
+      "value": "Final checkpoint ended. Choose a reward, review records or start a new adventure."
+    },
+    {
+      "key": "enemy.turret",
+      "value": "Turret"
+    },
+    {
+      "key": "enemy.shield",
+      "value": "Shield soldier"
+    },
+    {
+      "key": "enemy.bomber",
+      "value": "Bomber"
+    },
+    {
+      "key": "enemy.frost",
+      "value": "Frost shooter"
+    },
+    {
+      "key": "enemy.flanker",
+      "value": "Flanker"
+    },
+    {
+      "key": "enemy.spore",
+      "value": "Splitting spore"
+    },
+    {
+      "key": "enemy.blocker",
+      "value": "Area blocker"
+    },
+    {
+      "key": "enemy.assault",
+      "value": "Assault unit"
+    },
+    {
+      "key": "enemy.sniper",
+      "value": "Sniper"
+    },
+    {
+      "key": "enemy.drone",
+      "value": "Support drone"
+    },
+    {
+      "key": "room.s4.entry",
+      "value": "Greenhouse Entry"
+    },
+    {
+      "key": "room.s4.courtyard",
+      "value": "Fungal Ring"
+    },
+    {
+      "key": "room.s4.north",
+      "value": "North Nest"
+    },
+    {
+      "key": "room.s4.crossing",
+      "value": "Glow Walk"
+    },
+    {
+      "key": "room.s4.middle",
+      "value": "Central Nest"
+    },
+    {
+      "key": "room.s4.south",
+      "value": "South Nest"
+    },
+    {
+      "key": "room.s4.seal",
+      "value": "Poison Valve"
+    },
+    {
+      "key": "room.s4.supply",
+      "value": "Greenhouse Supply"
+    },
+    {
+      "key": "room.s4.boss",
+      "value": "Mother Nest"
+    },
+    {
+      "key": "room.s4.shop",
+      "value": "Greenhouse Shop"
+    },
+    {
+      "key": "room.s4.challenge",
+      "value": "Purification Rounds"
+    },
+    {
+      "key": "room.s5.entry",
+      "value": "Hub Entry"
+    },
+    {
+      "key": "room.s5.courtyard",
+      "value": "Cross Hub"
+    },
+    {
+      "key": "room.s5.north",
+      "value": "First Relay"
+    },
+    {
+      "key": "room.s5.crossing",
+      "value": "Long Rail"
+    },
+    {
+      "key": "room.s5.middle",
+      "value": "Second Relay"
+    },
+    {
+      "key": "room.s5.south",
+      "value": "Third Relay"
+    },
+    {
+      "key": "room.s5.seal",
+      "value": "Grid Controller"
+    },
+    {
+      "key": "room.s5.supply",
+      "value": "Rail Supply"
+    },
+    {
+      "key": "room.s5.boss",
+      "value": "Enforcer Rails"
+    },
+    {
+      "key": "room.s5.shop",
+      "value": "Rail Shop"
+    },
+    {
+      "key": "room.s5.challenge",
+      "value": "Grid Survival"
+    },
+    {
+      "key": "room.s5.bypass",
+      "value": "Rail Side Path"
+    },
+    {
+      "key": "room.s6.entry",
+      "value": "Sanctum Entry"
+    },
+    {
+      "key": "room.s6.courtyard",
+      "value": "Ritual Plaza"
+    },
+    {
+      "key": "room.s6.north",
+      "value": "First Seal"
+    },
+    {
+      "key": "room.s6.crossing",
+      "value": "Twin Hall"
+    },
+    {
+      "key": "room.s6.south",
+      "value": "Second Seal"
+    },
+    {
+      "key": "room.s6.seal",
+      "value": "Core Gate"
+    },
+    {
+      "key": "room.s6.supply",
+      "value": "Core Supply"
+    },
+    {
+      "key": "room.s6.boss",
+      "value": "Starcore Chamber"
+    },
+    {
+      "key": "room.s6.shop",
+      "value": "Sanctum Shop"
+    },
+    {
+      "key": "room.s6.prepare",
+      "value": "Final Preparation"
+    },
+    {
+      "key": "training.waveDone",
+      "value": "Simulation complete; flawless healing triggers once."
     }
   ]
 }

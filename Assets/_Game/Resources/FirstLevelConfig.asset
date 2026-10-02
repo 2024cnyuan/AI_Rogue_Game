@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FirstLevelConfig
   m_EditorClassIdentifier: Starfall.Runtime::Starfall.FirstLevelConfig
   timingVersion: 1
-  balanceVersion: 1
+  balanceVersion: 2
   bossHealth: 700
   bossBulletDamage: 7
   bossChargeDamage: 14

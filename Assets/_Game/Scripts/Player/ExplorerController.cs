@@ -12,6 +12,8 @@ namespace Starfall
         Vector2 move, aim = Vector2.right, dodgeDirection;
         float dodgeLeft, dodgeAge, cooldown, bufferLeft, shotLeft, hitLeft, flashLeft, coldLeft;
         Vector2 surfaceVelocity;
+        float charge;
+        public float ChargeProgress => charge;
         public Damageable Health { get; private set; }
         public bool IsDodging => dodgeLeft > 0;
         public float DodgeCooldown => cooldown;
@@ -27,18 +29,19 @@ namespace Starfall
             flash = PrototypeVisuals.Draw(transform, "Muzzle flash", Vector2.zero, Vector2.one * .22f, Color.white, 8, "cross"); flash.enabled = false;
             body = PrototypeVisuals.Body(gameObject, .3f);
             Health = gameObject.AddComponent<Damageable>(); Health.Initialize(Faction.Player, config.health, config.hitProtection);
+            Health.Game = game;
             Health.Hit += OnHit; Health.Died += OnDeath;
             Health.Evaded += OnEvaded;
             Health.Damaged += OnDamaged;
         }
-        void OnDamaged(DamageContext hit, float amount) { if (hit.Weapon == "frost") coldLeft = 1.2f; }
+        void OnDamaged(DamageContext hit, float amount) { game.Adventure?.PlayerDamaged(); game.Training?.PlayerDamaged(); if (hit.Weapon == "frost") coldLeft = 1.2f; }
         void OnHit() { hitLeft = .18f; game.Notify("combat.hit"); game.Audio?.Play(GameSound.Hurt); game.ShakeCamera(.12f); }
         void OnDeath() { body.linearVelocity = Vector2.zero; GetComponent<Collider2D>().enabled = false; view.color = new Color(.35f, .4f, .45f); Flush(); }
         void OnEvaded(DamageContext hit) { if (DodgeProtected) game.Tutorial?.DodgedAttack(); }
         public void RestoreAt(Vector2 at)
         {
             Health.State.SetMaximum(config.health + game.Loadout.ExtraHealth); Health.State.Restore(); Health.Invulnerable = game.Loadout.Invincible;
-            GetComponent<Collider2D>().enabled = true; body.position = at; dodgeAge = dodgeLeft = cooldown = shotLeft = bufferLeft = 0; Flush();
+            GetComponent<Collider2D>().enabled = true; body.position = at; coldLeft = 0; dodgeAge = dodgeLeft = cooldown = shotLeft = bufferLeft = 0; Flush();
         }
         public void ApplyStats()
         {
@@ -50,7 +53,7 @@ namespace Starfall
             body.position = at; dodgeLeft = dodgeAge = bufferLeft = coldLeft = 0; Flush(); Health.Invulnerable = game.Loadout.Invincible || game.Loadout.ShieldLeft > 0;
         }
         public void ResetCooldowns() { dodgeAge = dodgeLeft = cooldown = shotLeft = 0; Health.Invulnerable = game.Loadout.Invincible || game.Loadout.ShieldLeft > 0; }
-        public void Flush() { move = surfaceVelocity = Vector2.zero; bufferLeft = 0; if (body != null) body.linearVelocity = Vector2.zero; }
+        public void Flush() { move = surfaceVelocity = Vector2.zero; bufferLeft = charge = 0; if (body != null) body.linearVelocity = Vector2.zero; }
         void Update()
         {
             if (game == null || !game.CanAct || !Health.State.Alive) return;
@@ -59,14 +62,14 @@ namespace Starfall
             game.Loadout.Tick(dt);
             if (game.Input.PistolPressed) { game.Loadout.Switch(false); game.EquipmentChanged(); }
             if (game.Input.SpecialPressed) { game.Loadout.Switch(true); game.EquipmentChanged(); }
+            Vector2 target = game.GameCamera.ScreenToWorldPoint(game.Input.Pointer);
+            if ((target - body.position).sqrMagnitude > .01f) aim = (target - body.position).normalized;
             if (game.Input.ActivePressed)
             {
-                string failure = game.Loadout.TryUse(Health.State, IsDodging);
+                string failure = game.Loadout.TryUse(Health.State, IsDodging, () => game.Effects.TryActivate(game.Loadout.Active, body.position, aim));
                 if (failure == null) game.Audio?.Play(GameSound.Pickup);
                 game.Notify(failure ?? "active.used"); if (failure == null) game.Tutorial?.ActiveUsed();
             }
-            Vector2 target = game.GameCamera.ScreenToWorldPoint(game.Input.Pointer);
-            if ((target - body.position).sqrMagnitude > .01f) aim = (target - body.position).normalized;
             cooldown = Mathf.Max(0, cooldown - dt); shotLeft = Mathf.Max(0, shotLeft - dt);
             bufferLeft = Mathf.Max(0, bufferLeft - dt); if (game.Input.DodgePressed) bufferLeft = .1f;
             if (bufferLeft > 0 && cooldown <= 0 && !IsDodging)
@@ -75,7 +78,13 @@ namespace Starfall
                 dodgeDirection = move.sqrMagnitude > .01f ? move.normalized : aim;
                 game.Audio?.Play(GameSound.Dodge);
             }
-            if (game.Input.Attack && !IsDodging && shotLeft <= 0 && (EventSystem.current == null || !EventSystem.current.IsPointerOverGameObject())) Fire();
+            bool firing = game.Input.Attack && !IsDodging && (EventSystem.current == null || !EventSystem.current.IsPointerOverGameObject());
+            if (firing) {
+                var weapon = game.Catalog.Find(game.Loadout.Weapon);
+                if (weapon.id == "crossbow") { charge = Mathf.Min(weapon.delay,charge+dt); if (shotLeft<=0 && charge>=weapon.delay) { Fire(); charge=0; } }
+                else { charge=0; if(shotLeft<=0) Fire(); }
+            } else charge = 0;
+            gun.color = charge > 0 ? Color.Lerp(PrototypeVisuals.Gold, Color.white, charge / game.Catalog.Find("crossbow").delay) : PrototypeVisuals.Gold;
             float angle = Mathf.Atan2(aim.y, aim.x) * Mathf.Rad2Deg;
             gun.transform.localPosition = aim * .4f; gun.transform.rotation = Quaternion.Euler(0, 0, angle);
             flash.transform.localPosition = aim * .68f; flashLeft -= dt; flash.enabled = flashLeft > 0 && !game.Settings.reduceFlash;
@@ -106,7 +115,7 @@ namespace Starfall
             Vector2 desired = move * config.moveSpeed * (coldLeft > 0 ? .8f : 1);
             bool ice = game.Surface != null && game.Surface.OnIce(body.position);
             surfaceVelocity = ice ? Vector2.Lerp(surfaceVelocity, desired, 1 - Mathf.Exp(-Time.fixedDeltaTime / game.CampaignConfig.iceResponse)) : desired;
-            Vector2 velocity = surfaceVelocity + (game.Surface != null ? game.Surface.Push(body.position) : Vector2.zero);
+            Vector2 velocity = surfaceVelocity * Health.SpeedMultiplier + Health.Impulse + (game.Surface != null ? game.Surface.Push(body.position) : Vector2.zero);
             if (IsDodging)
             {
                 Health.Invulnerable = dodgeAge < config.dodgeInvulnerability || game.Loadout.ShieldLeft > 0 || game.Loadout.Invincible;
