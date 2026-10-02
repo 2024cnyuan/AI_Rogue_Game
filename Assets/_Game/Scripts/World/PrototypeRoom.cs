@@ -33,8 +33,18 @@ namespace Starfall
             if (plan != null)
             {
                 foreach (var cover in plan.Cover) Wall(cover.center, cover.size);
-                Zone(Vector2.zero, new Vector2(20, 12), new Color(.13f, .24f, .2f));
-                if (plan.Kind == LevelRoomKind.Mechanism)
+                Zone(Vector2.zero, new Vector2(20, 12), plan.Stage == 1 ? new Color(.13f, .24f, .2f) : plan.Stage == 2 ? new Color(.26f, .17f, .13f) : new Color(.13f, .23f, .35f));
+                if (plan.Stage == 3)
+                {
+                    // Raised walkway and island markings sit on the traversable floor.
+                    PrototypeVisuals.Draw(transform, "North bridge", new Vector2(-1, 4), new Vector2(18, 1.2f), new Color(.3f, .4f, .48f), -16);
+                    PrototypeVisuals.Draw(transform, "South bridge", new Vector2(1, -4), new Vector2(18, 1.2f), new Color(.3f, .4f, .48f), -16);
+                    foreach (var at in new[] { new Vector2(-7, -4), new Vector2(0, 4), new Vector2(7, 0) })
+                        PrototypeVisuals.Draw(transform, "Island platform", at, new Vector2(3, 2.5f), new Color(.35f, .47f, .56f), -15);
+                    foreach (var cover in plan.Cover)
+                        PrototypeVisuals.Draw(transform, "Reflective crystal", cover.center, new Vector2(Mathf.Min(cover.width, 1), Mathf.Min(cover.height, 1)), new Color(.6f, .84f, .96f), 3, "shooter");
+                }
+                if (plan.Stage == 1 && plan.Kind == LevelRoomKind.Mechanism)
                 {
                     pulse = PrototypeVisuals.Draw(transform, "Seal pulse warning", Vector2.zero, new Vector2(19, 1.3f), PrototypeVisuals.Gold, -10);
                     pulse.enabled = false;

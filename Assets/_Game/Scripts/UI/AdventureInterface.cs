@@ -8,7 +8,10 @@ namespace Starfall
     public sealed class AdventureInterface : MonoBehaviour
     {
         StarfallGame game;
-        GameObject records, resultPanel, banner, route;
+        GameObject records, resultPanel, banner, route, shop;
+        Text shopTitle, shopRules, nextHint;
+        Button nextStage;
+        readonly List<Button> shopButtons = new List<Button>();
         Text timer, bossTitle, roomTitle, title, body, times, saved, metadata, rewardStatus, rules, recordRows, routeText;
         Image bossFill;
         readonly List<(Text text, string key)> labels = new List<(Text, string)>();
@@ -21,14 +24,15 @@ namespace Starfall
         bool recordsOpen;
         float refresh;
         public bool RecordsOpen => recordsOpen;
+        public bool ShopOpen { get; private set; }
         public void Initialize(StarfallGame owner)
         {
             game = owner;
             var strip = Box(game.Interface.transform, "Adventure title", new Color(.04f, .09f, .08f, .96f)); banner = strip.gameObject;
             strip.rectTransform.anchorMin = strip.rectTransform.anchorMax = new Vector2(.5f, 1); strip.rectTransform.pivot = new Vector2(.5f, 1);
-            strip.rectTransform.anchoredPosition = new Vector2(0, -79); strip.rectTransform.sizeDelta = new Vector2(1060, 85);
+            strip.rectTransform.anchoredPosition = new Vector2(0, -79); strip.rectTransform.sizeDelta = new Vector2(1060, 105);
             var layout = strip.gameObject.AddComponent<VerticalLayoutGroup>(); layout.padding = new RectOffset(8, 8, 4, 4); layout.childControlHeight = layout.childControlWidth = true; layout.childForceExpandHeight = false;
-            roomTitle = Label(strip.transform, null, 26, 20); timer = Label(strip.transform, null, 24, 16); bossTitle = Label(strip.transform, null, 23, 16);
+            roomTitle = Label(strip.transform, null, 26, 20); timer = Label(strip.transform, null, 24, 16); bossTitle = Label(strip.transform, null, 36, 15);
             var track = Box(strip.transform, "Captain health", new Color(.12f, .2f, .18f)); track.gameObject.AddComponent<LayoutElement>().preferredHeight = 5;
             bossFill = Box(track.transform, "Health fill", PrototypeVisuals.Enemy); Stretch(bossFill.rectTransform);
             var mapRoute = Box(game.Interface.transform, "Level route", new Color(.05f, .12f, .1f, .95f)); route = mapRoute.gameObject;
@@ -51,8 +55,11 @@ namespace Starfall
             saved = Label(panel, null, 32, 16); metadata = Label(panel, null, 44, 16); rewardStatus = Label(panel, null, 31, 17);
             var row = Row(panel, 112); for (int i = 0; i < 3; i++) { int at = i; var choice = Button(row, null, () => { if (game.Adventure.Rewards.Count > at) game.Adventure.SelectReward(game.Adventure.Rewards[at]); }, 112); choice.GetComponentInChildren<Text>().fontSize = 16; rewardButtons.Add(choice); }
             retry = Button(panel, "records.retrySave", game.RetryRecordSaves, 33);
-            Label(panel, "adventure.nextStagePending", 32, 16);
-            row = Row(panel, 38); Button(row, "adventure.retryRun", game.StartAdventure, 38); Button(row, "records.title", OpenRecords, 38); Button(row, "button.menu", game.ReturnToMenu, 38);
+            nextHint = Label(panel, null, 32, 16);
+            row = Row(panel, 46); nextStage = Button(row, "adventure.nextStage", () => game.Adventure.AdvanceStage(), 46); Button(row, "adventure.retryRun", game.RequestAdventureStart, 46); Button(row, "records.title", OpenRecords, 46); Button(row, "button.menu", game.ReturnToMenu, 46);
+            panel = Panel("Stage shop", 1000, 580, out shop); shopTitle = Label(panel, null, 45, 26); shopRules = Label(panel, "shop.rules", 85, 18);
+            for (int i = 0; i < 4; i++) { int at = i; shopButtons.Add(Button(panel, null, () => game.Adventure.Buy(game.Adventure.ShopItems[at]), 70)); }
+            Button(panel, "button.back", CloseShop, 38);
             game.Text.Changed += RefreshNow; RefreshNow();
         }
         RectTransform Rect(Transform parent, string name)
@@ -91,6 +98,8 @@ namespace Starfall
         }
         public void OpenRecords() { recordsOpen = true; RefreshNow(); records.transform.SetAsLastSibling(); }
         public void CloseRecords() { recordsOpen = false; RefreshNow(); }
+        public void OpenShop() { if (game.Adventure?.Current.Kind != LevelRoomKind.Shop || !game.CanAct) return; ShopOpen = true; game.SetPause(PauseReason.Shop, true); RefreshNow(); }
+        public void CloseShop() { ShopOpen = false; if (game.Pause.Has(PauseReason.Shop)) game.SetPause(PauseReason.Shop, false); if (shop != null) shop.SetActive(false); }
         void Update() { refresh -= Time.unscaledDeltaTime; if (refresh <= 0) { refresh = .1f; RefreshNow(); } }
         public void RefreshNow()
         {
@@ -98,14 +107,27 @@ namespace Starfall
             foreach (var binding in labels) binding.text.text = game.Text.Get(binding.key, ("timing", game.LevelConfig.timingVersion), ("balance", game.LevelConfig.balanceVersion));
             var adventure = game.Adventure; bool showingResult = adventure?.Result != null;
             records.SetActive(recordsOpen && !game.Interface.SettingsOpen);
+            shop.SetActive(ShopOpen && !game.Interface.SettingsOpen && !game.Pause.Has(PauseReason.Menu) && !game.Pause.Has(PauseReason.Focus));
+            if (shop.activeSelf)
+            {
+                shop.transform.SetAsLastSibling(); shopTitle.text = game.Text.Get("shop.header", ("coins", game.Context.Coins.ToString()));
+                for (int i = 0; i < shopButtons.Count; i++)
+                {
+                    string id = adventure.ShopItems[i]; var item = game.Catalog.Find(id);
+                    shopButtons[i].GetComponentInChildren<Text>().text = game.Text.Get("shop.offer", ("name", item == null ? game.Text.Get("shop." + id) : game.Text.Get(item.nameKey)),
+                        ("effect", item == null ? game.Text.Get("shop." + id + "Effect", ("amount", (id == "heal" ? game.CampaignConfig.shopHeal : game.CampaignConfig.shopEnergy).ToString("0"))) : game.Catalog.Describe(game.Text, item)),
+                        ("price", adventure.Price(id).ToString()), ("state", adventure.Shop.Sold(id) ? game.Text.Get("shop.sold") : ""));
+                    shopButtons[i].interactable = adventure.CanBuy(id);
+                }
+            }
             retryPending.gameObject.SetActive(game.PendingRecords.Count > 0);
-            resultPanel.SetActive(showingResult && !recordsOpen && !game.Interface.SettingsOpen);
+            resultPanel.SetActive(showingResult && !recordsOpen && !game.Interface.SettingsOpen && !game.NewRunConfirmation);
             banner.SetActive(adventure != null && game.CanAct);
             route.SetActive(adventure != null && game.Pause.Has(PauseReason.Map) && !game.Interface.SettingsOpen);
             if (route.activeSelf)
             {
                 route.transform.SetAsLastSibling(); var text = new System.Text.StringBuilder();
-                foreach (var room in adventure.Plan.Rooms) text.Append(game.Text.Get("room." + room.Id)).Append(room.Id == adventure.Current.Id ? " ◆" : adventure.Progress.IsClear(room.Id) ? " ✓" : " ·").Append("   ");
+                foreach (var room in adventure.Plan.Rooms) text.Append(game.Text.Get(adventure.RoomKey(room.Id))).Append(room.Id == adventure.Current.Id ? " ◆" : adventure.Progress.IsClear(room.Id) ? " ✓" : " ·").Append("   ");
                 routeText.text = game.Text.Get("adventure.route", ("rooms", text.ToString()), ("count", adventure.Progress.Beacons.ToString()));
             }
             if (recordsOpen)
@@ -124,13 +146,13 @@ namespace Starfall
                 recordRows.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Mathf.Max(330, recordRows.preferredHeight + 12));
             }
             if (adventure == null) return;
-            roomTitle.text = game.Text.Get("adventure.roomTitle", ("room", game.Text.Get("room." + adventure.Current.Id)), ("count", adventure.Progress.Beacons.ToString()));
-            timer.text = game.Settings.hideTimer ? "" : game.Text.Get("adventure.timer", ("time", LevelTimer.Format(adventure.Timer.Milliseconds)), ("best", CurrentBest("gardens")?.milliseconds is long bestTime ? LevelTimer.Format(bestTime) : "—"));
-            bool boss = adventure.Boss != null && adventure.Boss.Health.State.Alive;
+            roomTitle.text = game.Text.Get("adventure.themeTitle", ("stage", game.Text.Get("stage." + adventure.StageId)), ("room", game.Text.Get(adventure.RoomKey(adventure.Current.Id))), ("count", adventure.Progress.Beacons.ToString()));
+            timer.text = game.Settings.hideTimer ? "" : game.Text.Get("adventure.timer", ("time", LevelTimer.Format(adventure.Timer.Milliseconds)), ("best", CurrentBest(adventure.StageId)?.milliseconds is long bestTime ? LevelTimer.Format(bestTime) : "—"));
+            bool boss = adventure.BossHealth != null && adventure.BossHealth.State.Alive;
             bossFill.transform.parent.gameObject.SetActive(boss);
-            bossTitle.text = boss ? game.Text.Get("boss.caption", ("move", game.Text.Get("boss.move." + adventure.Boss.Move.ToString().ToLowerInvariant()))) : game.Text.Get(adventure.Current.Kind == LevelRoomKind.Safe ? "adventure.safeHint" : adventure.Current.Kind == LevelRoomKind.Challenge ? "adventure.challengeTime" : adventure.Current.Kind == LevelRoomKind.Mechanism ? "adventure.mechanismHint" : "adventure.routeHint",
-                ("seconds", Mathf.Max(0, game.LevelConfig.challengeSeconds - (float)adventure.ChallengeElapsed).ToString("0")));
-            if (boss) bossFill.rectTransform.anchorMax = new Vector2(adventure.Boss.Health.State.Health / adventure.Boss.Health.State.Maximum, 1);
+            bossTitle.text = boss ? game.Text.Get("boss.themeCaption", ("name", game.Text.Get("boss.name." + adventure.Stage)), ("move", game.Text.Get(adventure.Boss != null ? "boss.move." + adventure.Boss.Move.ToString().ToLowerInvariant() : adventure.Guardian.MoveKey))) : game.Text.Get(adventure.Current.Kind == LevelRoomKind.Challenge && adventure.Stage == 3 ? "adventure.escortHint" : adventure.Current.Kind == LevelRoomKind.Safe ? "adventure.safeHint" : adventure.Current.Kind == LevelRoomKind.Challenge ? "adventure.challengeTime" : adventure.Stage > 1 ? "adventure.s" + adventure.Stage + ".hint" : adventure.Current.Kind == LevelRoomKind.Mechanism ? "adventure.mechanismHint" : "adventure.routeHint",
+                ("seconds", Mathf.Max(0, adventure.ChallengeLimit - (float)adventure.ChallengeElapsed).ToString("0")), ("health", adventure.Escort != null ? adventure.Escort.State.Health.ToString("0") : "0"));
+            if (boss) bossFill.rectTransform.anchorMax = new Vector2(adventure.BossHealth.State.Health / adventure.BossHealth.State.Maximum, 1);
             if (!showingResult) return;
             var result = adventure.Result; string key = "feedback." + result.Feedback.ToString().ToLowerInvariant();
             if (animatedResult != result) { animatedResult = result; revealStart = Time.unscaledTime; }
@@ -141,7 +163,7 @@ namespace Starfall
             times.text = result.Success ? game.Text.Get("result.times", ("time", LevelTimer.Format(result.Attempt.milliseconds)), ("best", result.Previous.HasValue ? LevelTimer.Format(result.Previous.Value) : "—"),
                 ("comparison", result.Previous.HasValue && result.Eligible ? game.Text.Get(result.Attempt.milliseconds < result.Previous.Value ? "result.faster" : result.Attempt.milliseconds == result.Previous.Value ? "result.equal" : "result.slower", ("delta", LevelTimer.Format(result.Delta))) : "—")) : game.Text.Get("result.failureTime", ("time", LevelTimer.Format(result.Attempt.milliseconds)));
             saved.text = game.Text.Get(!result.Success ? "records.failureExcluded" : !result.Eligible ? "result.practice" : result.Saved ? "records.saved" : "records.saveFailed");
-            metadata.text = RecordMetadata(result.Attempt);
+            metadata.text = game.Text.Get("stage." + adventure.StageId) + " · " + RecordMetadata(result.Attempt);
             rewardStatus.text = result.Success ? game.Text.Get(adventure.RewardSelected ? "reward.selected" : "reward.choose", ("item", adventure.SelectedReward == null ? "" : RewardName(adventure.SelectedReward))) : "";
             foreach (var button in rewardButtons) button.transform.parent.gameObject.SetActive(result.Success);
             for (int i = 0; i < rewardButtons.Count; i++)
@@ -151,6 +173,8 @@ namespace Starfall
                 rewardButtons[i].GetComponentInChildren<Text>().text = adventure.Rewards.Count > i ? RewardName(adventure.Rewards[i]) + (item == null ? "" : "\n" + game.Catalog.Describe(game.Text, item)) : "";
             }
             retry.gameObject.SetActive(result.Success && result.Eligible && !result.Saved);
+            nextStage.gameObject.SetActive(result.Success && adventure.Stage < 3); nextStage.interactable = adventure.RewardSelected;
+            nextHint.text = game.Text.Get(adventure.ResultErrorKey ?? (!result.Success ? "checkpoint.runEnded" : adventure.Stage < 3 ? adventure.RewardSelected ? "checkpoint.nextSaved" : "checkpoint.chooseFirst" : "adventure.m3End"));
             resultPanel.transform.SetAsLastSibling();
         }
         string RewardName(string id) => game.Catalog.Find(id) != null ? game.Text.Get(game.Catalog.Find(id).nameKey) : game.Text.Get("reward." + id);

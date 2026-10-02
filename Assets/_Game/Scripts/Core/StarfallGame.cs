@@ -39,6 +39,12 @@ namespace Starfall
         public FirstLevelConfig LevelConfig { get; private set; }
         public PersonalBestStore Records { get; private set; }
         public GameAudio Audio { get; private set; }
+        public CampaignConfig CampaignConfig { get; private set; }
+        public CheckpointStore Checkpoints { get; private set; }
+        public ThemeEnvironment Surface { get; private set; }
+        public string RunId { get; private set; }
+        public bool NewRunConfirmation { get; private set; }
+        public string CheckpointErrorKey { get; private set; }
         public List<ClearResult> PendingRecords { get; } = new List<ClearResult>();
         public void RetryRecordSaves()
         {
@@ -75,6 +81,9 @@ namespace Starfall
 #endif
             store = new SettingsStore(settingsDirectory);
             Records = new PersonalBestStore(settingsDirectory);
+            Checkpoints = new CheckpointStore(settingsDirectory);
+            CampaignConfig = Resources.Load<CampaignConfig>("CampaignConfig");
+            if (CampaignConfig == null) { Debug.LogError("CampaignConfig missing. Run Starfall > Setup M3."); enabled = false; return; }
             LevelConfig = Resources.Load<FirstLevelConfig>("FirstLevelConfig");
             if (LevelConfig == null) { Debug.LogError("FirstLevelConfig missing. Run Starfall > Setup M2b."); enabled = false; return; }
             Settings = store.Load(SettingsStore.DefaultLanguage(Application.systemLanguage));
@@ -83,7 +92,7 @@ namespace Starfall
 #endif
             Text = new LocalizationService(Settings.language);
             foreach (var error in Text.Validate()) Debug.LogError(error);
-            if (store.ReadProblem || Records.ReadProblem) SaveErrorKey = "save.recovered";
+            if (store.ReadProblem || Records.ReadProblem || Checkpoints.ReadProblem) SaveErrorKey = "save.recovered";
             previousActorCollision = Physics2D.GetIgnoreLayerCollision(2, 2); Physics2D.IgnoreLayerCollision(2, 2, true);
             var cameraObject = new GameObject("M1 Camera"); cameraObject.transform.SetParent(transform, false);
             GameCamera = cameraObject.AddComponent<Camera>(); GameCamera.tag = "MainCamera"; GameCamera.orthographic = true; GameCamera.orthographicSize = 9.3f;
@@ -109,7 +118,32 @@ namespace Starfall
         public void StartAdventure()
         {
             if (Interface != null && Interface.FirstLaunch) return;
-            StartMode(GameMode.Adventure);
+            var entry = new EntryCheckpoint { runId = System.Guid.NewGuid().ToString("N"), seed = System.Guid.NewGuid().GetHashCode() & int.MaxValue, health = config.health };
+            if (!SaveCheckpoint(entry)) return;
+            BeginEntry(entry);
+        }
+        public void RequestAdventureStart()
+        {
+            if (Checkpoints.HasEntry) { NewRunConfirmation = true; Interface.RefreshNow(); return; }
+            StartAdventure();
+        }
+        public void CancelNewRun() { NewRunConfirmation = false; Interface.RefreshNow(); }
+        public void ConfirmNewRun() { NewRunConfirmation = false; StartAdventure(); }
+        public bool SaveCheckpoint(EntryCheckpoint entry)
+        {
+            bool saved = Checkpoints.Save(entry); CheckpointErrorKey = saved ? null : "checkpoint.writeFailed"; return saved;
+        }
+        public void EndCheckpoint() { CheckpointErrorKey = Checkpoints.Clear() ? null : "checkpoint.clearFailed"; }
+        public bool ContinueAdventure()
+        {
+            if (!Checkpoints.HasEntry || Interface.FirstLaunch || Context != null && Context.Phase != RunPhase.Complete) return false;
+            var entry = Checkpoints.Current; var gear = new LoadoutState(Catalog);
+            if (!gear.RestoreSnapshot(entry.loadout)) { CheckpointErrorKey = "checkpoint.invalid"; return false; }
+            BeginEntry(entry); return true;
+        }
+        void BeginEntry(EntryCheckpoint entry)
+        {
+            StartMode(GameMode.Adventure, false, entry); NewRunConfirmation = false;
         }
         public void StartTutorial() { if (!Interface.FirstLaunch) StartMode(GameMode.Tutorial); }
         public void StartTraining() { if (!Interface.FirstLaunch) StartMode(GameMode.Training); }
@@ -121,9 +155,9 @@ namespace Starfall
         {
             if (Context?.Mode == GameMode.Tutorial) StartTutorial();
             else if (Context?.Mode == GameMode.Training) { Training.Reset(); SetPause(PauseReason.Menu, false); }
-            else StartAdventure();
+            else RequestAdventureStart();
         }
-        void StartMode(GameMode mode, bool prototype = false)
+        void StartMode(GameMode mode, bool prototype = false, EntryCheckpoint entry = null)
         {
             Settings.introductionSeen = true; SaveSettings(); ModeUI?.HideIntroduction();
             DisposeRun(); CreateRoom(mode); Context = new RunContext(mode); if (mode != GameMode.Adventure || prototype) Context.InvalidateRecord();
@@ -145,18 +179,21 @@ namespace Starfall
 #if UNITY_EDITOR
                 clock = EditorAdventureClock;
 #endif
-                Adventure = new AdventureDirector(this, System.Guid.NewGuid().GetHashCode() & int.MaxValue, clock);
+                RunId = entry.runId;
+                Loadout.RestoreSnapshot(entry.loadout); Player.ApplyStats(); Player.Health.State.RestoreValue(entry.health);
+                Context.RestoreCoins(entry.coins); if (!entry.eligible) Context.InvalidateRecord();
+                Adventure = new AdventureDirector(this, entry.seed, clock, entry.stage);
             }
             else if (mode == GameMode.Tutorial) Tutorial = new TutorialDirector(this);
             else Training = new TrainingDirector(this);
             Physics2D.SyncTransforms(); Room.RefreshNavigation(Room.Spawn); navigationLeft = .25f;
             cameraFollow.ResetView(); Input.Flush(); Notify(mode == GameMode.Adventure ? "adventure.start" : mode == GameMode.Tutorial ? "tutorial.reenter" : "training.welcome"); Interface?.ResetPanels(); ModeUI?.Close();
         }
-        public void SpawnEnemy(Vector2 at, bool ranged, bool elite = false, float strength = 1)
+        public void SpawnEnemy(Vector2 at, bool ranged, bool elite = false, float strength = 1, EnemyStyle style = EnemyStyle.Basic)
         {
             if (LivingEnemies >= 12 || !Room.IsClear(at, .4f) || Vector2.Distance(at, Player.Body.position) < 1.2f) return;
             var go = new GameObject(ranged ? "Sentinel" : "Pursuer"); go.transform.SetParent(runRoot.transform, false); go.transform.position = at;
-            var enemy = go.AddComponent<PrototypeEnemy>(); enemy.Initialize(this, ranged, elite, strength); enemies.Add(enemy);
+            var enemy = go.AddComponent<PrototypeEnemy>(); enemy.Initialize(this, ranged, elite, strength, style); enemies.Add(enemy);
         }
         public void Drop(Vector2 at, SupplyKind kind)
         {
@@ -175,12 +212,34 @@ namespace Starfall
             ClearPracticeObjects(); if (Room != null) { Room.gameObject.SetActive(false); Destroy(Room.gameObject); }
             var geometry = new GameObject("Room " + plan.Id); geometry.transform.SetParent(runRoot.transform, false);
             Room = geometry.AddComponent<PrototypeRoom>(); Room.Build(GameMode.Adventure, plan); cameraFollow.ResetView();
+            Surface = null;
+            if (plan.Stage > 1 && plan.Kind != LevelRoomKind.Safe && plan.Kind != LevelRoomKind.Shop)
+            { Surface = geometry.AddComponent<ThemeEnvironment>(); Surface.Initialize(this, plan.Stage, plan.Kind == LevelRoomKind.Mechanism); }
         }
         public StoneCaptain CreateCaptain(Vector2 at)
         {
             var boss = new GameObject("Stone Captain"); boss.transform.SetParent(runRoot.transform, false); boss.transform.position = at;
             var captain = boss.AddComponent<StoneCaptain>(); captain.Initialize(this); return captain;
         }
+        public ThemeBoss CreateThemeBoss(int stage)
+        {
+            var boss = new GameObject("Theme Boss"); boss.transform.SetParent(runRoot.transform, false); boss.transform.position = new Vector2(5, 0);
+            var guardian = boss.AddComponent<ThemeBoss>(); guardian.Initialize(this, stage); return guardian;
+        }
+        public Damageable CreateEscort()
+        {
+            var robot = new GameObject("Supply robot"); robot.transform.SetParent(practiceRoot.transform, false); robot.transform.position = new Vector2(-6, -2);
+            PrototypeVisuals.Draw(robot.transform, "Robot", Vector2.zero, new Vector2(.8f, .8f), PrototypeVisuals.Teal, 5, "cross");
+            PrototypeVisuals.Body(robot, .3f).bodyType = RigidbodyType2D.Kinematic;
+            var health = robot.AddComponent<Damageable>(); health.Initialize(Faction.Player, 60, .6f); return health;
+        }
+        public void StartEnvironmentSample(int stage)
+        {
+            if (Context?.Mode != GameMode.Training) return;
+            StopEnvironmentSample(); Surface = new GameObject("Training surface").AddComponent<ThemeEnvironment>(); Surface.transform.SetParent(runRoot.transform, false);
+            Surface.Initialize(this, stage, true, true); ModeUI.Close();
+        }
+        public void StopEnvironmentSample() { if (Surface != null) { Surface.Stop(); Destroy(Surface); if (Surface.gameObject.name == "Training surface") Destroy(Surface.gameObject); Surface = null; } }
         public void ShakeCamera(float amount) => cameraFollow?.Kick(amount);
         void Update()
         {
@@ -191,7 +250,8 @@ namespace Starfall
             {
                 if (Input.PausePressed)
                 {
-                    if (ModeUI != null && ModeUI.IsOpen) ModeUI.Close();
+                    if (AdventureUI.ShopOpen) AdventureUI.CloseShop();
+                    else if (ModeUI != null && ModeUI.IsOpen) ModeUI.Close();
                     else if (Interface.SettingsOpen) Interface.CloseSettings();
                     else if (Pause.Has(PauseReason.Map)) SetPause(PauseReason.Map, false);
                     else SetPause(PauseReason.Menu, !Pause.Has(PauseReason.Menu));
@@ -250,7 +310,7 @@ namespace Starfall
         void DisposeRun()
         {
             Pause.Clear(); Time.timeScale = 1; Input?.Flush(); Projectiles?.Clear(); StopBodies();
-            Audio?.Pause(false); Adventure?.Boss?.Stop(); AdventureUI?.CloseRecords();
+            Audio?.Pause(false); Adventure?.StopBosses(); AdventureUI?.CloseRecords(); AdventureUI?.CloseShop(); Surface = null;
             if (runRoot != null) { runRoot.SetActive(false); Destroy(runRoot); }
             enemies.Clear(); Player = null; Projectiles = null; Context = null; notificationLeft = 0;
             Tutorial = null; Training = null; Loadout = null; Hazards = null; Interaction = null; stations.Clear(); targets.Clear(); discardedWeapon = null;
@@ -263,6 +323,7 @@ namespace Starfall
         }
         public void ClearPracticeObjects()
         {
+            if (Context?.Mode == GameMode.Training) StopEnvironmentSample();
             ClearEnemies(); Projectiles?.Clear(); Hazards?.Stop(); stations.Clear(); targets.Clear(); Interaction = null; discardedWeapon = null;
             if (practiceRoot != null) { practiceRoot.SetActive(false); Destroy(practiceRoot); }
             practiceRoot = new GameObject("Practice objects"); practiceRoot.transform.SetParent(runRoot.transform, false); ResetPracticeStats();

@@ -6,11 +6,11 @@
     },
     {
       "key": "subtitle",
-      "value": "M2b · 苔光遗庭"
+      "value": "M3 · 前三关冒险"
     },
     {
       "key": "menu.intro",
-      "value": "探索苔光遗庭，激活两座信标并挑战石卫队长。"
+      "value": "穿过苔光遗庭、赤铜工坊与寒镜水库。每关保存纪录，从当前关入口继续。"
     },
     {
       "key": "menu.start",
@@ -18,11 +18,11 @@
     },
     {
       "key": "menu.continue",
-      "value": "继续冒险 · 暂不可用"
+      "value": "继续冒险"
     },
     {
       "key": "menu.noCheckpoint",
-      "value": "暂无检查点 · 继续功能在 M3 接入。"
+      "value": "暂无入口检查点。开始新冒险从第一关出发。"
     },
     {
       "key": "menu.tutorial",
@@ -790,7 +790,7 @@
     },
     {
       "key": "adventure.start",
-      "value": "第一关：可按 E 领取入口装备，再从右侧入口出发。Space 闪避，1 换回无限弹药手枪。"
+      "value": "从关卡入口开始。E 交互，Space 闪避，1 切回无限弹药手枪；Tab 查看路线。"
     },
     {
       "key": "adventure.enter",
@@ -822,7 +822,7 @@
     },
     {
       "key": "adventure.route",
-      "value": "关卡路线 / 当前 ◆ / 已完成 ✓ — 信标 {count}/2\n{rooms}"
+      "value": "关卡路线 / 当前 ◆ / 已清 ✓ — 目标 {count}/2\n{rooms}"
     },
     {
       "key": "adventure.locked",
@@ -830,7 +830,7 @@
     },
     {
       "key": "adventure.needBeacons",
-      "value": "需完成两座信标与脉冲继电器。主路不要求特殊武器或金币。"
+      "value": "需要两项主线目标及机关完成；不要求特殊装备、金币或支路。"
     },
     {
       "key": "adventure.roomClear",
@@ -838,7 +838,7 @@
     },
     {
       "key": "adventure.activateBeacon",
-      "value": "守卫已击败。到右上方信标按 E，解锁前进路线。"
+      "value": "守卫已清除。到右上方按 E 完成本房主线目标，随后继续前进。"
     },
     {
       "key": "adventure.beacon",
@@ -846,7 +846,7 @@
     },
     {
       "key": "adventure.beaconReady",
-      "value": "信标已激活，主路已开放。"
+      "value": "本房主线目标完成，路线已开放。"
     },
     {
       "key": "adventure.relay",
@@ -854,7 +854,7 @@
     },
     {
       "key": "adventure.sealReady",
-      "value": "脉冲继电器已关闭，前往免费补给区。"
+      "value": "机关已关闭，可前往免费补给区。"
     },
     {
       "key": "adventure.restore",
@@ -878,7 +878,7 @@
     },
     {
       "key": "adventure.nextStagePending",
-      "value": "M2b 在第一关结算结束。第二关与入口检查点将在 M3 接入。"
+      "value": "前三关已完成，后续关卡在 M4 开放。"
     },
     {
       "key": "boss.caption",
@@ -910,7 +910,7 @@
     },
     {
       "key": "records.scope",
-      "value": "标准难度 · 计时 v{timing} · 平衡 v{balance}。M2b 尚不能游玩第 2～6 关。旧规则纪录可滚动查看。"
+      "value": "标准难度 · 计时 v{timing} · 平衡 v{balance}。前三关已开放；可滚动查看旧规则纪录。"
     },
     {
       "key": "records.metadata",
@@ -954,7 +954,7 @@
     },
     {
       "key": "result.failureTime",
-      "value": "苔光遗庭 · 本次挑战用时 {time}"
+      "value": "本次挑战用时 {time}"
     },
     {
       "key": "feedback.first.title",
@@ -1039,6 +1039,294 @@
     {
       "key": "records.pending",
       "value": "重试未保存成绩 · 保留至本次程序关闭"
+    },
+    {
+      "key": "adventure.nextStage",
+      "value": "进入下一关"
+    },
+    {
+      "key": "adventure.themeTitle",
+      "value": "{stage} · {room} · 目标 {count}/2"
+    },
+    {
+      "key": "adventure.s2.objective",
+      "value": "保险芯 {count}/2 · 敌人 {enemies}"
+    },
+    {
+      "key": "adventure.s3.objective",
+      "value": "泵站 {count}/2 · 敌人 {enemies}"
+    },
+    {
+      "key": "adventure.s2.beacon",
+      "value": "收取保险芯 · 不占装备槽"
+    },
+    {
+      "key": "adventure.s3.beacon",
+      "value": "控制泵站"
+    },
+    {
+      "key": "adventure.s2.relay",
+      "value": "关闭过载炉 · 需要两枚保险芯"
+    },
+    {
+      "key": "adventure.s3.relay",
+      "value": "开启水闸 · 需要两处泵站"
+    },
+    {
+      "key": "adventure.s2.hint",
+      "value": "传送带向右推力较弱；金色先预警。绕侧道，战后收取两芯，再关闭炉体。"
+    },
+    {
+      "key": "adventure.s3.hint",
+      "value": "冰面轻微惯性，离开即恢复；闪避距离不变。环路两侧控制泵站，再打开水闸。"
+    },
+    {
+      "key": "adventure.escortHint",
+      "value": "护送机器人：靠近 3 单位内才前进 · 剩余 {seconds} 秒 · 生命 {health}"
+    },
+    {
+      "key": "adventure.m3End",
+      "value": "前三关已完成。第四至第六关将在 M4 开放。"
+    },
+    {
+      "key": "checkpoint.entryInfo",
+      "value": "继续会从本关入口重新开始，恢复入场构筑与资源；中途收益不保留，计时从零开始。"
+    },
+    {
+      "key": "checkpoint.menuHint",
+      "value": "已保存第 {stage} 关入口；继续将恢复入场状态并重新计时。"
+    },
+    {
+      "key": "checkpoint.overwriteTitle",
+      "value": "开始新的冒险？"
+    },
+    {
+      "key": "checkpoint.overwriteBody",
+      "value": "这会替换当前轮入口检查点，从第一关开始。个人纪录与设置保留；取消则保留原进度。"
+    },
+    {
+      "key": "checkpoint.confirm",
+      "value": "确认开始新冒险"
+    },
+    {
+      "key": "checkpoint.writeFailed",
+      "value": "入口检查点未保存；原检查点保留，请重试。"
+    },
+    {
+      "key": "checkpoint.clearFailed",
+      "value": "当前轮已结束，但磁盘失效标记写入失败。请检查存档目录权限。"
+    },
+    {
+      "key": "checkpoint.invalid",
+      "value": "检查点装备不兼容，原文件保留。请开始新冒险。"
+    },
+    {
+      "key": "checkpoint.rewardFailed",
+      "value": "奖励与下一关入口未保存，尚未领取奖励；请重试选择。"
+    },
+    {
+      "key": "checkpoint.chooseFirst",
+      "value": "先选择一项奖励，将与下一关入口一并保存。"
+    },
+    {
+      "key": "checkpoint.nextSaved",
+      "value": "奖励与下一关入口已保存。可以继续或退出后再继续。"
+    },
+    {
+      "key": "shop.title",
+      "value": "补给商店"
+    },
+    {
+      "key": "shop.header",
+      "value": "补给商店 · 金币 {coins}"
+    },
+    {
+      "key": "shop.rules",
+      "value": "浏览和购买时战斗暂停，关卡计时继续。每件限购一次；满资源或装备达上限时不扣款。Esc 返回房间。"
+    },
+    {
+      "key": "shop.offer",
+      "value": "{name} · {price} 金币 {state}\n{effect}"
+    },
+    {
+      "key": "shop.sold",
+      "value": "已售出"
+    },
+    {
+      "key": "shop.heal",
+      "value": "修复补给"
+    },
+    {
+      "key": "shop.energy",
+      "value": "能量补给"
+    },
+    {
+      "key": "shop.healEffect",
+      "value": "恢复 {amount} 生命，最高至生命上限。"
+    },
+    {
+      "key": "shop.energyEffect",
+      "value": "恢复 {amount} 能量，最高至 100。"
+    },
+    {
+      "key": "shop.bought",
+      "value": "购买成功，金币与商品已结算。"
+    },
+    {
+      "key": "shop.failed",
+      "value": "未购买：金币不足、已售出、资源已满或装备达上限；不扣款。"
+    },
+    {
+      "key": "boss.name.1",
+      "value": "石卫队长"
+    },
+    {
+      "key": "boss.name.2",
+      "value": "熔炉监工"
+    },
+    {
+      "key": "boss.name.3",
+      "value": "霜镜守卫"
+    },
+    {
+      "key": "boss.themeCaption",
+      "value": "{name} · {move}"
+    },
+    {
+      "key": "boss.s2.0",
+      "value": "迫击炮：避开三处金色圆圈"
+    },
+    {
+      "key": "boss.s2.1",
+      "value": "缓慢扫射：绕过预警扇区"
+    },
+    {
+      "key": "boss.s2.2",
+      "value": "泄压环：从弹幕间隙穿过"
+    },
+    {
+      "key": "boss.s3.0",
+      "value": "反射光束：避开两段金色射线"
+    },
+    {
+      "key": "boss.s3.1",
+      "value": "冰环：从环形弹幕间隙穿过"
+    },
+    {
+      "key": "boss.s3.2",
+      "value": "冰晶齐射：避开锁定方向"
+    },
+    {
+      "key": "training.environmentRule",
+      "value": "免费试用真实主线表面规则：传送带推力与热脉冲、冰面惯性与水闸危险。默认无敌；关闭辅助可测试受伤。重置或离开时清理。"
+    },
+    {
+      "key": "training.conveyor",
+      "value": "传送带与热脉冲"
+    },
+    {
+      "key": "training.ice",
+      "value": "冰面与水闸危险"
+    },
+    {
+      "key": "training.surfaceStop",
+      "value": "停止环境样本"
+    },
+    {
+      "key": "training.environmentRemaining",
+      "value": "后续周期电网样本将在 M4 补齐。"
+    },
+    {
+      "key": "item.workshop_smg",
+      "value": "工坊精制冲锋枪 · 稀有"
+    },
+    {
+      "key": "room.s2.entry",
+      "value": "工坊入口"
+    },
+    {
+      "key": "room.s2.courtyard",
+      "value": "铸造前庭"
+    },
+    {
+      "key": "room.s2.north",
+      "value": "北保险芯仓"
+    },
+    {
+      "key": "room.s2.crossing",
+      "value": "传送带装配厅"
+    },
+    {
+      "key": "room.s2.south",
+      "value": "南保险芯仓"
+    },
+    {
+      "key": "room.s2.seal",
+      "value": "过载炉控制室"
+    },
+    {
+      "key": "room.s2.supply",
+      "value": "监工前补给区"
+    },
+    {
+      "key": "room.s2.boss",
+      "value": "熔炉竞技场"
+    },
+    {
+      "key": "room.s2.shop",
+      "value": "工坊补给商店"
+    },
+    {
+      "key": "room.s2.challenge",
+      "value": "额外生产线 · 精英挑战"
+    },
+    {
+      "key": "room.s2.bypass",
+      "value": "侧道仓库"
+    },
+    {
+      "key": "room.s3.entry",
+      "value": "水库入口"
+    },
+    {
+      "key": "room.s3.courtyard",
+      "value": "双桥枢纽"
+    },
+    {
+      "key": "room.s3.north",
+      "value": "北泵站"
+    },
+    {
+      "key": "room.s3.crossing",
+      "value": "反射晶体岛"
+    },
+    {
+      "key": "room.s3.south",
+      "value": "南泵站"
+    },
+    {
+      "key": "room.s3.seal",
+      "value": "水闸控制岛"
+    },
+    {
+      "key": "room.s3.supply",
+      "value": "霜镜前补给区"
+    },
+    {
+      "key": "room.s3.boss",
+      "value": "镜湖竞技场"
+    },
+    {
+      "key": "room.s3.shop",
+      "value": "水库补给商店"
+    },
+    {
+      "key": "room.s3.challenge",
+      "value": "供能机器人护送"
+    },
+    {
+      "key": "checkpoint.runEnded",
+      "value": "本轮检查点已失效。再试一次从第一关开始；此前个人纪录保留。"
     }
   ]
 }

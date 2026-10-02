@@ -6,11 +6,11 @@
     },
     {
       "key": "subtitle",
-      "value": "M2b · Mosslight Gardens"
+      "value": "M3 · Three-stage Adventure"
     },
     {
       "key": "menu.intro",
-      "value": "Explore Mosslight Gardens, activate two beacons and face the Stone Captain."
+      "value": "Explore the Gardens, Workshop and Reservoir. Keep each stage record and resume from its entrance."
     },
     {
       "key": "menu.start",
@@ -18,11 +18,11 @@
     },
     {
       "key": "menu.continue",
-      "value": "Continue Adventure · Unavailable"
+      "value": "Continue Adventure"
     },
     {
       "key": "menu.noCheckpoint",
-      "value": "No checkpoint — continuation arrives in M3."
+      "value": "No entry checkpoint. Start a new adventure at stage 1."
     },
     {
       "key": "menu.tutorial",
@@ -790,7 +790,7 @@
     },
     {
       "key": "adventure.start",
-      "value": "Stage 1: collect optional supplies with E, then use the right portal. Space dodges; 1 returns to the unlimited pistol."
+      "value": "Start at the stage entrance. E interacts, Space dodges, 1 selects the unlimited pistol, Tab shows the route."
     },
     {
       "key": "adventure.enter",
@@ -822,7 +822,7 @@
     },
     {
       "key": "adventure.route",
-      "value": "Stage route / current ◆ / cleared ✓ — Beacons {count}/2\n{rooms}"
+      "value": "Stage route / current ◆ / cleared ✓ — Objectives {count}/2\n{rooms}"
     },
     {
       "key": "adventure.locked",
@@ -830,7 +830,7 @@
     },
     {
       "key": "adventure.needBeacons",
-      "value": "Both beacons and the pulse relay are required. Main tasks never require a special weapon or coins."
+      "value": "Complete both main objectives and the mechanism. Special gear, coins and side routes are optional."
     },
     {
       "key": "adventure.roomClear",
@@ -838,7 +838,7 @@
     },
     {
       "key": "adventure.activateBeacon",
-      "value": "Guards defeated. Press E at the beacon in the upper-right area to unlock the route."
+      "value": "Guards defeated. Press E at the upper-right objective to complete this room task, then proceed."
     },
     {
       "key": "adventure.beacon",
@@ -846,7 +846,7 @@
     },
     {
       "key": "adventure.beaconReady",
-      "value": "Beacon activated. The main route is now open."
+      "value": "Room objective complete. The main route is open."
     },
     {
       "key": "adventure.relay",
@@ -854,7 +854,7 @@
     },
     {
       "key": "adventure.sealReady",
-      "value": "Pulse relay disabled. Proceed to the free supply room."
+      "value": "Mechanism disabled. Proceed to the free supply room."
     },
     {
       "key": "adventure.restore",
@@ -878,7 +878,7 @@
     },
     {
       "key": "adventure.nextStagePending",
-      "value": "Stage 1 ends here in M2b. Stage 2 and entrance checkpoints arrive in M3."
+      "value": "Three stages complete; later stages arrive in M4."
     },
     {
       "key": "boss.caption",
@@ -910,7 +910,7 @@
     },
     {
       "key": "records.scope",
-      "value": "Standard difficulty · timing v{timing} · balance v{balance}. Stages 2–6 are not playable in M2b. Scroll to view older rule groups."
+      "value": "Standard difficulty · timing v{timing} · balance v{balance}. Stages 1–3 are playable. Scroll for older rule groups."
     },
     {
       "key": "records.metadata",
@@ -954,7 +954,7 @@
     },
     {
       "key": "result.failureTime",
-      "value": "Mosslight Gardens · Attempt time {time}"
+      "value": "Attempt time {time}"
     },
     {
       "key": "feedback.first.title",
@@ -1039,6 +1039,294 @@
     {
       "key": "records.pending",
       "value": "Retry Unsaved Results · retained until this app closes"
+    },
+    {
+      "key": "adventure.nextStage",
+      "value": "Next Stage"
+    },
+    {
+      "key": "adventure.themeTitle",
+      "value": "{stage} · {room} · Objectives {count}/2"
+    },
+    {
+      "key": "adventure.s2.objective",
+      "value": "Fuse cores {count}/2 · Enemies {enemies}"
+    },
+    {
+      "key": "adventure.s3.objective",
+      "value": "Pumps {count}/2 · Enemies {enemies}"
+    },
+    {
+      "key": "adventure.s2.beacon",
+      "value": "Collect fuse core · separate task ledger"
+    },
+    {
+      "key": "adventure.s3.beacon",
+      "value": "Activate pump station"
+    },
+    {
+      "key": "adventure.s2.relay",
+      "value": "Shut down furnace · requires two fuse cores"
+    },
+    {
+      "key": "adventure.s3.relay",
+      "value": "Open sluice · requires both pumps"
+    },
+    {
+      "key": "adventure.s2.hint",
+      "value": "Belts gently push right. Gold warns before heat. Take side lanes, collect both cores, then shut down the furnace."
+    },
+    {
+      "key": "adventure.s3.hint",
+      "value": "Ice adds mild inertia; normal traction returns off ice. Dodge distance stays fixed. Control both pumps, then open the sluice."
+    },
+    {
+      "key": "adventure.escortHint",
+      "value": "Escort: stay within 3 units to move · {seconds}s left · Health {health}"
+    },
+    {
+      "key": "adventure.m3End",
+      "value": "Three stages complete. Stages 4–6 arrive in M4."
+    },
+    {
+      "key": "checkpoint.entryInfo",
+      "value": "Resume restarts this stage with its entry gear and resources. Mid-stage gains are discarded and timing starts at zero."
+    },
+    {
+      "key": "checkpoint.menuHint",
+      "value": "Stage {stage} entry saved. Resume restores entry state and restarts its timer."
+    },
+    {
+      "key": "checkpoint.overwriteTitle",
+      "value": "Start a New Adventure?"
+    },
+    {
+      "key": "checkpoint.overwriteBody",
+      "value": "This replaces the current entry checkpoint and starts stage 1. Personal bests and settings remain. Cancel keeps your progress."
+    },
+    {
+      "key": "checkpoint.confirm",
+      "value": "Confirm New Adventure"
+    },
+    {
+      "key": "checkpoint.writeFailed",
+      "value": "Entry checkpoint not saved. The previous checkpoint remains; please retry."
+    },
+    {
+      "key": "checkpoint.clearFailed",
+      "value": "The run ended, but its disk invalidation failed. Please check save-folder permissions."
+    },
+    {
+      "key": "checkpoint.invalid",
+      "value": "Checkpoint gear is incompatible. The original file remains. Please start a new adventure."
+    },
+    {
+      "key": "checkpoint.rewardFailed",
+      "value": "Reward and next entry were not saved. No reward was granted; retry your choice."
+    },
+    {
+      "key": "checkpoint.chooseFirst",
+      "value": "Choose one reward to save it together with the next stage entry."
+    },
+    {
+      "key": "checkpoint.nextSaved",
+      "value": "Reward and next entry saved. Proceed now or resume later."
+    },
+    {
+      "key": "shop.title",
+      "value": "Supply Shop"
+    },
+    {
+      "key": "shop.header",
+      "value": "Supply Shop · Coins {coins}"
+    },
+    {
+      "key": "shop.rules",
+      "value": "Browsing and buying pause combat while the stage timer continues. One purchase per offer. Full resources or gear limits cost nothing. Esc returns to the room."
+    },
+    {
+      "key": "shop.offer",
+      "value": "{name} · {price} coins {state}\n{effect}"
+    },
+    {
+      "key": "shop.sold",
+      "value": "Sold"
+    },
+    {
+      "key": "shop.heal",
+      "value": "Repair Supply"
+    },
+    {
+      "key": "shop.energy",
+      "value": "Energy Supply"
+    },
+    {
+      "key": "shop.healEffect",
+      "value": "Restore {amount} health, up to your maximum."
+    },
+    {
+      "key": "shop.energyEffect",
+      "value": "Restore {amount} energy, up to 100."
+    },
+    {
+      "key": "shop.bought",
+      "value": "Purchase complete. Coins and offer settled."
+    },
+    {
+      "key": "shop.failed",
+      "value": "No purchase: insufficient coins, sold offer, full resources or gear limit. No coins spent."
+    },
+    {
+      "key": "boss.name.1",
+      "value": "Stone Captain"
+    },
+    {
+      "key": "boss.name.2",
+      "value": "Furnace Overseer"
+    },
+    {
+      "key": "boss.name.3",
+      "value": "Frostmirror Guardian"
+    },
+    {
+      "key": "boss.themeCaption",
+      "value": "{name} · {move}"
+    },
+    {
+      "key": "boss.s2.0",
+      "value": "Mortars: leave the three gold circles"
+    },
+    {
+      "key": "boss.s2.1",
+      "value": "Slow sweep: move around the warned sector"
+    },
+    {
+      "key": "boss.s2.2",
+      "value": "Vent ring: slip through the projectile gaps"
+    },
+    {
+      "key": "boss.s3.0",
+      "value": "Reflected beam: avoid both gold segments"
+    },
+    {
+      "key": "boss.s3.1",
+      "value": "Ice ring: move through its gaps"
+    },
+    {
+      "key": "boss.s3.2",
+      "value": "Crystal volley: leave the locked direction"
+    },
+    {
+      "key": "training.environmentRule",
+      "value": "Try real adventure surfaces: belt force and heat pulses, ice inertia and sluice hazards. Invincible by default; disable aids to test damage. Reset or exit clears the sample."
+    },
+    {
+      "key": "training.conveyor",
+      "value": "Conveyor and Heat"
+    },
+    {
+      "key": "training.ice",
+      "value": "Ice and Sluice"
+    },
+    {
+      "key": "training.surfaceStop",
+      "value": "Stop Surface Sample"
+    },
+    {
+      "key": "training.environmentRemaining",
+      "value": "The later electric-grid sample arrives in M4."
+    },
+    {
+      "key": "item.workshop_smg",
+      "value": "Workshop SMG · Rare"
+    },
+    {
+      "key": "room.s2.entry",
+      "value": "Workshop Entry"
+    },
+    {
+      "key": "room.s2.courtyard",
+      "value": "Foundry Yard"
+    },
+    {
+      "key": "room.s2.north",
+      "value": "North Core Store"
+    },
+    {
+      "key": "room.s2.crossing",
+      "value": "Belt Assembly Hall"
+    },
+    {
+      "key": "room.s2.south",
+      "value": "South Core Store"
+    },
+    {
+      "key": "room.s2.seal",
+      "value": "Furnace Control"
+    },
+    {
+      "key": "room.s2.supply",
+      "value": "Overseer Supply"
+    },
+    {
+      "key": "room.s2.boss",
+      "value": "Furnace Arena"
+    },
+    {
+      "key": "room.s2.shop",
+      "value": "Workshop Shop"
+    },
+    {
+      "key": "room.s2.challenge",
+      "value": "Extra Production Line"
+    },
+    {
+      "key": "room.s2.bypass",
+      "value": "Side Warehouse"
+    },
+    {
+      "key": "room.s3.entry",
+      "value": "Reservoir Entry"
+    },
+    {
+      "key": "room.s3.courtyard",
+      "value": "Twin-bridge Hub"
+    },
+    {
+      "key": "room.s3.north",
+      "value": "North Pump"
+    },
+    {
+      "key": "room.s3.crossing",
+      "value": "Crystal Island"
+    },
+    {
+      "key": "room.s3.south",
+      "value": "South Pump"
+    },
+    {
+      "key": "room.s3.seal",
+      "value": "Sluice Control"
+    },
+    {
+      "key": "room.s3.supply",
+      "value": "Guardian Supply"
+    },
+    {
+      "key": "room.s3.boss",
+      "value": "Mirror Lake Arena"
+    },
+    {
+      "key": "room.s3.shop",
+      "value": "Reservoir Shop"
+    },
+    {
+      "key": "room.s3.challenge",
+      "value": "Supply Robot Escort"
+    },
+    {
+      "key": "checkpoint.runEnded",
+      "value": "This run has ended. Try again from stage 1; earlier personal bests remain."
     }
   ]
 }

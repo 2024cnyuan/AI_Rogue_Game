@@ -14,7 +14,9 @@ namespace Starfall
         readonly List<(Image view, string language)> languageChoices = new List<(Image, string)>();
         StarfallGame game;
         Font font;
-        GameObject menu, first, settings, pause, map, death, complete, hud;
+        GameObject menu, first, settings, pause, map, death, complete, hud, confirm;
+        Button continueButton;
+        Text checkpointHint;
         Text health, coins, dodge, objective, notice, interact, saveError, displayMode, deathStats, clearStats, pauseTitle;
         Image healthFill;
         RectTransform mapPlayer;
@@ -34,6 +36,9 @@ namespace Starfall
             scaler.referenceResolution = new Vector2(1280, 720); scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Expand;
             gameObject.AddComponent<GraphicRaycaster>();
             BuildHud(); BuildMenu(); BuildFirst(); BuildSettings(); BuildPause(); BuildMap(); BuildResults();
+            var confirmPanel = Panel("New run confirmation", 700, 330, out confirm);
+            Label(confirmPanel, "checkpoint.overwriteTitle", 26, 45); Label(confirmPanel, "checkpoint.overwriteBody", 19, 100);
+            Button(confirmPanel, "checkpoint.confirm", game.ConfirmNewRun, true, true, 40); Button(confirmPanel, "button.back", game.CancelNewRun, true, false, 40);
             saveError = FixedText(transform, "Save status", new Vector2(.5f, 0), new Vector2(0, 12), new Vector2(1050, 42), 16, TextAnchor.MiddleCenter);
             saveError.color = PrototypeVisuals.Gold;
             game.Text.Changed += RefreshLanguage; RefreshLanguage(); Refresh();
@@ -105,8 +110,9 @@ namespace Starfall
             var panel = Panel("Main Menu", 620, 580, out menu);
             Label(panel, "title", 29, 46, PrototypeVisuals.Gold); Label(panel, "subtitle", 19, 27, PrototypeVisuals.Teal);
             Label(panel, "menu.intro", 18, 59);
-            Button(panel, "menu.start", game.StartAdventure, true, true, 44);
-            Button(panel, "menu.continue", null, false, false, 33); Label(panel, "menu.noCheckpoint", 15, 34);
+            Button(panel, "menu.start", game.RequestAdventureStart, true, true, 44);
+            Button(panel, "menu.continue", () => game.ContinueAdventure(), true, false, 33); continueButton = panel.GetChild(panel.childCount - 1).GetComponent<Button>();
+            checkpointHint = Label(panel, null, 15, 44);
             Button(panel, "menu.tutorial", game.StartTutorial, true, false, 33); Button(panel, "menu.training", game.StartTraining, true, false, 33);
             Button(panel, "menu.records", () => game.AdventureUI.OpenRecords(), true, false, 33);
             Button(panel, "menu.settings", OpenSettings); Button(panel, "menu.quit", game.Quit);
@@ -171,10 +177,10 @@ namespace Starfall
         {
             var panel = Panel("Death", 730, 420, out death); Label(panel, "death.title", 26, 86, PrototypeVisuals.Gold);
             Label(panel, "death.body", 19, 72); deathStats = Label(panel, null, 19, 32);
-            Button(panel, "button.restart", game.StartAdventure, true, true, 44); Button(panel, "button.menu", game.ReturnToMenu, true, false, 42);
+            Button(panel, "button.restart", game.RequestAdventureStart, true, true, 44); Button(panel, "button.menu", game.ReturnToMenu, true, false, 42);
             panel = Panel("Complete", 730, 420, out complete); Label(panel, "clear.title", 28, 56, PrototypeVisuals.Gold);
             Label(panel, "clear.body", 19, 76); clearStats = Label(panel, null, 19, 32); Label(panel, "result.practice", 18, 30, PrototypeVisuals.Teal);
-            Button(panel, "button.restart", game.StartAdventure, true, true, 44); Button(panel, "button.menu", game.ReturnToMenu, true, false, 42);
+            Button(panel, "button.restart", game.RequestAdventureStart, true, true, 44); Button(panel, "button.menu", game.ReturnToMenu, true, false, 42);
         }
         void BuildHud()
         {
@@ -227,17 +233,22 @@ namespace Starfall
             GameObject visible = null;
             if (FirstLaunch) visible = first;
             else if (SettingsOpen) visible = settings;
+            else if (game.NewRunConfirmation) visible = confirm;
             else if (!playing && (game.AdventureUI == null || !game.AdventureUI.RecordsOpen)) visible = menu;
             else if (context != null && context.Phase == RunPhase.Dead && game.Adventure == null) visible = death;
             else if (context != null && context.Phase == RunPhase.Complete && context.Mode != GameMode.Tutorial && game.Adventure == null) visible = complete;
             else if (game.Pause.Has(PauseReason.Focus) || game.Pause.Has(PauseReason.Menu)) visible = pause;
             else if (game.Pause.Has(PauseReason.Map)) visible = map;
             foreach (var overlay in overlays) overlay.SetActive(overlay == visible);
+            if (visible != null) visible.transform.SetAsLastSibling();
+            continueButton.interactable = game.Checkpoints.HasEntry;
+            checkpointHint.text = game.Checkpoints.HasEntry ? game.Text.Get("checkpoint.menuHint", ("stage", game.Checkpoints.Current.stage.ToString())) : game.Text.Get("menu.noCheckpoint");
             if (displayMode != null) displayMode.text = game.Text.Get("settings.display", ("mode", game.Text.Get(game.Settings.fullscreen ? "settings.fullscreen" : "settings.windowed")));
             if (flashSetting != null) flashSetting.text = game.Text.Get("settings.flash", ("value", game.Text.Get(game.Settings.reduceFlash ? "flag.on" : "flag.off")));
             if (timerSetting != null) timerSetting.text = game.Text.Get("settings.timer", ("value", game.Text.Get(game.Settings.hideTimer ? "flag.off" : "flag.on")));
             if (pauseTitle != null) pauseTitle.text = game.Text.Get(game.Pause.Has(PauseReason.Focus) ? "pause.focus" : "pause.title");
-            if (saveError != null) { saveError.text = game.SaveErrorKey == null ? "" : game.Text.Get(game.SaveErrorKey); saveError.gameObject.SetActive(game.SaveErrorKey != null); }
+            string error = game.CheckpointErrorKey ?? game.SaveErrorKey;
+            if (saveError != null) { saveError.text = error == null ? "" : game.Text.Get(error); saveError.gameObject.SetActive(error != null); if (error != null) saveError.transform.SetAsLastSibling(); }
             if (!playing || game.Player == null) return;
             var state = game.Player.Health.State;
             health.text = game.Text.Get("hud.health", ("current", Mathf.CeilToInt(state.Health).ToString()), ("max", Mathf.CeilToInt(state.Maximum).ToString()));
@@ -250,7 +261,7 @@ namespace Starfall
             objective.text = context.Phase == RunPhase.RoomClear ? game.Text.Get("hud.exit") : game.Text.Get("hud.enemies", ("count", game.LivingEnemies.ToString()));
             if (context.Mode == GameMode.Tutorial) objective.text = game.Text.Get("tutorial.progress", ("step", ((int)game.Tutorial.Step + 1).ToString()));
             else if (context.Mode == GameMode.Training) objective.text = game.Text.Get("training.objective", ("count", game.LivingEnemies.ToString()));
-            else if (game.Adventure != null) objective.text = game.Text.Get("adventure.objective", ("count", game.Adventure.Progress.Beacons.ToString()), ("enemies", game.LivingEnemies.ToString()));
+            else if (game.Adventure != null) objective.text = game.Text.Get(game.Adventure.TaskKey, ("count", game.Adventure.Progress.Beacons.ToString()), ("enemies", game.LivingEnemies.ToString()));
             notice.text = game.Text.Get(game.NotificationKey ?? "hud.pickups");
             interact.text = game.CanAct && context.Phase == RunPhase.RoomClear && Vector2.Distance(game.Player.Body.position, game.Room.Exit) < 1.8f ? game.Text.Get("hud.interact") : "";
             if (game.CanAct && game.Interaction != null) interact.text = game.Text.Get("station.prompt", ("name", game.Text.Get(game.Interaction.NameKey)));

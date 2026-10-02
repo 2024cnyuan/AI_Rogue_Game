@@ -18,6 +18,27 @@ namespace Starfall
         public bool InfiniteCharges { get; set; }
         public bool Invincible { get; set; }
         public IReadOnlyDictionary<string, int> Passives => passives;
+        public LoadoutSnapshot Snapshot()
+        {
+            var value = new LoadoutSnapshot { special = SpecialWeapon, weapon = Weapon, active = Active, energy = Energy, charges = Charges, cooldown = ActiveCooldown };
+            foreach (var pair in passives) value.passives.Add(new PassiveSnapshot { id = pair.Key, layers = pair.Value });
+            return value;
+        }
+        public bool RestoreSnapshot(LoadoutSnapshot value)
+        {
+            if (value == null || value.passives == null) return false;
+            var copy = new LoadoutState(catalog);
+            if (!string.IsNullOrEmpty(value.special) && (value.special == "pistol" || !copy.Equip(value.special) || catalog.Find(value.special).kind != ItemKind.Weapon)) return false;
+            if (!string.IsNullOrEmpty(value.active) && (!copy.Equip(value.active) || catalog.Find(value.active).kind != ItemKind.Active)) return false;
+            foreach (var pair in value.passives) for (int i = 0; i < pair.layers; i++)
+                if (catalog.Find(pair.id)?.kind != ItemKind.Passive || !copy.Equip(pair.id)) return false;
+            if (value.weapon != "pistol" && value.weapon != copy.SpecialWeapon) return false;
+            if (value.charges > (copy.Active == null ? 0 : catalog.Find(copy.Active).maxCharges)) return false;
+            SpecialWeapon = copy.SpecialWeapon; Weapon = value.weapon; Active = copy.Active; passives.Clear();
+            foreach (var pair in copy.passives) passives.Add(pair.Key, pair.Value);
+            Energy = value.energy; Charges = value.charges; ActiveCooldown = value.cooldown; ShieldLeft = 0;
+            InfiniteEnergy = InfiniteCharges = Invincible = false; return true;
+        }
         public LoadoutState(ItemCatalog definitions) { catalog = definitions; }
         public int Layers(string id) => passives.TryGetValue(id, out int layers) ? layers : 0;
         float PassiveValue(string id) => (catalog.Find(id)?.value ?? 0) * Layers(id);

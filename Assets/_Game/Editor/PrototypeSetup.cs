@@ -11,6 +11,33 @@ namespace Starfall.Editor
     public static class PrototypeSetup
     {
         public const string EntryScene = "Assets/_Game/Scenes/Boot.unity";
+        [MenuItem("Starfall/Setup M3")]
+        public static void SetupM3()
+        {
+            SetupM2b();
+            if (AssetDatabase.LoadAssetAtPath<CampaignConfig>("Assets/_Game/Resources/CampaignConfig.asset") == null)
+                AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<CampaignConfig>(), "Assets/_Game/Resources/CampaignConfig.asset");
+            var catalog = AssetDatabase.LoadAssetAtPath<ItemCatalog>("Assets/_Game/Resources/ItemCatalog.asset");
+            if (catalog.Find("workshop_smg") == null) { catalog.items = catalog.items.Concat(new[] { ItemCatalog.WorkshopWeapon() }).ToArray(); EditorUtility.SetDirty(catalog); }
+            AssetDatabase.SaveAssets(); ValidateM3(); Debug.Log("STARFALL_M3_SETUP_OK");
+        }
+        [MenuItem("Starfall/Validate M3 Assets")]
+        public static void ValidateM3()
+        {
+            ValidateM2b();
+            var config = AssetDatabase.LoadAssetAtPath<CampaignConfig>("Assets/_Game/Resources/CampaignConfig.asset");
+            if (config == null || config.furnaceHealth <= 0 || config.mirrorHealth <= 0 || config.warning <= 0 || config.recovery <= 0 || config.iceResponse <= 0 || config.escortSeconds <= 0 || config.healPrice <= 0 || config.energyPrice <= 0 || config.weaponPrice <= 0 || config.passivePrice <= 0)
+                throw new System.InvalidOperationException("Invalid campaign config");
+            Debug.Log("STARFALL_M3_ASSETS_OK");
+        }
+        [MenuItem("Starfall/Build M3 Windows")]
+        public static void BuildM3Windows()
+        {
+            SetupM3();
+            var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions { scenes = new[] { EntryScene }, locationPathName = "Builds/M3/StarcoreLabyrinth.exe", target = BuildTarget.StandaloneWindows64, options = BuildOptions.None });
+            if (report.summary.result != BuildResult.Succeeded) throw new System.InvalidOperationException("M3 Windows build failed: " + report.summary.result);
+            Debug.Log("STARFALL_M3_BUILD_OK: " + report.summary.totalSize + " bytes, " + report.summary.totalErrors + " errors");
+        }
         [MenuItem("Starfall/Setup M2b")]
         public static void SetupM2b()
         {

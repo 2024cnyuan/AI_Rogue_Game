@@ -105,14 +105,14 @@ namespace Starfall
         {
             var panel = Panel("Tutorial complete", 760, 425, out completion); Label(panel, "tutorial.complete", 54, 27);
             Label(panel, "tutorial.completeBody", 81); summary = Label(panel, null, 37);
-            Button(panel, "menu.start", () => { game.ReturnToMenu(); game.StartAdventure(); }, 42);
+            Button(panel, "menu.start", () => { game.ReturnToMenu(); game.RequestAdventureStart(); }, 42);
             Button(panel, "menu.training", () => { game.ReturnToMenu(); game.StartTraining(); }, 42); Button(panel, "button.menu", game.ReturnToMenu, 42);
         }
         void BuildIntroduction()
         {
             var panel = Panel("Choose first activity", 730, 360, out introduction);
             Label(panel, "intro.title", 60, 27); Label(panel, "intro.body", 85);
-            Button(panel, "menu.tutorial", () => game.StartTutorial(), 45); Button(panel, "intro.adventure", () => { game.SaveTutorialMark(false, true); game.StartAdventure(); }, 45);
+            Button(panel, "menu.tutorial", () => game.StartTutorial(), 45); Button(panel, "intro.adventure", () => { game.SaveTutorialMark(false, true); game.RequestAdventureStart(); }, 45);
         }
         public void ShowIntroduction() { showIntroduction = true; RefreshNow(); }
         public void HideIntroduction() { showIntroduction = false; RefreshNow(); }
@@ -135,7 +135,12 @@ namespace Starfall
                 Button(content, "training.hazardStop", () => { game.Hazards.Stop(); game.Projectiles.Clear(); });
             }
             else if (panel == PracticePanel.Simulation) BuildSimulation();
-            else Label(content, "training.environmentPending", 130);
+            else
+            {
+                Label(content, "training.environmentRule", 95);
+                Button(content, "training.conveyor", () => game.StartEnvironmentSample(2)); Button(content, "training.ice", () => game.StartEnvironmentSample(3));
+                Button(content, "training.surfaceStop", game.StopEnvironmentSample); Label(content, "training.environmentRemaining", 45);
+            }
             var aids = Row(content); Button(aids, "training.toggleEnergy", () => game.Training.ToggleEnergy());
             Button(aids, "training.toggleCharges", () => game.Training.ToggleCharges()); Button(aids, "training.toggleInvincible", () => game.Training.ToggleInvincible());
             var reset = Row(content); Button(reset, "training.restore", () => game.Training.Restore()); Button(reset, "training.reset", () => game.Training.Reset());

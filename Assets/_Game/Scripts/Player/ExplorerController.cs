@@ -10,7 +10,8 @@ namespace Starfall
         Rigidbody2D body;
         SpriteRenderer view, gun, flash;
         Vector2 move, aim = Vector2.right, dodgeDirection;
-        float dodgeLeft, dodgeAge, cooldown, bufferLeft, shotLeft, hitLeft, flashLeft;
+        float dodgeLeft, dodgeAge, cooldown, bufferLeft, shotLeft, hitLeft, flashLeft, coldLeft;
+        Vector2 surfaceVelocity;
         public Damageable Health { get; private set; }
         public bool IsDodging => dodgeLeft > 0;
         public float DodgeCooldown => cooldown;
@@ -28,7 +29,9 @@ namespace Starfall
             Health = gameObject.AddComponent<Damageable>(); Health.Initialize(Faction.Player, config.health, config.hitProtection);
             Health.Hit += OnHit; Health.Died += OnDeath;
             Health.Evaded += OnEvaded;
+            Health.Damaged += OnDamaged;
         }
+        void OnDamaged(DamageContext hit, float amount) { if (hit.Weapon == "frost") coldLeft = 1.2f; }
         void OnHit() { hitLeft = .18f; game.Notify("combat.hit"); game.Audio?.Play(GameSound.Hurt); game.ShakeCamera(.12f); }
         void OnDeath() { body.linearVelocity = Vector2.zero; GetComponent<Collider2D>().enabled = false; view.color = new Color(.35f, .4f, .45f); Flush(); }
         void OnEvaded(DamageContext hit) { if (DodgeProtected) game.Tutorial?.DodgedAttack(); }
@@ -44,14 +47,15 @@ namespace Starfall
         }
         public void MoveTo(Vector2 at)
         {
-            body.position = at; dodgeLeft = dodgeAge = bufferLeft = 0; Flush(); Health.Invulnerable = game.Loadout.Invincible || game.Loadout.ShieldLeft > 0;
+            body.position = at; dodgeLeft = dodgeAge = bufferLeft = coldLeft = 0; Flush(); Health.Invulnerable = game.Loadout.Invincible || game.Loadout.ShieldLeft > 0;
         }
         public void ResetCooldowns() { dodgeAge = dodgeLeft = cooldown = shotLeft = 0; Health.Invulnerable = game.Loadout.Invincible || game.Loadout.ShieldLeft > 0; }
-        public void Flush() { move = Vector2.zero; bufferLeft = 0; if (body != null) body.linearVelocity = Vector2.zero; }
+        public void Flush() { move = surfaceVelocity = Vector2.zero; bufferLeft = 0; if (body != null) body.linearVelocity = Vector2.zero; }
         void Update()
         {
             if (game == null || !game.CanAct || !Health.State.Alive) return;
             float dt = Time.deltaTime; move = game.Input.Move;
+            coldLeft = Mathf.Max(0, coldLeft - dt);
             game.Loadout.Tick(dt);
             if (game.Input.PistolPressed) { game.Loadout.Switch(false); game.EquipmentChanged(); }
             if (game.Input.SpecialPressed) { game.Loadout.Switch(true); game.EquipmentChanged(); }
@@ -99,7 +103,10 @@ namespace Starfall
         void FixedUpdate()
         {
             if (game == null || !game.CanAct || !Health.State.Alive) { if (body != null) body.linearVelocity = Vector2.zero; return; }
-            Vector2 velocity = move * config.moveSpeed;
+            Vector2 desired = move * config.moveSpeed * (coldLeft > 0 ? .8f : 1);
+            bool ice = game.Surface != null && game.Surface.OnIce(body.position);
+            surfaceVelocity = ice ? Vector2.Lerp(surfaceVelocity, desired, 1 - Mathf.Exp(-Time.fixedDeltaTime / game.CampaignConfig.iceResponse)) : desired;
+            Vector2 velocity = surfaceVelocity + (game.Surface != null ? game.Surface.Push(body.position) : Vector2.zero);
             if (IsDodging)
             {
                 Health.Invulnerable = dodgeAge < config.dodgeInvulnerability || game.Loadout.ShieldLeft > 0 || game.Loadout.Invincible;
@@ -123,6 +130,6 @@ namespace Starfall
             if (!IsDodging) dodgeAge = 0;
             body.linearVelocity = velocity;
         }
-        void OnDestroy() { if (Health != null) { Health.Hit -= OnHit; Health.Died -= OnDeath; Health.Evaded -= OnEvaded; } }
+        void OnDestroy() { if (Health != null) { Health.Hit -= OnHit; Health.Died -= OnDeath; Health.Evaded -= OnEvaded; Health.Damaged -= OnDamaged; } }
     }
 }

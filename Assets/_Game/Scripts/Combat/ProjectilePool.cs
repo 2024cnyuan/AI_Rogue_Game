@@ -37,7 +37,8 @@ namespace Starfall
             shot.View.sprite = PrototypeVisuals.Sprite(faction == Faction.Player ? "square" : "orb");
             shot.View.transform.localScale = faction == Faction.Player ? new Vector3(.3f, .1f, 1) : new Vector3(.27f, .27f, 1);
             shot.View.transform.position = origin; shot.View.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
-            shot.View.color = faction == Faction.Player ? PrototypeVisuals.Gold : PrototypeVisuals.Enemy;
+            shot.View.color = faction == Faction.Player ? PrototypeVisuals.Gold : weapon == "frost" ? new Color(.55f, .8f, 1) : PrototypeVisuals.Enemy;
+            if (faction == Faction.Enemy && weapon == "frost") shot.View.sprite = PrototypeVisuals.Sprite("cross");
             shot.View.gameObject.SetActive(true); ActiveCount++; return true;
         }
         void FixedUpdate()

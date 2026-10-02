@@ -4,10 +4,11 @@ using UnityEngine;
 
 namespace Starfall
 {
-    public enum LevelRoomKind { Safe, Combat, Beacon, Mechanism, Challenge, Boss }
+    public enum LevelRoomKind { Safe, Combat, Beacon, Mechanism, Challenge, Boss, Shop }
     public sealed class LevelRoomPlan
     {
-        public string Id, Next, Back;
+        public string Id, Next, Back, Branch;
+        public int Stage = 1;
         public LevelRoomKind Kind;
         public Rect[] Cover;
         public Vector2[] Enemies;
@@ -15,10 +16,14 @@ namespace Starfall
     public sealed class FirstLevelPlan
     {
         public readonly int Seed;
+        public readonly int Stage;
+        public string StageId => Stage == 1 ? "gardens" : Stage == 2 ? "workshop" : "reservoir";
+        public string RoomKey(string id) => Stage == 1 ? "room." + id : "room.s" + Stage + "." + id;
         public readonly List<LevelRoomPlan> Rooms = new List<LevelRoomPlan>();
-        public FirstLevelPlan(int seed)
+        public FirstLevelPlan(int seed, int stage = 1)
         {
-            Seed = seed;
+            Seed = seed; Stage = stage;
+            if (stage > 1) { BuildTheme(); return; }
             Add("entry", LevelRoomKind.Safe, 4, "courtyard", null);
             Add("courtyard", LevelRoomKind.Combat, 0, "north", "entry");
             Add("north", LevelRoomKind.Beacon, 1, "crossing", "courtyard");
@@ -28,6 +33,24 @@ namespace Starfall
             Add("supply", LevelRoomKind.Safe, 4, "boss", "seal");
             Add("boss", LevelRoomKind.Boss, 6, null, "supply");
             Add("challenge", LevelRoomKind.Challenge, 2, null, "courtyard");
+        }
+        void BuildTheme()
+        {
+            Add("entry", LevelRoomKind.Safe, 4, "courtyard", null);
+            Add("courtyard", LevelRoomKind.Combat, 0, "north", "entry");
+            Add("north", LevelRoomKind.Beacon, 1, "crossing", "courtyard");
+            Add("crossing", LevelRoomKind.Combat, 2, "south", "north");
+            Add("south", LevelRoomKind.Beacon, 3, "seal", Stage == 2 ? "crossing" : "courtyard");
+            Add("seal", LevelRoomKind.Mechanism, 5, "supply", "south");
+            Add("supply", LevelRoomKind.Safe, 4, "boss", "seal");
+            Add("boss", LevelRoomKind.Boss, 6, null, "supply");
+            Add("shop", LevelRoomKind.Shop, 4, null, "north"); Find("north").Branch = "shop";
+            Add("challenge", LevelRoomKind.Challenge, Stage == 2 ? 2 : 4, null, "crossing"); Find("crossing").Branch = "challenge";
+            if (Stage == 2)
+            {
+                Add("bypass", LevelRoomKind.Combat, 3, "crossing", "courtyard"); Find("courtyard").Branch = "bypass";
+            }
+            else Find("courtyard").Branch = "south";
         }
         public LevelRoomPlan Find(string id) => Rooms.Find(room => room.Id == id);
         void Add(string id, LevelRoomKind kind, int layout, string next, string back)
@@ -41,7 +64,21 @@ namespace Starfall
                 new Rect[0], new[] { R(0, 0, 2, 2), R(-4, 3.5f, 2, 1), R(4, -3.5f, 2, 1) },
                 new[] { R(-5, 3, 1, 2), R(5, -3, 1, 2) }
             };
-            var plan = new LevelRoomPlan { Id = id, Next = next, Back = back, Kind = kind, Cover = templates[layout], Enemies = new Vector2[0] };
+            Rect[][] workshop = {
+                new[] { R(-4, 2, 1, 4), R(1, -2, 4, 1), R(5, 3, 2, 1) },
+                new[] { R(-3, -1, 1, 5), R(2, 3, 4, 1), R(4, -3, 1, 2) },
+                new[] { R(-4, 3, 3, 1), R(0, 0, 1, 3), R(4, -3, 3, 1) },
+                new[] { R(-4, -1, 3, 1), R(1, 2, 1, 4), R(5, -2, 1, 3) },
+                new Rect[0], new[] { R(-2, 2, 2, 2), R(2, -2, 2, 2) }, new Rect[0]
+            };
+            Rect[][] reservoir = {
+                new[] { R(-3, 1, 2, 3), R(3, -1, 2, 3) },
+                new[] { R(-4, 3, 4, 1), R(1, -2, 1, 4), R(4, 3, 1, 2) },
+                new[] { R(-3, -2, 1, 4), R(0, 3, 3, 1), R(4, -1, 2, 2) },
+                new[] { R(-4, 2, 2, 2), R(0, -2, 3, 1), R(4, 1, 1, 4) },
+                new Rect[0], new[] { R(0, 0, 2, 3), R(-4, 3, 2, 1) }, new[] { R(0, 3, 1, 1.5f), R(0, -3, 1, 1.5f) }
+            };
+            var plan = new LevelRoomPlan { Id = id, Stage = Stage, Next = next, Back = back, Kind = kind, Cover = (Stage == 1 ? templates : Stage == 2 ? workshop : reservoir)[layout], Enemies = new Vector2[0] };
             if (kind == LevelRoomKind.Combat || kind == LevelRoomKind.Beacon || kind == LevelRoomKind.Challenge)
             {
                 // Combat stream is independent of future visual/reward random streams.
@@ -50,7 +87,9 @@ namespace Starfall
                 foreach (var p in new[] { new Vector2(-6, 4), new Vector2(-1, 5), new Vector2(2, 5), new Vector2(6, 4), new Vector2(8, 0), new Vector2(7, -4), new Vector2(0, -5), new Vector2(-5, 1) })
                     if (IsClear(plan, p, .55f)) candidates.Add(p);
                 for (int i = candidates.Count - 1; i > 0; i--) { int j = random.Next(i + 1); (candidates[i], candidates[j]) = (candidates[j], candidates[i]); }
-                plan.Enemies = candidates.GetRange(0, kind == LevelRoomKind.Challenge ? 6 : 4).ToArray();
+                int count = kind == LevelRoomKind.Challenge ? 6 : 4;
+                if (Stage == 3 && kind == LevelRoomKind.Challenge) count = 0;
+                plan.Enemies = candidates.GetRange(0, Math.Min(count, candidates.Count)).ToArray();
             }
             Rooms.Add(plan);
         }

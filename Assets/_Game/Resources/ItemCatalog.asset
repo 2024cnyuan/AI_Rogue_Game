@@ -421,3 +421,20 @@ MonoBehaviour:
     pellets: 1
     maxCharges: 2
     stackLimit: 2
+  - id: workshop_smg
+    nameKey: item.workshop_smg
+    descriptionKey: desc.smg
+    icon: arrow
+    rarity: rare
+    tags: projectile,smg,variant
+    kind: 0
+    implemented: 1
+    damage: 10
+    interval: 0.1
+    energyCost: 3
+    spread: 0
+    value: 0
+    cooldown: 0
+    pellets: 1
+    maxCharges: 2
+    stackLimit: 2

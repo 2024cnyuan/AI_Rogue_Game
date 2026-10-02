@@ -148,9 +148,10 @@ namespace Starfall.Tests
             game.Training.Reset(true); yield return null; Assert.IsNull(game.Loadout.SpecialWeapon); Assert.IsNull(game.Loadout.Active); Assert.IsEmpty(game.Loadout.Passives);
             game.SetPause(PauseReason.Menu, true); game.RestartMode(); Assert.IsFalse(game.Pause.IsPaused);
             game.ReturnToMenu(); yield return null; Assert.IsNull(game.Loadout); Assert.IsNull(game.Training);
+            Assert.AreEqual("checkpoint-sentinel", File.ReadAllText(checkpoint), "Training and reset must preserve the checkpoint");
             game.StartAdventure(); yield return new WaitForFixedUpdate(); Assert.IsFalse(game.Loadout.Invincible); Assert.IsFalse(game.Loadout.InfiniteEnergy); Assert.IsFalse(game.Player.Health.Invulnerable);
             Assert.IsEmpty(game.Loadout.Passives); Assert.AreEqual(100, game.Player.Health.State.Maximum); Assert.IsNotNull(game.Adventure); Assert.AreEqual("entry", game.Adventure.Current.Id);
-            Assert.AreEqual("checkpoint-sentinel", File.ReadAllText(checkpoint));
+            Assert.AreEqual(1, new CheckpointStore(temporary).Current.stage, "Starting a new adventure now writes its entry checkpoint");
         }
         [UnityTest] public IEnumerator TrainingDamageArmorAndPausesUseEffectiveTime()
         {

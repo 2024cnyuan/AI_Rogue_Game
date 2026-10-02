@@ -43,6 +43,8 @@ namespace Starfall
             };
             return catalog;
         }
+        public static ItemDefinition WorkshopWeapon() => new ItemDefinition { id = "workshop_smg", nameKey = "item.workshop_smg", descriptionKey = "desc.smg", kind = ItemKind.Weapon,
+            damage = 10, interval = .1f, energyCost = 3, icon = "arrow", rarity = "rare", tags = "projectile,smg,variant" };
         static ItemDefinition Weapon(string id, float damage, float interval, float energy, int pellets, float spread) => new ItemDefinition
         { id = id, nameKey = "item." + id, descriptionKey = "desc." + id, kind = ItemKind.Weapon, damage = damage, interval = interval, energyCost = energy, pellets = pellets, spread = spread, icon = "arrow", tags = "projectile" };
         static ItemDefinition Active(string id, float value, float cooldown) => new ItemDefinition

@@ -5,7 +5,7 @@ namespace Starfall
 {
     public enum GameMode { None, Adventure, Tutorial, Training }
     public enum RunPhase { Menu, Loading, Combat, RoomClear, Dead, Complete }
-    [Flags] public enum PauseReason { None = 0, Menu = 1, Map = 2, Focus = 4, Settings = 8, PracticePanel = 16, Loading = 32 }
+    [Flags] public enum PauseReason { None = 0, Menu = 1, Map = 2, Focus = 4, Settings = 8, PracticePanel = 16, Loading = 32, Shop = 64 }
     public enum Faction { Player, Enemy }
 
     // A new context owns every mutable run value; future modes cannot inherit training aids.
@@ -43,6 +43,8 @@ namespace Starfall
         public void InvalidateRecord() => RecordEligible = false;
         public void EndLevel(bool success) { if (Phase == RunPhase.Combat || Phase == RunPhase.RoomClear) Phase = success ? RunPhase.Complete : RunPhase.Dead; }
         public void AddCompletedCoins(int amount) { if (Phase == RunPhase.Complete) Coins += Math.Max(0, amount); }
+        public bool SpendCoins(int amount) { if (amount < 0 || Coins < amount || Phase != RunPhase.Combat) return false; Coins -= amount; return true; }
+        public void RestoreCoins(int amount) { if (Phase == RunPhase.Combat) Coins = Math.Max(0, amount); }
         public bool FinishTutorial(bool alive)
         {
             if (Mode != GameMode.Tutorial || Phase != RunPhase.Combat || !alive) return false;
@@ -78,5 +80,6 @@ namespace Starfall
         }
         public void SetMaximum(float value) { float old = Maximum; Maximum = Mathf.Max(1, value); Health = Alive ? Mathf.Clamp(Health + Mathf.Max(0, Maximum - old), 0, Maximum) : 0; }
         public void Restore() { Health = Maximum; ProtectedUntil = 0; }
+        public void RestoreValue(float value) { Health = Mathf.Clamp(value, 1, Maximum); ProtectedUntil = 0; }
     }
 }
