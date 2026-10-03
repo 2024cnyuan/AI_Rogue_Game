@@ -32,7 +32,7 @@ namespace Starfall
             else if (Step == TutorialStep.Equipment)
             {
                 if (game.Loadout.Weapon == "pistol" && specialHit) switchedBack = true;
-                if (collected && specialHit && switchedBack && noEnergy && game.Loadout.Weapon == "pistol") Advance();
+                if (collected && specialHit && switchedBack && game.Loadout.Weapon == "pistol") Advance();
             }
             else if (Step == TutorialStep.Tools && activeUsed && passiveChosen) Advance();
             else if (Step == TutorialStep.Combat && game.LivingEnemies == 0)
@@ -93,7 +93,7 @@ namespace Starfall
                 if (id == "tutorial.cover") secondTarget = true;
                 if (firstTarget && secondTarget) Advance();
             }
-            else if (Step == TutorialStep.Equipment && id == "tutorial.special" && weapon == "shotgun") specialHit = true;
+            else if (Step == TutorialStep.Equipment && id == "tutorial.special" && weapon == "shotgun") { specialHit = true; game.Loadout.SpendEnergy(100); game.Notify("tutorial.energyDemo"); }
         }
         public void DodgedAttack() { if (Step == TutorialStep.Dodge) Advance(); }
         public void SupplyCollected() { if (Step == TutorialStep.Equipment) collected = true; }

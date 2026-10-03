@@ -1,5 +1,11 @@
 # M1 / M2a / M2b / M3 / M4 资源登记
 
+## M5 正式资源
+
+M5 已接入精细手绘 2D：主角四向行走、敌人/六 Boss、25 装备、补给与设施、六主题世界、六关插画及菜单背景。实际加载索引为 `Resources/PresentationCatalog.asset`，通过 Unity 原生切片引用正式 PNG。源稿/提示词保留在 `ArtSource/M5/`。字体源、SDF 与 OFL 位于 `UI/Fonts/`；16 段原创 WAV、三总线混音和后期 Profile 随普通构建打包。
+
+详见 [M5 资源维护规范](M5/asset-guide.md)、[逐文件 SHA-256 清单](M5/asset-manifest.json)。旧程序形状目前只用于弹道、危险范围、血条、接触阴影等必要标示；以下清单是 M1–M4 历史登记。新增资源检查不等于用户审美或设备听感验收。
+
 | 资源 | 来源/用途 | 状态与替换路径 |
 | --- | --- | --- |
 | 地块、石墙、苔藓、灯柱、方向标记、门 | 本项目 `PrototypeRoom.cs` 程序生成，无第三方图片 | 功能占位。后续替换到 `Assets/_Game/Art/World`，保留真实碰撞范围和可行走路线。 |

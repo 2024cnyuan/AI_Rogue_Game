@@ -1,0 +1,29 @@
+# M5 图像修订提示词
+
+工具：内置 imagegen。原始生成文件保留；Unity 导入时按规则切片，不在外部程序中修改像素。
+
+## m5_world_clean_prompt
+
+Edit target: the attached modular game environment atlas. Keep all six themes and exact 6 columns x 4 rows layout and all object identities and painted visual style. Remove the entire colored gradient backdrop around the wall blocks, archways and landmark props, making those areas genuinely alpha transparent. Floor tiles in top row remain opaque filled squares with actual tile art only, separated by transparent margins. Fit every complete archway and prop well inside its own equal grid cell with 12% transparent padding so nothing is cut off or crosses to another cell. No words, no labels, no grid lines, no checkerboard image backdrop. Preserve detailed polished hand-painted art. Output a usable transparent production sprite atlas.
+
+## m5_enemies_clean_prompt
+
+Edit target: this enemy sprite atlas. Preserve all SAME 16 monster identities, armor, palette, hand-painted quality, 4 columns by 4 rows, and true alpha transparency. Repack all sprites into precisely equal cells, shrink each full body uniformly so EVERY figure and every weapon including sniper rifle, boss wings and boss feet is fully inside its own cell with at least 12% TRANSPARENT padding on all sides. Do not overlap adjacent rows or columns. Each cell exactly one isolated figure; no extra props, no labels, no grid, no painted checkerboard, no background. Make the sizes consistent: normalize full figure height inside each equal cell while preserving original proportions. The desired result is a usable sprite atlas with no clipped body parts when sliced on a uniform 4x4 grid.
+
+## m5_props_prompt
+
+Use case: stylized-concept. Create ONE production game sprite atlas, exact SIX columns by THREE rows. The entire canvas behind every object is EMPTY ALPHA TRANSPARENT: absolutely no color wash, gradient, colored lighting backdrop, ground plane, vignette or rectangular background. No floor tiles on this sheet. Every cell one small complete isolated object centered with large 15% transparent margins. Finely hand-painted top-down 2D game perspective, delicate contours and painted surface textures, upper-left light painted ON OBJECTS only. Columns themes: mossy garden, copper foundry, blue icy reservoir, purple mushroom greenhouse, dark steel electric hub, ivory celestial sanctuary. Row1: six corresponding short horizontal stone/metal cover wall blocks with visible top and front faces. Row2: six corresponding ruined archways, open transparent door openings. Row3: six corresponding isolated landmarks: ivy stone statue, copper boiler, blue crystal pump, large purple mushroom, electric brass conductor, ivory star obelisk. Do not paint any backdrop or colored field in any cell. True clean cutout PNG RGBA transparency, no fake checkerboard. Regular 6x3 atlas packing, do not overlap cells. Each object fully contained, attractive detailed premium game art, no text or UI, no pixel art.
+
+
+# 地面第二版
+
+为减少高频装饰重复和拼缝，生成六种低对比地面。原始输出 floors.png 为 3×2 atlas，Unity 切片后按主题使用。提示词：
+
+Create a polished hand-painted 2D game FLOOR TEXTURE atlas: exact THREE equal columns by TWO equal rows, six square panels, every panel fully opaque edge-to-edge, NO borders NO gutters NO transparency NO text NO objects NO circles NO symbols. These are quiet low contrast seamless top-down ground textures for a fantasy roguelike. Rich painterly subtle brushwork, physically plausible stone patina, readable at 1080p, subdued darker neutral tones behind bright characters. Panel row1 col1: cool desaturated moss-green old irregular flagstones, extremely sparse tiny moss confined to cracks, no flowers. Row1 col2: smoky umber and aged copper workshop flooring with subtle worn metal plates and soot. Row1 col3: blue-grey frozen stone and fine frost on seams, no water pools. Row2 col1: muted violet-grey greenhouse flagstones with sparse organic spore staining, no mushrooms. Row2 col2: desaturated slate-blue energy facility stone and brushed dark metal inlays, no glowing grids. Row2 col3: elegant warm ivory-grey sanctum marble with very fine muted gold seam details. Every panel is ONE continuous texture, not an illustration of a tile: no rim, no black edge, no decorative medallions, no large focal points. Do not imitate a chessboard. Surface material is subtle and beautiful, slight irregularities in broad believable paving. Each of six regions fills the entire square perfectly. Texture atlas output landscape 3:2 aspect.
+
+# 三种专用敌人补图
+
+炮台、无人机和分裂孢体使用独立 3×1 图集 enemies-extra.png，替代原临时别名。提示词：
+
+Create a production-ready transparent sprite atlas, 1536 by 512 landscape, THREE EXACT EQUAL 512-square cells in one horizontal row, no text, no labels, no borders, no background, true alpha transparency. Refined hand-painted 2D top-down three-quarter fantasy ruins game, restrained emerald/ivory/copper/gold materials, strong silhouettes, subtle painterly shading, matching teal-cloaked explorer in ancient arcane ruins, consistent upper-left light. Each sprite stays completely inside its own cell, generous 40px transparent margins. LEFT CELL: a stationary mechanical turret: low squat bronze and copper tripod base, solid immobile silhouette, visible horizontal cannon barrel aiming toward front-right and teal energy chamber, no humanoid, no bow. MIDDLE CELL: a hovering support drone: compact round brass automaton with two clearly visible wing-like rotor pods, suspended blue energy crystal, soft cyan lamp and gold casing, small body and no legs, no humanoid, transparent around it, no painted ground shadow. RIGHT CELL: a small split-spore creature, short round low lavender mushroom sprite with mossy feet, two glowing amber eyes, tiny leaves, clearly smaller than a full enemy, playful threatening fungus silhouette, no humanoid. Detailed but readable at 64px. Separate isolated game art, no decorative scenery, no collage objects, no checkerboard baked in.
+

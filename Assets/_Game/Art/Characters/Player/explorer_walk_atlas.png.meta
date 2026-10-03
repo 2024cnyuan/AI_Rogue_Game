@@ -1,0 +1,665 @@
+fileFormatVersion: 2
+guid: 1fedd742f715ff440b75ce6800adcd25
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8513148615300172221
+    second: explorer_walk_atlas_0
+  - first:
+      213: -4758375418955674073
+    second: explorer_walk_atlas_1
+  - first:
+      213: -8666995459471753164
+    second: explorer_walk_atlas_2
+  - first:
+      213: -968434441802426782
+    second: explorer_walk_atlas_3
+  - first:
+      213: 6601416937204708618
+    second: explorer_walk_atlas_4
+  - first:
+      213: 6689119424716776387
+    second: explorer_walk_atlas_5
+  - first:
+      213: -7837492020484922571
+    second: explorer_walk_atlas_6
+  - first:
+      213: -8502233590647729138
+    second: explorer_walk_atlas_7
+  - first:
+      213: 2109204716236892451
+    second: explorer_walk_atlas_8
+  - first:
+      213: 5526165584675522916
+    second: explorer_walk_atlas_9
+  - first:
+      213: 1345941802970032444
+    second: explorer_walk_atlas_10
+  - first:
+      213: -7619680355396733264
+    second: explorer_walk_atlas_11
+  - first:
+      213: -5470192421343512862
+    second: explorer_walk_atlas_12
+  - first:
+      213: -6299899144029147930
+    second: explorer_walk_atlas_13
+  - first:
+      213: 8201650769054205218
+    second: explorer_walk_atlas_14
+  - first:
+      213: -1840181351580765755
+    second: explorer_walk_atlas_15
+  - first:
+      213: -4172380547988848161
+    second: explorer_walk_atlas_16
+  - first:
+      213: 844639215397507109
+    second: explorer_walk_atlas_17
+  - first:
+      213: 8701032964989632995
+    second: explorer_walk_atlas_18
+  - first:
+      213: -526297249512614248
+    second: explorer_walk_atlas_19
+  - first:
+      213: -5942078128812066523
+    second: explorer_walk_atlas_20
+  - first:
+      213: -7776388128219182801
+    second: explorer_walk_atlas_21
+  - first:
+      213: 8689424363811766628
+    second: explorer_walk_atlas_22
+  - first:
+      213: 5146767122862753899
+    second: explorer_walk_atlas_23
+  - first:
+      213: 5596812213934174005
+    second: explorer_walk_atlas_24
+  - first:
+      213: 343915636035919932
+    second: explorer_walk_atlas_25
+  - first:
+      213: 3186426407051664961
+    second: explorer_walk_atlas_26
+  - first:
+      213: -369949913241119310
+    second: explorer_walk_atlas_27
+  - first:
+      213: -1833531405763635940
+    second: explorer_walk_atlas_28
+  - first:
+      213: 6123869526329968872
+    second: explorer_walk_atlas_29
+  - first:
+      213: 7619902995550904706
+    second: explorer_walk_atlas_30
+  - first:
+      213: 6089735500273393958
+    second: explorer_walk_atlas_31
+  - first:
+      213: -2859461620090040552
+    second: explorer_walk_atlas_32
+  - first:
+      213: 3793033395437744832
+    second: explorer_walk_atlas_33
+  - first:
+      213: -6643180359151634264
+    second: explorer_walk_atlas_34
+  - first:
+      213: -892918155124543318
+    second: explorer_walk_atlas_35
+  - first:
+      213: 1939446396875099095
+    second: explorer_walk_atlas_36
+  - first:
+      213: -1534076518471457998
+    second: explorer_walk_atlas_37
+  - first:
+      213: -9066997911982795466
+    second: explorer_walk_atlas_38
+  - first:
+      213: -7469509902103326481
+    second: explorer_walk_atlas_39
+  - first:
+      213: 4817055521786317857
+    second: explorer_walk_atlas_40
+  - first:
+      213: 2127730031500075070
+    second: explorer_walk_atlas_41
+  - first:
+      213: -6618168484805609364
+    second: explorer_walk_atlas_42
+  - first:
+      213: -6834998162749343732
+    second: explorer_walk_atlas_43
+  - first:
+      213: -4803783382205149154
+    second: explorer_walk_atlas_44
+  - first:
+      213: -6623247222409676329
+    second: explorer_walk_atlas_45
+  - first:
+      213: -8998521626285563239
+    second: explorer_walk_atlas_46
+  - first:
+      213: 4095009131833510483
+    second: explorer_walk_atlas_47
+  - first:
+      213: 6129016566844475382
+    second: explorer_walk_atlas_48
+  - first:
+      213: 8441047997634912401
+    second: explorer_walk_atlas_49
+  - first:
+      213: -3589989811266068155
+    second: explorer_walk_atlas_50
+  - first:
+      213: -3664924890824868588
+    second: explorer_walk_atlas_51
+  - first:
+      213: 963336012093939104
+    second: explorer_walk_atlas_52
+  - first:
+      213: 3758090228707641153
+    second: explorer_walk_atlas_53
+  - first:
+      213: 6157687945100633932
+    second: explorer_walk_atlas_54
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 128
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: explorer.0
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 942
+        width: 310
+        height: 310
+      alignment: 9
+      pivot: {x: 0.5, y: 0.18}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cbf683a57756151baa750d90d4a0027e
+      internalID: 528501852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explorer.1
+      rect:
+        serializedVersion: 2
+        x: 316
+        y: 942
+        width: 309
+        height: 310
+      alignment: 9
+      pivot: {x: 0.5, y: 0.18}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8333700a305b300889d75eefd1a079a6
+      internalID: -1211841850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explorer.2
+      rect:
+        serializedVersion: 2
+        x: 629
+        y: 942
+        width: 309
+        height: 310
+      alignment: 9
+      pivot: {x: 0.5, y: 0.18}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6dadd4590e8743f6fb834ab872b30bf
+      internalID: -1165126723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explorer.3
+      rect:
+        serializedVersion: 2
+        x: 942
+        y: 942
+        width: 310
+        height: 310
+      alignment: 9
+      pivot: {x: 0.5, y: 0.18}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3715a5f9b0771ea614cfd03d060ec49a
+      internalID: 1660527081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explorer.4
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 629
+        width: 310
+        height: 309
+      alignment: 9
+      pivot: {x: 0.5, y: 0.18}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 287d192c054d4ad64b754081f963c92c
+      internalID: 2105787873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explorer.5
+      rect:
+        serializedVersion: 2
+        x: 316
+        y: 629
+        width: 309
+        height: 309
+      alignment: 9
+      pivot: {x: 0.5, y: 0.18}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5332e716ce4f7dae71d1fc518f52795c
+      internalID: -1900920274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explorer.6
+      rect:
+        serializedVersion: 2
+        x: 629
+        y: 629
+        width: 309
+        height: 309
+      alignment: 9
+      pivot: {x: 0.5, y: 0.18}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a956691434e0022b2d7bb7e77eda5d3c
+      internalID: 912393380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explorer.7
+      rect:
+        serializedVersion: 2
+        x: 942
+        y: 629
+        width: 310
+        height: 309
+      alignment: 9
+      pivot: {x: 0.5, y: 0.18}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8e26e1f9628160a5e2fd2999459ff42
+      internalID: 868946728
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explorer.8
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 316
+        width: 310
+        height: 309
+      alignment: 9
+      pivot: {x: 0.5, y: 0.18}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f1eac231cbb95da8053c54972341c6d
+      internalID: 1259428435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explorer.9
+      rect:
+        serializedVersion: 2
+        x: 316
+        y: 316
+        width: 309
+        height: 309
+      alignment: 9
+      pivot: {x: 0.5, y: 0.18}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e24ddef032160fe26912d9557c8879e
+      internalID: 1007090118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explorer.10
+      rect:
+        serializedVersion: 2
+        x: 629
+        y: 316
+        width: 309
+        height: 309
+      alignment: 9
+      pivot: {x: 0.5, y: 0.18}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a0d6ed88fae9bfb124d2f99b938648c
+      internalID: 58916008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explorer.11
+      rect:
+        serializedVersion: 2
+        x: 942
+        y: 316
+        width: 310
+        height: 309
+      alignment: 9
+      pivot: {x: 0.5, y: 0.18}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2edce068cd0c702cbf4f0a65e7b33168
+      internalID: 310531183
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explorer.12
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 2
+        width: 310
+        height: 310
+      alignment: 9
+      pivot: {x: 0.5, y: 0.18}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f1da3e6c7fd0373eff46d98b87d3b0a
+      internalID: -1088003300
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explorer.13
+      rect:
+        serializedVersion: 2
+        x: 316
+        y: 2
+        width: 309
+        height: 310
+      alignment: 9
+      pivot: {x: 0.5, y: 0.18}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ea9fda4137ac21db665b8087afbb3e4
+      internalID: -307188263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explorer.14
+      rect:
+        serializedVersion: 2
+        x: 629
+        y: 2
+        width: 309
+        height: 310
+      alignment: 9
+      pivot: {x: 0.5, y: 0.18}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2cb510b11a2131c0dba7b3d570197e54
+      internalID: 624195869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explorer.15
+      rect:
+        serializedVersion: 2
+        x: 942
+        y: 2
+        width: 310
+        height: 310
+      alignment: 9
+      pivot: {x: 0.5, y: 0.18}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ca68b03ac437cb7c4a50d4d7ad2c8fd
+      internalID: 1010155033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 2060ec54c15e7db48be990a588337456
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      explorer.0: 528501852
+      explorer.1: -1211841850
+      explorer.10: 58916008
+      explorer.11: 310531183
+      explorer.12: -1088003300
+      explorer.13: -307188263
+      explorer.14: 624195869
+      explorer.15: 1010155033
+      explorer.2: -1165126723
+      explorer.3: 1660527081
+      explorer.4: 2105787873
+      explorer.5: -1900920274
+      explorer.6: 912393380
+      explorer.7: 868946728
+      explorer.8: 1259428435
+      explorer.9: 1007090118
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

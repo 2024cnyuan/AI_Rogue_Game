@@ -78,7 +78,7 @@ namespace Starfall.Tests
         {
             var state = new FirstLevelProgress(); Assert.IsFalse(state.Activate("north")); Assert.IsFalse(state.CanEnterBoss);
             Assert.IsTrue(state.Clear("north")); Assert.IsTrue(state.Activate("north")); Assert.IsFalse(state.Activate("north"));
-            state.Clear("south"); state.Activate("south"); Assert.IsFalse(state.CanEnterBoss); state.Clear("seal"); Assert.IsTrue(state.CanEnterBoss);
+            state.Clear("south"); state.Activate("south"); Assert.IsTrue(state.CanEnterBoss);
             Assert.IsTrue(state.Claim("supply")); Assert.IsFalse(state.Claim("supply")); Assert.IsFalse(state.Clear("north"));
         }
         [Test] public void LegacySettingsGainSafeAudioDefaultsWithoutLosingLanguage()
@@ -90,7 +90,7 @@ namespace Starfall.Tests
         {
             for (int seed = 0; seed < 100; seed++)
             {
-                var plan = new FirstLevelPlan(seed); Assert.AreEqual(9, plan.Rooms.Count);
+                var plan = new FirstLevelPlan(seed); Assert.AreEqual(6, plan.Rooms.Count);
                 foreach (var room in plan.Rooms)
                 {
                     var reached = new HashSet<Vector2Int>(); var queue = new Queue<Vector2Int>(); var start = new Vector2Int(-8, -4); queue.Enqueue(start); reached.Add(start);

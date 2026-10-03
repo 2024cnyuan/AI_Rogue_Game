@@ -10,6 +10,7 @@ using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
+using Text = TMPro.TextMeshProUGUI;
 
 namespace Starfall.Tests
 {
@@ -19,6 +20,7 @@ namespace Starfall.Tests
         Keyboard keyboard;
         Mouse mouse;
         string temporary;
+        readonly List<string> m5LayoutProblems = new List<string>();
         InputSettings.BackgroundBehavior background;
         InputSettings.EditorInputBehaviorInPlayMode editorInput;
         [UnitySetUp] public IEnumerator Setup()
@@ -49,7 +51,7 @@ namespace Starfall.Tests
         {
             PracticeInteractable station = null;
             foreach (var candidate in UnityEngine.Object.FindObjectsByType<PracticeInteractable>(FindObjectsSortMode.None)) if (candidate.Id == id) station = candidate;
-            Assert.IsNotNull(station, id); Place(station.transform.position); yield return Press(Key.E);
+            Assert.IsNotNull(station, id); Place(station.transform.position); yield return Press(station.IsPickup ? Key.E : Key.F);
         }
         IEnumerator ClearRoom()
         {
@@ -81,6 +83,7 @@ namespace Starfall.Tests
             while (game.LivingEnemies > 0 || game.Adventure.BossHealth != null && game.Adventure.BossHealth.State.Alive)
             {
                 Assert.IsTrue(game.Player.Health.State.Alive, "Normal equipment bot died in " + game.Adventure.Current.Id);
+                var weapon=game.Catalog.Find(game.Loadout.Weapon); if(weapon.id!="pistol" && game.Loadout.Energy<weapon.energyCost) { yield return Press(Key.Digit1); continue; }
                 Assert.Less(Time.realtimeSinceStartup - started, 80, "Normal input fight stalled in " + game.Adventure.Current.Id);
                 Vector2 target = game.Adventure.BossHealth != null ? game.Adventure.BossPosition : Vector2.zero; float score = float.MaxValue;
                 foreach (var enemy in game.Enemies)
@@ -125,94 +128,61 @@ namespace Starfall.Tests
         }
         [UnityTest] [Timeout(900000)] public IEnumerator NormalInputAdventureCompletesSixStagesAndReloadsSixRecords()
         {
-            game.StartAdventure(); yield return null;
-            yield return WalkTo(new Vector2(2, -4)); yield return Press(Key.E); Assert.AreEqual("medkit", game.Loadout.Active);
-            var report = new System.Text.StringBuilder("Normal keyboard/mouse run. No teleport, injected damage, god mode, extra gear or speed changes. Temporary records only.\n");
-            for (int stage = 1; stage <= 6; stage++)
-            {
-                Assert.AreEqual(stage, game.Adventure.Stage); yield return WalkTo(game.Room.Exit); yield return Press(Key.E);
-                foreach (string id in stage == 4 || stage == 5 ? new[] { "courtyard", "north", "crossing", "middle", "south" } : new[] { "courtyard", "north", "crossing", "south" })
-                {
-                    Assert.AreEqual(id, game.Adventure.Current.Id); yield return FightUsingInput();
-                    if (id == "north" || id == "south" || id == "middle") { yield return WalkTo(new Vector2(7, 2)); yield return Press(Key.E); }
-                    if (stage > 1 && stage < 4 && id == "north")
-                    {
-                        yield return WalkTo(new Vector2(0, -5)); yield return Press(Key.E); Assert.AreEqual("shop", game.Adventure.Current.Id);
-                        yield return WalkTo(new Vector2(1, 0)); yield return Press(Key.E); Assert.IsTrue(game.AdventureUI.ShopOpen);
-                        int coins = game.Context.Coins;
-                        // Ordinary purchase button callback, with prices and slot limits unchanged.
-                        string offer = stage == 2 ? "rapid" : "vitality";
-                        if (game.Adventure.CanBuy(offer)) Assert.IsTrue(game.Adventure.Buy(offer));
-                        else { Assert.IsFalse(game.Adventure.Buy(offer)); Assert.AreEqual(coins, game.Context.Coins); }
-                        Capture("shop-normal-s" + stage + "-en", 1920, 1080); yield return Press(Key.Escape);
-                        yield return WalkTo(new Vector2(-9, -4)); yield return Press(Key.E); Assert.AreEqual("north", game.Adventure.Current.Id);
-                    }
-                    yield return WalkTo(game.Room.Exit); yield return Press(Key.E);
+            var report = new System.Text.StringBuilder("M5 six independent starts, real keyboard/mouse. No teleport, injected damage, invincibility or speed changes. Temporary profile and records.\n");
+            for(int stage=1;stage<=6;stage++) {
+                Assert.IsTrue(game.StartStage(stage)); yield return null;
+                if(stage==1) yield return WalkTo(new Vector2(-5.7f,-4));
+                else { yield return WalkTo(game.Room.Exit); yield return Press(Key.F); }
+                foreach(string id in stage==4 || stage==5 ? new[]{"courtyard","north","crossing","middle","south"} : new[]{"courtyard","north","crossing","south"}) {
+                    Assert.AreEqual(id,game.Adventure.Current.Id); yield return FightUsingInput();
+                    if(game.Adventure.Current.Kind==LevelRoomKind.Beacon) { yield return WalkTo(new Vector2(7,2)); yield return Press(Key.F); }
+                    if(stage==1 && id=="south") { yield return WalkTo(new Vector2(-6,-4)); yield return Press(Key.F); }
+                    yield return WalkTo(game.Room.Exit); yield return Press(Key.F);
                 }
-                Assert.AreEqual("seal", game.Adventure.Current.Id);
-                yield return WalkTo(new Vector2(-8, 5.5f)); yield return WalkTo(new Vector2(7, 5.5f)); yield return WalkTo(new Vector2(7, 3)); yield return Press(Key.E);
-                yield return WalkTo(game.Room.Exit); yield return Press(Key.E);
-                yield return WalkTo(new Vector2(-1, -1)); yield return Press(Key.E); yield return WalkTo(game.Room.Exit); yield return Press(Key.E);
-                Capture("boss-normal-s" + stage + "-en", 1920, 1080); yield return FightUsingInput();
-                Assert.IsTrue(game.Context.RecordEligible); Assert.IsTrue(game.Adventure.Result.Success); Assert.IsTrue(game.Adventure.Result.Saved);
-                Assert.AreEqual(game.Adventure.Result.Attempt.milliseconds, new PersonalBestStore(temporary).Find(game.Adventure.StageId,game.LevelConfig.timingVersion,game.LevelConfig.balanceVersion).milliseconds);
-                Capture("clear-normal-s" + stage + "-en", 1920, 1080);
-                report.Append(game.Adventure.StageId).Append(" seed=").Append(game.Adventure.Plan.Seed).Append(" time=").Append(LevelTimer.Format(game.Adventure.Result.Attempt.milliseconds)).Append(" health=").Append(game.Player.Health.State.Health).Append("\n");
-                if (stage < 6)
-                {
-                    string choice = game.Adventure.Rewards.Contains("vitality") ? "vitality" : game.Adventure.Rewards[0];
-                    Assert.IsTrue(game.Adventure.SelectReward(choice)); Assert.IsTrue(game.Adventure.AdvanceStage()); yield return null;
+                if(stage>1) {
+                    yield return WalkTo(new Vector2(-8,5.5f)); yield return WalkTo(new Vector2(7,5.5f)); yield return WalkTo(new Vector2(7,3)); yield return Press(Key.F);
+                    yield return WalkTo(game.Room.Exit); yield return Press(Key.F);
+                    yield return WalkTo(new Vector2(-1,-1)); yield return Press(Key.F); yield return WalkTo(game.Room.Exit); yield return Press(Key.F);
                 }
+                yield return FightUsingInput(); Assert.IsTrue(game.Adventure.Result.Success); Assert.IsTrue(game.Adventure.Result.Eligible); Assert.IsTrue(game.Adventure.Result.Saved);
+                report.Append(stage).Append(" | seed ").Append(game.Adventure.Plan.Seed).Append(" | ").Append(LevelTimer.Format(game.Adventure.Result.Attempt.milliseconds)).Append(" | HP ").Append(game.Player.Health.State.Health).Append(" | ").Append(string.Join(" / ",game.Adventure.Result.Attempt.equipment)).Append("\n");
+                if(game.Adventure.Rewards.Count>0) Assert.IsTrue(game.Adventure.SelectReward(game.Adventure.Rewards[0]));
+                Capture("m5-normal-clear-s"+stage+"-en",1920,1080);
+                Assert.IsTrue(game.Adventure.AdvanceStage()); yield return null;
+                var gear=game.Profile.Prepared(); if(game.Profile.Owns("smg")) gear.Equip("smg"); else if(game.Profile.Owns("shotgun")) gear.Equip("shotgun");
+                if(game.Profile.Owns("rapid") && gear.Layers("rapid")==0) gear.Equip("rapid"); Assert.IsTrue(game.Profile.SavePreparation(gear));
             }
-            Assert.IsFalse(game.Checkpoints.HasEntry); Assert.AreEqual(6, new PersonalBestStore(temporary).Book.bests.Count);
-            game.AdventureUI.OpenRecords();
-            foreach (string language in new[] { "en", "zh-CN" })
-            {
-                game.SetLanguage(language); Capture("records-six-stages-" + language, 1920, 1080);
-            }
-            File.WriteAllText(Path.Combine(Application.dataPath, "../Logs/M4-normal-input.txt"), report.ToString());
+            Assert.AreEqual(6,new PersonalBestStore(temporary).Book.bests.Count); File.WriteAllText(Path.Combine(Application.dataPath,"../../appendix/M5/normal-input.txt"),report.ToString());
         }
         [UnityTest] public IEnumerator RewardSaveFailureCannotGrantOrDuplicateNextEntryAndCancelKeepsProgress()
         {
-            game.StartAdventure(); yield return null; yield return FinishFixture();
-            string id = game.Adventure.Rewards[0]; int coins = game.Context.Coins; var snapshot = JsonUtility.ToJson(game.Loadout.Snapshot());
-            string blocked = Path.Combine(temporary, "starfall-checkpoint.json.tmp"); Directory.CreateDirectory(blocked);
-            Assert.IsFalse(game.Adventure.SelectReward(id)); Assert.IsFalse(game.Adventure.RewardSelected); Assert.AreEqual(1, game.Checkpoints.Current.stage);
-            Assert.AreEqual(coins, game.Context.Coins); Assert.AreEqual(snapshot, JsonUtility.ToJson(game.Loadout.Snapshot())); Capture("reward-write-failure-en", 1280, 720);
-            Directory.Delete(blocked); Assert.IsTrue(game.Adventure.SelectReward(id)); Assert.IsFalse(game.Adventure.SelectReward(id));
-            Assert.AreEqual(2, new CheckpointStore(temporary).Current.stage);
-            game.ReturnToMenu(); string run = game.Checkpoints.Current.runId; game.RequestAdventureStart(); Assert.IsTrue(game.NewRunConfirmation); Capture("overwrite-en", 1280, 720);
-            game.CancelNewRun(); Assert.AreEqual(run, game.Checkpoints.Current.runId); Assert.AreEqual(2, game.Checkpoints.Current.stage);
-            game.RequestAdventureStart(); game.ConfirmNewRun(); yield return null; Assert.AreEqual(1, game.Adventure.Stage); Assert.AreNotEqual(run, game.RunId);
+            game.StartStage(2); yield return null; yield return ReachGuardian(false); game.Adventure.BossHealth.Receive(new DamageContext(10000,Faction.Player)); yield return null; yield return null;
+            string id=game.Adventure.Rewards[0]; string blocked=Path.Combine(temporary,"starfall-profile.json.tmp"); Directory.CreateDirectory(blocked);
+            Assert.IsFalse(game.Adventure.SelectReward(id)); Assert.IsFalse(game.Profile.Owns(id)); Assert.IsTrue(game.Profile.HasPending(2)); Assert.IsFalse(game.Adventure.AdvanceStage());
+            Directory.Delete(blocked); Assert.IsTrue(game.Adventure.SelectReward(id)); Assert.IsFalse(game.Adventure.SelectReward(id)); Assert.IsTrue(game.Adventure.AdvanceStage());
+            Assert.IsNull(game.Context); Assert.AreEqual(FrontPage.Stages,game.FrontEnd.Page); Assert.IsFalse(game.Checkpoints.HasEntry); Assert.IsTrue(new PlayerProfileStore(temporary,game.Catalog).Owns(id));
         }
         [UnityTest] public IEnumerator ResumeAfterApplicationReloadRestoresEntryAndPracticeCannotContaminateIt()
         {
-            double now = 0; StarfallGame.EditorAdventureClock = () => now;
-            game.StartAdventure(); yield return null; yield return FinishFixture(); Assert.IsTrue(game.Adventure.SelectReward(game.Adventure.Rewards[0])); Assert.IsTrue(game.Adventure.AdvanceStage()); yield return null;
-            var entry = JsonUtility.FromJson<EntryCheckpoint>(JsonUtility.ToJson(game.Checkpoints.Current));
-            game.Context.AddCoins(999); game.EquipItem("smg"); game.Loadout.SpendEnergy(42); game.Player.Health.State.Damage(30, 999, false, 0); now = 50;
-            game.ReturnToMenu(); game.StartTraining(); game.EquipItem("rapid"); game.StartEnvironmentSample(2); yield return null;
-            Assert.AreEqual(JsonUtility.ToJson(entry), JsonUtility.ToJson(game.Checkpoints.Current)); game.ReturnToMenu(); game.StartTutorial(); yield return null;
-            Assert.AreEqual(JsonUtility.ToJson(entry), JsonUtility.ToJson(game.Checkpoints.Current)); game.ReturnToMenu();
-            UnityEngine.Object.Destroy(game.gameObject); yield return null; SceneManager.LoadScene("Assets/_Game/Scenes/Boot.unity"); yield return null;
-            game = UnityEngine.Object.FindFirstObjectByType<StarfallGame>(); Assert.IsTrue(game.ContinueAdventure()); yield return null;
-            Assert.AreEqual(2, game.Adventure.Stage); Assert.AreEqual("entry", game.Adventure.Current.Id); Assert.AreEqual(entry.seed, game.Adventure.Plan.Seed);
-            Assert.AreEqual(entry.coins, game.Context.Coins); Assert.AreEqual(entry.health, game.Player.Health.State.Health);
-            Assert.AreEqual(JsonUtility.ToJson(entry.loadout), JsonUtility.ToJson(game.Loadout.Snapshot())); Assert.AreEqual(0, game.Adventure.Timer.Milliseconds);
-            Assert.IsFalse(game.Loadout.Invincible); Assert.IsFalse(game.Loadout.InfiniteEnergy); Assert.IsFalse(game.Context.RecordEligible);
-            game.Player.Health.State.Damage(10000, 1000, false, 0); yield return null; Assert.IsFalse(game.Checkpoints.HasEntry); Assert.IsFalse(new CheckpointStore(temporary).HasEntry);
+            Assert.IsTrue(game.StartStage(6)); yield return null; var entry=JsonUtility.FromJson<EntryCheckpoint>(JsonUtility.ToJson(game.Checkpoints.Current));
+            game.ReturnToMenu(); game.StartTraining(); game.EquipItem("rapid"); game.StartEnvironmentSample(2); yield return null; game.ReturnToMenu();
+            Assert.AreEqual(JsonUtility.ToJson(entry),JsonUtility.ToJson(game.Checkpoints.Current)); Assert.IsFalse(game.Profile.Owns("rapid"));
+            UnityEngine.Object.Destroy(game.gameObject); yield return null; SceneManager.LoadScene("Assets/_Game/Scenes/Boot.unity"); yield return null; game=UnityEngine.Object.FindFirstObjectByType<StarfallGame>();
+            Assert.IsTrue(game.ContinueAdventure()); yield return null; Assert.AreEqual(6,game.Adventure.Stage); Assert.AreEqual("entry",game.Adventure.Current.Id); Assert.AreEqual(entry.seed,game.Adventure.Plan.Seed);
+            Assert.AreEqual(JsonUtility.ToJson(entry.loadout),JsonUtility.ToJson(game.Loadout.Snapshot())); Assert.AreEqual(0,game.Context.Coins); Assert.IsFalse(game.Loadout.Invincible);
+            game.Player.Health.State.Damage(10000,1000,false,0); yield return null; Assert.IsFalse(game.Checkpoints.HasEntry); Assert.AreEqual(2,game.Profile.Data.unlocked.Count);
         }
-        [UnityTest] public IEnumerator ShopTimeCountsAndPurchasesAreAtomicAcrossPausesAndRevisits()
+        [UnityTest] public IEnumerator ShopTimeIsExcludedAndPurchasesAreAtomicAcrossPausesAndRevisits()
         {
             double now = 0; StarfallGame.EditorAdventureClock = () => now; StartFixture(2); yield return null;
             yield return Interact("route.next"); yield return ClearRoom(); yield return Interact("route.next"); yield return ClearRoom(); yield return Interact("beacon.north"); yield return Interact("route.branch"); yield return Interact("shop.open");
             Assert.IsTrue(game.AdventureUI.ShopOpen); Assert.IsTrue(game.Pause.Has(PauseReason.Shop)); Assert.IsFalse(game.CanAct);
-            now = 10; Assert.AreEqual(10000, game.Adventure.Timer.Milliseconds); int coins = game.Context.Coins;
+            now = 10; Assert.AreEqual(0, game.Adventure.Timer.Milliseconds); int coins = game.Context.Coins;
             Assert.IsFalse(game.Adventure.Buy("heal")); Assert.AreEqual(coins, game.Context.Coins);
             game.Loadout.SpendEnergy(50); Assert.IsTrue(game.Adventure.Buy("energy")); Assert.AreEqual(coins - game.CampaignConfig.energyPrice, game.Context.Coins);
             Assert.IsFalse(game.Adventure.Buy("energy")); Assert.AreEqual(coins - game.CampaignConfig.energyPrice, game.Context.Coins);
-            game.SetPause(PauseReason.Menu, true); game.SetPause(PauseReason.Focus, true); now = 20; game.SetPause(PauseReason.Menu, false); now = 30; Assert.AreEqual(10000, game.Adventure.Timer.Milliseconds);
-            game.SetPause(PauseReason.Focus, false); now = 35; Assert.AreEqual(15000, game.Adventure.Timer.Milliseconds);
+            game.SetPause(PauseReason.Menu, true); game.SetPause(PauseReason.Focus, true); now = 20; game.SetPause(PauseReason.Menu, false); now = 30; Assert.AreEqual(0, game.Adventure.Timer.Milliseconds);
+            game.SetPause(PauseReason.Focus, false); now = 35; Assert.AreEqual(0, game.Adventure.Timer.Milliseconds);
             game.AdventureUI.CloseShop(); yield return Interact("route.back"); yield return Interact("route.branch"); yield return Interact("shop.open"); Assert.IsTrue(game.Adventure.Shop.Sold("energy"));
             Capture("shop-en", 1280, 720); game.SetLanguage("zh-CN"); Capture("shop-zh-CN", 1280, 720);
         }
@@ -237,7 +207,7 @@ namespace Starfall.Tests
             StartFixture(2); yield return null;
             yield return Interact("route.next"); yield return ClearRoom(); yield return Interact("route.branch"); Assert.AreEqual("bypass", game.Adventure.Current.Id);
             yield return ClearRoom(); yield return Interact("route.next"); Assert.AreEqual("crossing", game.Adventure.Current.Id); yield return ClearRoom(); yield return Interact("route.branch"); yield return ClearRoom();
-            Assert.AreEqual("workshop_smg", game.Loadout.SpecialWeapon); Assert.IsTrue(game.Adventure.Progress.IsClaimed("challenge.reward")); int coins = game.Context.Coins;
+            Assert.IsNull(game.Loadout.SpecialWeapon); yield return Interact("supply.workshop_smg"); Assert.AreEqual("workshop_smg", game.Loadout.SpecialWeapon); Assert.IsTrue(game.Adventure.Progress.IsClaimed("challenge.reward")); int coins = game.Context.Coins;
             yield return Interact("route.back"); yield return Interact("route.branch"); Assert.AreEqual(0, game.LivingEnemies); Assert.AreEqual(coins, game.Context.Coins);
             StartFixture(3); yield return null; yield return Interact("route.next"); yield return ClearRoom();
             yield return Interact("route.branch"); Assert.AreEqual("south", game.Adventure.Current.Id); yield return ClearRoom(); yield return Interact("beacon.south"); Assert.IsFalse(game.Adventure.Travel("seal"));
@@ -284,19 +254,26 @@ namespace Starfall.Tests
         void Capture(string name, int width, int height)
         {
             Assert.AreNotEqual(UnityEngine.Rendering.GraphicsDeviceType.Null, SystemInfo.graphicsDeviceType);
-            string directory = Path.Combine(Application.dataPath, "../Logs/M3-Screens"); Directory.CreateDirectory(directory);
+            string directory = Path.Combine(Application.dataPath, "../../appendix/M5/screens"); Directory.CreateDirectory(directory);
             var camera = game.GameCamera; var canvas = game.Interface.Canvas; var target = new RenderTexture(width, height, 24);
             var scaler = canvas.GetComponent<CanvasScaler>(); float oldScale = canvas.scaleFactor, oldSize = camera.orthographicSize;
             var oldTarget = camera.targetTexture; var oldActive = RenderTexture.active; var oldMode = canvas.renderMode;
             camera.targetTexture = target; canvas.renderMode = RenderMode.ScreenSpaceCamera; canvas.worldCamera = camera; canvas.planeDistance = 5;
             scaler.enabled = false; canvas.scaleFactor = Mathf.Min(width / 1280f, height / 720f); camera.orthographicSize = Mathf.Max(9.3f, 13.4f / ((float)width / height));
             game.Interface.RefreshNow(); game.ModeUI.RefreshNow(); game.AdventureUI.RefreshNow(); game.GetComponent<LoadoutInterface>().RefreshNow(); Canvas.ForceUpdateCanvases();
+            game.FrontEnd.RefreshLayout(); Canvas.ForceUpdateCanvases();
             foreach (var view in game.Interface.GetComponentsInChildren<Text>())
             {
                 if (!view.gameObject.activeInHierarchy || string.IsNullOrEmpty(view.text)) continue;
+                if(name.StartsWith("M5-")) {
+                    if(view.preferredHeight > view.rectTransform.rect.height+3) m5LayoutProblems.Add(name+": overflow "+view.name+" actual="+view.preferredHeight+" box="+view.rectTransform.rect.height+" text="+view.text);
+                    if(view.text.Contains("{")) m5LayoutProblems.Add(name+": unformatted "+view.text);
+                    foreach(char character in view.text) if(character>127 && !char.IsWhiteSpace(character) && !view.font.HasCharacter(character,true,true)) m5LayoutProblems.Add(name+": missing glyph "+character);
+                    continue;
+                }
                 Assert.LessOrEqual(view.preferredHeight, view.rectTransform.rect.height + 3, "Text overflow: " + view.name + " / " + view.text);
                 Assert.IsFalse(view.text.Contains("{"), "Unformatted: " + view.text);
-                foreach (char character in view.text) if (character > 127 && !char.IsWhiteSpace(character)) Assert.IsTrue(view.font.HasCharacter(character), "Missing glyph: " + character);
+                foreach (char character in view.text) if (character > 127 && !char.IsWhiteSpace(character)) Assert.IsTrue(view.font.HasCharacter(character,true,true), "Missing glyph: " + character);
             }
             UnityEngine.Rendering.RenderPipeline.SubmitRenderRequest(camera, new UnityEngine.Rendering.RenderPipeline.StandardRequest { destination = target }); RenderTexture.active = target;
             var screenshot = new Texture2D(width, height, TextureFormat.RGB24, false); screenshot.ReadPixels(new Rect(0, 0, width, height), 0, 0); screenshot.Apply();

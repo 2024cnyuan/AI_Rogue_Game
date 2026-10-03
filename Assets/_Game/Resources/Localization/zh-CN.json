@@ -18,7 +18,7 @@
     },
     {
       "key": "menu.continue",
-      "value": "继续冒险"
+      "value": "继续所选关"
     },
     {
       "key": "menu.noCheckpoint",
@@ -146,7 +146,7 @@
     },
     {
       "key": "hud.exit",
-      "value": "目标：前往右侧出口，按 E 离开"
+      "value": "F · 使用出口"
     },
     {
       "key": "hud.stage",
@@ -154,7 +154,7 @@
     },
     {
       "key": "hud.controls",
-      "value": "WASD 移动 · 鼠标/左键射击 · Space 闪避 · E 交互 · Q 主动 · 1/2 换枪 · Tab 地图 · Esc 暂停"
+      "value": "WASD 移动 · 鼠标瞄准 · 左键攻击 · Space 闪避 · 1/2 武器 · Q 主动 · E 拾取 · F 交互 · Tab 地图"
     },
     {
       "key": "hud.pickups",
@@ -162,7 +162,7 @@
     },
     {
       "key": "hud.interact",
-      "value": "E · 离开试验庭"
+      "value": "F · 使用出口"
     },
     {
       "key": "room.start",
@@ -222,7 +222,7 @@
     },
     {
       "key": "intro.body",
-      "value": "可先学习基础操作，也可直接进入第一关。训练营始终可从主菜单进入。"
+      "value": "可先学习基础操作，也可自由选择六关。训练营始终可从主菜单进入。"
     },
     {
       "key": "intro.adventure",
@@ -234,7 +234,7 @@
     },
     {
       "key": "station.prompt",
-      "value": "E · {name}"
+      "value": "F · {name}"
     },
     {
       "key": "station.beacon",
@@ -458,7 +458,7 @@
     },
     {
       "key": "tutorial.completeBody",
-      "value": "教学装备只属于本次教学，不带入主线。可开始第一关、进入训练营或返回菜单。"
+      "value": "教学装备只属于本次教学。可自由选择六关、进入训练营或返回菜单；通关永久解锁装备。"
     },
     {
       "key": "tutorial.completedAll",
@@ -790,11 +790,11 @@
     },
     {
       "key": "adventure.start",
-      "value": "从关卡入口开始。E 交互，Space 闪避，1 切回无限弹药手枪；Tab 查看路线。"
+      "value": "E 拾取 · F 交互 · Space 闪避 · 1/2 换枪 · Q 主动 · Tab 地图"
     },
     {
       "key": "adventure.enter",
-      "value": "沿右侧入口推进；返回路线和可选试炼均按 E 交互。"
+      "value": "沿右侧入口推进；返回路线和可选试炼均按 F 交互。"
     },
     {
       "key": "adventure.objective",
@@ -810,11 +810,11 @@
     },
     {
       "key": "adventure.routeHint",
-      "value": "清场后到入口按 E。信标守卫厅还需战后激活信标。"
+      "value": "清场后到入口按 F。信标守卫厅还需战后激活信标。"
     },
     {
       "key": "adventure.mechanismHint",
-      "value": "金色横条先预警再脉冲。走上/下侧安全通路，到右上方按 E 关闭继电器。"
+      "value": "金色横条先预警再脉冲。走上/下侧安全通路，到右上方按 F 关闭继电器。"
     },
     {
       "key": "adventure.challengeTime",
@@ -838,7 +838,7 @@
     },
     {
       "key": "adventure.activateBeacon",
-      "value": "守卫已清除。到右上方按 E 完成本房主线目标，随后继续前进。"
+      "value": "守卫已清除。到右上方按 F 完成本房主线目标，随后继续前进。"
     },
     {
       "key": "adventure.beacon",
@@ -906,11 +906,11 @@
     },
     {
       "key": "records.rules",
-      "value": "获得操作权开始计时；任务完成且 Boss 死亡、当帧存活时停止。Esc、地图、失焦、设置与加载重叠只扣一次；探索和决策计时。向下量化到毫秒比较。不同种子与合法构筑比较同关个人最佳，不是同图竞速。"
+      "value": "获得操作权开始计时；目标完成、Boss 死亡且当帧存活时停止。地图、商店、比较、设置、暂停、失焦与加载不计时；重叠只扣一次。不同种子与合法构筑比较同关最佳，新单关规则与旧连续冒险分组。"
     },
     {
       "key": "records.scope",
-      "value": "标准难度 · 计时 v{timing} · 平衡 v{balance}。前三关已开放；可滚动查看旧规则纪录。"
+      "value": "单关成绩独立记录；旧版连续冒险记录保留为存档。"
     },
     {
       "key": "records.metadata",
@@ -1142,7 +1142,7 @@
     },
     {
       "key": "shop.rules",
-      "value": "浏览和购买时战斗暂停，关卡计时继续。每件限购一次；满资源或装备达上限时不扣款。Esc 返回房间。"
+      "value": "浏览和购买暂停战斗与关卡计时。每件限购一次；满资源、装备上限或取消替换不扣款。Esc 返回房间。"
     },
     {
       "key": "shop.offer",
@@ -1783,6 +1783,462 @@
     {
       "key": "training.waveDone",
       "value": "模拟战完成；无伤治疗只触发一次。"
+    },
+    {
+      "key": "m5.menuSubtitle",
+      "value": "星港远征 · 六处遗迹，任你挑战"
+    },
+    {
+      "key": "m5.play",
+      "value": "选择关卡"
+    },
+    {
+      "key": "m5.preparation",
+      "value": "出战整备"
+    },
+    {
+      "key": "m5.collection",
+      "value": "永久装备"
+    },
+    {
+      "key": "m5.selectStage",
+      "value": "远征地图"
+    },
+    {
+      "key": "m5.recommended",
+      "value": "推荐初次挑战"
+    },
+    {
+      "key": "m5.open",
+      "value": "可直接挑战"
+    },
+    {
+      "key": "m5.cleared",
+      "value": "已通关"
+    },
+    {
+      "key": "m5.pending",
+      "value": "待领奖"
+    },
+    {
+      "key": "m5.unlockReward",
+      "value": "通关永久解锁"
+    },
+    {
+      "key": "m5.startStage",
+      "value": "开始本关"
+    },
+    {
+      "key": "m5.claimPending",
+      "value": "领取通关奖励"
+    },
+    {
+      "key": "m5.allStagesOpen",
+      "value": "六关均可直接挑战；通关可永久解锁装备。"
+    },
+    {
+      "key": "m5.empty",
+      "value": "空槽"
+    },
+    {
+      "key": "m5.preparationRules",
+      "value": "手枪固定携带\n特殊武器 × 1 · 主动道具 × 1\n被动装备最多 6 种，开局各 1 层\n金币与补给每次挑战重置"
+    },
+    {
+      "key": "m5.locked",
+      "value": "未解锁"
+    },
+    {
+      "key": "m5.permanent",
+      "value": "已永久解锁"
+    },
+    {
+      "key": "m5.source",
+      "value": "通关来源：关卡"
+    },
+    {
+      "key": "m5.equip",
+      "value": "装备"
+    },
+    {
+      "key": "m5.remove",
+      "value": "移出出战栏"
+    },
+    {
+      "key": "m5.pendingHint",
+      "value": "奖励已经保存。选择一件未解锁的装备，今后可在任意关卡使用。"
+    },
+    {
+      "key": "m5.allCollected",
+      "value": "本关装备已全部收集"
+    },
+    {
+      "key": "m5.pickup",
+      "value": "E · 拾取 {item}"
+    },
+    {
+      "key": "m5.obtained",
+      "value": "已获得 · {item}"
+    },
+    {
+      "key": "m5.resource.coins",
+      "value": "金币 +{count}"
+    },
+    {
+      "key": "m5.resource.health",
+      "value": "生命 +{count}"
+    },
+    {
+      "key": "m5.resource.energy",
+      "value": "能量 +{count}"
+    },
+    {
+      "key": "m5.unlockSaveFailed",
+      "value": "永久奖励保存失败，请重试保存后离开。"
+    },
+    {
+      "key": "m5.weaponChest",
+      "value": "F · 打开武器箱"
+    },
+    {
+      "key": "m5.stageFeature.1",
+      "value": "花园庭院 · 适合初次远征\n越过安全门廊开始战斗，点亮两座信标后挑战守卫。"
+    },
+    {
+      "key": "m5.stageFeature.2",
+      "value": "机械工坊 · 传送带与爆裂装置\n注意地面运动，利用掩体与机械节拍。"
+    },
+    {
+      "key": "m5.stageFeature.3",
+      "value": "冰封水库 · 冰面与护送挑战\n保持移动，为护送装置留出安全空间。"
+    },
+    {
+      "key": "m5.stageFeature.4",
+      "value": "孢子温室 · 毒池与连续波次\n避开腐蚀，利用补给间歇。"
+    },
+    {
+      "key": "m5.stageFeature.5",
+      "value": "能源枢纽 · 电网与激光\n观察预警颜色，在电网间歇穿行。"
+    },
+    {
+      "key": "m5.stageFeature.6",
+      "value": "星核圣殿 · 最终守卫\n带好装备，留意首领各阶段的攻击预兆。"
+    },
+    {
+      "key": "m5.returnStages",
+      "value": "返回关卡选择"
+    },
+    {
+      "key": "m5.retryStage",
+      "value": "重试本关"
+    },
+    {
+      "key": "m5.rewardSaved",
+      "value": "通关解锁已保存：{item}"
+    },
+    {
+      "key": "m5.rewardChosen",
+      "value": "已永久解锁：{item}"
+    },
+    {
+      "key": "m5.chooseReward",
+      "value": "选择一件永久装备"
+    },
+    {
+      "key": "m5.retryUnlock",
+      "value": "重试保存奖励"
+    },
+    {
+      "key": "m5.time",
+      "value": "本关用时 {time}"
+    },
+    {
+      "key": "m5.settingsMinimal",
+      "value": "精简画面：{state}"
+    },
+    {
+      "key": "m5.settingsVignette",
+      "value": "轻微暗角：{state}"
+    },
+    {
+      "key": "m5.settingsNumbers",
+      "value": "伤害数字：{state}"
+    },
+    {
+      "key": "m5.testSound",
+      "value": "测试声音"
+    },
+    {
+      "key": "m5.trainingStart",
+      "value": "开始选定训练"
+    },
+    {
+      "key": "m5.trainingSelected",
+      "value": "已选择：{item} · 点击开始才会生成"
+    },
+    {
+      "key": "m5.trainingIdle",
+      "value": "待开始"
+    },
+    {
+      "key": "m5.trainingRunning",
+      "value": "进行中；先停止再换配置"
+    },
+    {
+      "key": "m5.compare",
+      "value": "替换装备"
+    },
+    {
+      "key": "m5.current",
+      "value": "当前装备"
+    },
+    {
+      "key": "m5.new",
+      "value": "地面装备"
+    },
+    {
+      "key": "m5.confirmReplace",
+      "value": "确认替换"
+    },
+    {
+      "key": "m5.cancelReplace",
+      "value": "保留原装备"
+    },
+    {
+      "key": "m5.trainingMenu",
+      "value": "训练营"
+    },
+    {
+      "key": "m5.tutorialMenu",
+      "value": "新手教学"
+    },
+    {
+      "key": "tutorial.energyDemo",
+      "value": "能量已用尽：按 1 换回无限弹药手枪。"
+    },
+    {
+      "key": "m5.item.pistol",
+      "value": "手枪"
+    },
+    {
+      "key": "m5.item.shotgun",
+      "value": "霰弹枪"
+    },
+    {
+      "key": "m5.item.smg",
+      "value": "冲锋枪"
+    },
+    {
+      "key": "m5.item.crossbow",
+      "value": "穿透弩"
+    },
+    {
+      "key": "m5.item.launcher",
+      "value": "发射器"
+    },
+    {
+      "key": "m5.item.arc",
+      "value": "电弧枪"
+    },
+    {
+      "key": "m5.item.workshop_smg",
+      "value": "精制冲锋枪"
+    },
+    {
+      "key": "m5.item.medkit",
+      "value": "急救包"
+    },
+    {
+      "key": "m5.item.shield",
+      "value": "护盾"
+    },
+    {
+      "key": "m5.item.slow",
+      "value": "冰缓力场"
+    },
+    {
+      "key": "m5.item.shock",
+      "value": "震荡器"
+    },
+    {
+      "key": "m5.item.decoy",
+      "value": "诱饵"
+    },
+    {
+      "key": "m5.item.grenade",
+      "value": "手雷"
+    },
+    {
+      "key": "m5.item.rapid",
+      "value": "加速机芯"
+    },
+    {
+      "key": "m5.item.magnet",
+      "value": "磁环"
+    },
+    {
+      "key": "m5.item.vitality",
+      "value": "生命核心"
+    },
+    {
+      "key": "m5.item.agile",
+      "value": "助推靴"
+    },
+    {
+      "key": "m5.item.pierce",
+      "value": "穿透弹芯"
+    },
+    {
+      "key": "m5.item.bounce",
+      "value": "反弹棱镜"
+    },
+    {
+      "key": "m5.item.critical",
+      "value": "精密瞄具"
+    },
+    {
+      "key": "m5.item.recharge",
+      "value": "回能电容"
+    },
+    {
+      "key": "m5.item.lowhealth",
+      "value": "应急护甲"
+    },
+    {
+      "key": "m5.item.blast",
+      "value": "扩散弹舱"
+    },
+    {
+      "key": "m5.item.controlled",
+      "value": "控制追踪"
+    },
+    {
+      "key": "m5.item.flawless",
+      "value": "修复徽章"
+    },
+    {
+      "key": "m5.kind.weapon",
+      "value": "武器"
+    },
+    {
+      "key": "m5.kind.active",
+      "value": "主动"
+    },
+    {
+      "key": "m5.kind.passive",
+      "value": "被动"
+    },
+    {
+      "key": "m5.purchase",
+      "value": "确认购买"
+    },
+    {
+      "key": "m5.purchaseHint",
+      "value": "先选择商品查看效果，再确认购买。购买只影响本次挑战。"
+    },
+    {
+      "key": "brief.pistol",
+      "value": "伤害 {damage} · 间隔 {interval} 秒 · 无限弹药"
+    },
+    {
+      "key": "brief.shotgun",
+      "value": "{pellets} 颗弹丸，每颗 {damage} 伤害 · 能量 {energy}"
+    },
+    {
+      "key": "brief.smg",
+      "value": "伤害 {damage} · 间隔 {interval} 秒 · 能量 {energy}"
+    },
+    {
+      "key": "brief.workshop_smg",
+      "value": "伤害 {damage} · 间隔 {interval} 秒 · 能量 {energy}"
+    },
+    {
+      "key": "brief.crossbow",
+      "value": "伤害 {damage} · 蓄力 {delay} 秒 · 穿透 {piercing}"
+    },
+    {
+      "key": "brief.launcher",
+      "value": "伤害 {damage} · 爆炸半径 {radius} · 能量 {energy}"
+    },
+    {
+      "key": "brief.arc",
+      "value": "伤害 {damage} · 连锁 {chains} 次 · 能量 {energy}"
+    },
+    {
+      "key": "brief.medkit",
+      "value": "恢复 {value} 生命 · {charges} 次 · 冷却 {cooldown} 秒"
+    },
+    {
+      "key": "brief.shield",
+      "value": "护盾 {value} 秒 · {charges} 次 · 冷却 {cooldown} 秒"
+    },
+    {
+      "key": "brief.slow",
+      "value": "减速 {value}% · 持续 {duration} 秒 · 半径 {radius}"
+    },
+    {
+      "key": "brief.shock",
+      "value": "伤害 {value} · 控制 {duration} 秒 · 半径 {radius}"
+    },
+    {
+      "key": "brief.decoy",
+      "value": "诱饵生命 {value} · 持续 {duration} 秒"
+    },
+    {
+      "key": "brief.grenade",
+      "value": "伤害 {value} · 延迟 {delay} 秒 · 半径 {radius}"
+    },
+    {
+      "key": "brief.rapid",
+      "value": "每层射速 +{value}% · 最多 2 层"
+    },
+    {
+      "key": "brief.magnet",
+      "value": "每层拾取半径 +{value} · 最多 2 层"
+    },
+    {
+      "key": "brief.vitality",
+      "value": "每层生命上限 +{value} · 最多 2 层"
+    },
+    {
+      "key": "brief.agile",
+      "value": "每层缩短闪避冷却 {value}% · 最多 2 层"
+    },
+    {
+      "key": "brief.pierce",
+      "value": "每层弹道穿透 +{value} · 最多 2 层"
+    },
+    {
+      "key": "brief.bounce",
+      "value": "每层弹道反弹 +{value} · 最多 2 层"
+    },
+    {
+      "key": "brief.critical",
+      "value": "每层暴击率 +{value}% · 最多 2 层"
+    },
+    {
+      "key": "brief.recharge",
+      "value": "每层击杀恢复 {value} 能量 · 最多 2 层"
+    },
+    {
+      "key": "brief.lowhealth",
+      "value": "低血时每层伤害 +{value}% · 最多 2 层"
+    },
+    {
+      "key": "brief.blast",
+      "value": "每层爆炸范围 +{value}% · 最多 2 层"
+    },
+    {
+      "key": "brief.controlled",
+      "value": "对受控敌人每层伤害 +{value}% · 最多 2 层"
+    },
+    {
+      "key": "brief.flawless",
+      "value": "无伤清房每层恢复 {value} 生命 · 最多 2 层"
+    },
+    {
+      "key": "m5.resetShort",
+      "value": "重置模拟"
     }
   ]
 }

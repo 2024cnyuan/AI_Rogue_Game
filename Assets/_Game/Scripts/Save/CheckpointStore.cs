@@ -16,7 +16,7 @@ namespace Starfall
     [Serializable] public sealed class EntryCheckpoint
     {
         public int schema = 1, stage = 1, seed, coins;
-        public string runId, contentVersion = "m4-v1";
+        public string runId, contentVersion = "m5-v1";
         public List<long> completedTimes = new List<long>();
         public bool active = true, eligible = true;
         public float health = 100;
@@ -43,9 +43,10 @@ namespace Starfall
             try
             {
                 var value = JsonUtility.FromJson<EntryCheckpoint>(File.ReadAllText(file));
-                if (value == null || value.schema != 1 || (value.contentVersion != "m4-v1" && value.contentVersion != "m3-v1") || value.active && !Valid(value) || value.contentVersion == "m3-v1" && value.stage > 3) throw new InvalidDataException();
+                if (value == null || value.schema != 1 || (value.contentVersion != "m5-v1" && value.contentVersion != "m4-v1" && value.contentVersion != "m3-v1") || value.active && !Valid(value) || value.contentVersion == "m3-v1" && value.stage > 3) throw new InvalidDataException();
                 if (value.completedTimes == null) value.completedTimes = new List<long>();
-                value.contentVersion = "m4-v1";
+                if (value.contentVersion != "m5-v1") { value.eligible = false; value.completedTimes.Clear(); }
+                value.contentVersion = "m5-v1";
                 return value;
             }
             catch (Exception error) when (error is IOException || error is InvalidDataException || error is UnauthorizedAccessException || error is ArgumentException)

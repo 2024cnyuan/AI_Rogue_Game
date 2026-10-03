@@ -9,6 +9,7 @@ using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
+using Text = TMPro.TextMeshProUGUI;
 
 namespace Starfall.Tests
 {
@@ -85,11 +86,11 @@ namespace Starfall.Tests
             float initial = game.Player.Health.State.Health; yield return KeyPress(Key.Q); Assert.Greater(game.Player.Health.State.Health, initial);
             Place(new Vector2(4, -4)); yield return KeyPress(Key.E); Assert.AreEqual(TutorialStep.MapBeacon, game.Tutorial.Step);
             Assert.IsNotNull(game.Tutorial.PassiveComparison); Capture("tutorial-map-en", 1280, 720);
-            Place(new Vector2(7, 3)); yield return KeyPress(Key.E); Assert.IsFalse(game.Room.DoorOpen, "Beacon must wait for a completed map visit");
+            Place(new Vector2(7, 3)); yield return KeyPress(Key.F); Assert.IsFalse(game.Room.DoorOpen, "Beacon must wait for a completed map visit");
             yield return KeyPress(Key.Tab); Assert.IsTrue(game.Pause.Has(PauseReason.Map));
             yield return KeyPress(Key.Tab); Assert.IsFalse(game.Pause.IsPaused);
-            yield return KeyPress(Key.E); Assert.IsTrue(game.Room.DoorOpen);
-            Place(game.Room.Exit); yield return KeyPress(Key.E); Assert.AreEqual(TutorialStep.Combat, game.Tutorial.Step); Assert.AreEqual(3, game.LivingEnemies);
+            yield return KeyPress(Key.F); Assert.IsTrue(game.Room.DoorOpen);
+            Place(game.Room.Exit); yield return KeyPress(Key.F); Assert.AreEqual(TutorialStep.Combat, game.Tutorial.Step); Assert.AreEqual(3, game.LivingEnemies);
             Place(new Vector2(5, -5)); Capture("tutorial-combat-en", 1280, 720);
             // Defeat each real enemy with pooled projectiles; key-driven firing was exercised above.
             var enemies = new System.Collections.Generic.List<PrototypeEnemy>(game.Enemies);
@@ -101,7 +102,7 @@ namespace Starfall.Tests
                     yield return new WaitForSeconds(.06f);
                 }
             }
-            Assert.AreEqual(0, game.LivingEnemies); Place(game.Room.Exit); yield return KeyPress(Key.E);
+            Assert.AreEqual(0, game.LivingEnemies); Place(game.Room.Exit); yield return KeyPress(Key.F);
             Assert.AreEqual(TutorialStep.Complete, game.Tutorial.Step); Assert.IsTrue(game.Settings.tutorialCompleted); Assert.IsFalse(game.Settings.tutorialSkipped);
             Assert.IsFalse(game.Context.RecordEligible); Assert.AreEqual(0, game.Projectiles.ActiveCount); Capture("tutorial-complete-en", 1280, 720);
             game.SetLanguage("zh-CN"); Capture("tutorial-complete-zh-CN", 1280, 720);
@@ -144,13 +145,13 @@ namespace Starfall.Tests
             Assert.AreEqual(0, game.Context.Kills); Assert.AreEqual(0, game.Context.Coins);
             Assert.AreEqual(3, UnityEngine.Object.FindObjectsByType<PracticeTarget>(FindObjectsSortMode.None).Length);
             for (int index = 0; index < 25; index++) { game.EquipItem(index % 2 == 0 ? "shotgun" : "smg"); }
-            yield return null; Assert.AreEqual(6, UnityEngine.Object.FindObjectsByType<PracticeInteractable>(FindObjectsSortMode.None).Length, "Old discarded weapons must be recycled");
+            yield return null; Assert.AreEqual(30, UnityEngine.Object.FindObjectsByType<PracticeInteractable>(FindObjectsSortMode.None).Length, "Every unequipped weapon remains independently pickable until reset");
             game.Training.Reset(true); yield return null; Assert.IsNull(game.Loadout.SpecialWeapon); Assert.IsNull(game.Loadout.Active); Assert.IsEmpty(game.Loadout.Passives);
             game.SetPause(PauseReason.Menu, true); game.RestartMode(); Assert.IsFalse(game.Pause.IsPaused);
             game.ReturnToMenu(); yield return null; Assert.IsNull(game.Loadout); Assert.IsNull(game.Training);
             Assert.AreEqual("checkpoint-sentinel", File.ReadAllText(checkpoint), "Training and reset must preserve the checkpoint");
             game.StartAdventure(); yield return new WaitForFixedUpdate(); Assert.IsFalse(game.Loadout.Invincible); Assert.IsFalse(game.Loadout.InfiniteEnergy); Assert.IsFalse(game.Player.Health.Invulnerable);
-            Assert.IsEmpty(game.Loadout.Passives); Assert.AreEqual(100, game.Player.Health.State.Maximum); Assert.IsNotNull(game.Adventure); Assert.AreEqual("entry", game.Adventure.Current.Id);
+            Assert.IsEmpty(game.Loadout.Passives); Assert.AreEqual(100, game.Player.Health.State.Maximum); Assert.IsNotNull(game.Adventure); Assert.AreEqual("courtyard", game.Adventure.Current.Id);
             Assert.AreEqual(1, new CheckpointStore(temporary).Current.stage, "Starting a new adventure now writes its entry checkpoint");
         }
         [UnityTest] public IEnumerator TrainingDamageArmorAndPausesUseEffectiveTime()
@@ -202,7 +203,7 @@ namespace Starfall.Tests
                 if (!view.gameObject.activeInHierarchy || string.IsNullOrEmpty(view.text)) continue;
                 Assert.LessOrEqual(view.preferredHeight, view.rectTransform.rect.height + 3, "Text overflow: " + view.name + " / " + view.text);
                 Assert.IsFalse(view.text.Contains("{"), "Unformatted: " + view.text);
-                foreach (char character in view.text) if (character > 127 && !char.IsWhiteSpace(character)) Assert.IsTrue(view.font.HasCharacter(character), "Missing glyph: " + character);
+                foreach (char character in view.text) if (character > 127 && !char.IsWhiteSpace(character)) Assert.IsTrue(view.font.HasCharacter(character,true,true), "Missing glyph: " + character);
             }
             UnityEngine.Rendering.RenderPipeline.SubmitRenderRequest(camera, new UnityEngine.Rendering.RenderPipeline.StandardRequest { destination = target }); RenderTexture.active = target;
             var screenshot = new Texture2D(width, height, TextureFormat.RGB24, false); screenshot.ReadPixels(new Rect(0, 0, width, height), 0, 0); screenshot.Apply();

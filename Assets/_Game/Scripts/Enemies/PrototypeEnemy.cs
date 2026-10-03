@@ -28,18 +28,18 @@ namespace Starfall
             view = PrototypeVisuals.Draw(transform, ranged ? "Shooter" : "Chaser", Vector2.zero, new Vector2(.8f, .8f),
                 ranged ? new Color(.88f, .56f, .92f) : PrototypeVisuals.Enemy, 5, ranged ? "shooter" : "chaser");
             warning = PrototypeVisuals.Draw(transform, "Attack warning", Vector2.zero, Vector2.one, PrototypeVisuals.Gold, 4); warning.enabled = false;
-            healthBar = PrototypeVisuals.Draw(transform, "Enemy health", new Vector2(0, .62f), new Vector2(.7f, .07f), PrototypeVisuals.Enemy, 8);
+            healthBar = PrototypeVisuals.Draw(transform, "Enemy health", new Vector2(0, 1.3f), new Vector2(.7f, .045f), PrototypeVisuals.Enemy, 150);
             Health = gameObject.AddComponent<Damageable>(); Health.Initialize(Faction.Enemy, ranged ? game.Config.shooterHealth : game.Config.chaserHealth, 0);
             Health.Game = game; lastPosition = body.position;
             if (elite) { Health.State.SetMaximum(Health.State.Maximum * 2); view.transform.localScale *= 1.25f; }
             Health.Hit += OnHit; Health.Died += OnDeath; attackTimer = ranged ? .9f : .3f;
-            if (style == EnemyStyle.Shield) PrototypeVisuals.Draw(transform, "Shield plate", new Vector2(.45f, 0), new Vector2(.16f, .9f), new Color(.5f, .65f, .72f), 6);
-            if (style == EnemyStyle.Turret) PrototypeVisuals.Draw(transform, "Turret base", Vector2.zero, new Vector2(1.1f, 1.1f), new Color(.5f, .35f, .2f), 3);
             if (style == EnemyStyle.Flanker) view.transform.localScale = new Vector3(.6f, .9f, 1);
             if (style == EnemyStyle.Spore || style == EnemyStyle.Sporelet) { view.sprite = PrototypeVisuals.Sprite("orb"); view.transform.localScale *= style == EnemyStyle.Sporelet ? .6f : 1.2f; if (style == EnemyStyle.Sporelet) { Health.State.SetMaximum(24); Health.State.Restore(); } }
             if (style == EnemyStyle.Drone) view.sprite = PrototypeVisuals.Sprite("cross");
+            string art = style == EnemyStyle.Basic ? ranged ? "enemy.archer" : "enemy.basic" : "enemy." + style.ToString().ToLowerInvariant();
+            M5Art.Apply(view, art, elite ? 1.9f : style == EnemyStyle.Sporelet ? .8f : 1.5f); M5Art.Shadow(transform, .8f);
         }
-        void OnHit() { hitLeft = .09f; game.Audio?.Play(GameSound.Hit); healthBar.transform.localScale = new Vector3(.7f * Health.State.Health / Health.State.Maximum, .07f, 1); }
+        void OnHit() { hitLeft = .09f; game.Audio?.Play(GameSound.Hit); healthBar.transform.localScale = new Vector3(.7f * Health.State.Health / Health.State.Maximum, .045f, 1); }
         void OnDeath()
         {
             body.linearVelocity = Vector2.zero; GetComponent<Collider2D>().enabled = false; warning.enabled = false;
@@ -77,7 +77,7 @@ namespace Starfall
                 Health.DamageMultiplier = toward.x > 0 ? .5f : 1;
             }
             hitLeft -= dt;
-            view.color = hitLeft > 0 && !game.Settings.reduceFlash ? Color.white : shooter ? new Color(.88f, .56f, .92f) : PrototypeVisuals.Enemy;
+            view.color = hitLeft > 0 && !game.Settings.reduceFlash ? new Color(1, .66f, .54f) : Color.white;
             if (winding)
             {
                 velocity = Vector2.zero; warningLeft -= dt;

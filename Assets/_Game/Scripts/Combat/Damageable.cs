@@ -45,6 +45,7 @@ namespace Starfall
             float amount = Game != null ? Game.ModifyDamage(this, context) : context.Amount;
             if (!State.Damage(amount * Mathf.Clamp(DamageMultiplier, .1f, 2), Time.timeAsDouble, false, ProtectionDuration)) return false;
             LastDamage = context; impulse = Vector2.ClampMagnitude(context.Knockback, 8);
+            Game?.Feedback?.Damage(this, before - State.Health, Game.CurrentDamageCritical);
             Damaged?.Invoke(context, before - State.Health);
             Hit?.Invoke();
             if (!State.Alive) Died?.Invoke();

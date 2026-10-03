@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
+using Text = TMPro.TextMeshProUGUI;
 namespace Starfall.Tests
 {
     public sealed partial class CampaignPlayTests
@@ -70,7 +71,7 @@ namespace Starfall.Tests
             yield return Interact("spore.stop"); yield return Interact("route.back"); yield return Interact("route.branch"); yield return Interact("spore.start"); Assert.IsFalse(game.Adventure.RoundActive); Assert.AreEqual(coins,game.Context.Coins); Assert.AreEqual(1,game.Adventure.Progress.Beacons);
             StartFixture(4); game.Loadout.Invincible=true; yield return Interact("route.next"); yield return ClearRoom(); yield return Interact("route.next"); yield return ClearRoom(); yield return Interact("beacon.north"); yield return Interact("route.next"); yield return ClearRoom(); yield return Interact("route.branch");
             int bank=game.Context.Coins; for(int round=1;round<=3;round++) { yield return Interact("spore.start"); yield return ClearRoom(); Assert.AreEqual(round,game.Adventure.SporeRound); Assert.AreEqual(bank+12*round*(round+1)/2,game.Context.Coins); }
-            Assert.AreEqual(1,game.Loadout.Layers("controlled")); Assert.AreEqual("crossbow",game.Loadout.SpecialWeapon); yield return Interact("spore.start"); Assert.IsFalse(game.Adventure.RoundActive);
+            yield return Interact("supply.controlled"); yield return Interact("supply.crossbow"); Assert.AreEqual(1,game.Loadout.Layers("controlled")); Assert.AreEqual("crossbow",game.Loadout.SpecialWeapon); yield return Interact("spore.start"); Assert.IsFalse(game.Adventure.RoundActive);
             double clock=0; StarfallGame.EditorAdventureClock=()=>clock; StartFixture(5); game.Loadout.Invincible=true;
             yield return Interact("route.next"); yield return ClearRoom(); yield return Interact("route.next"); yield return ClearRoom(); yield return Interact("beacon.north"); yield return Interact("route.next"); yield return ClearRoom(); yield return Interact("route.branch");
             yield return ClearRoom(); Assert.IsFalse(game.Adventure.Progress.IsClear("challenge")); clock=19; yield return null; yield return null; Assert.IsTrue(game.Adventure.Progress.IsClear("challenge")); Assert.AreEqual(3,game.Adventure.BonusRewards.Count); Assert.IsTrue(game.Adventure.ChooseBonus(game.Adventure.BonusRewards[0])); Assert.IsFalse(game.Adventure.ChooseBonus(game.Adventure.BonusRewards[1]));
@@ -95,7 +96,7 @@ namespace Starfall.Tests
             StartFixture(4); game.Loadout.Invincible=true; foreach(string id in new[]{"rapid","agile","pierce","bounce","magnet","vitality"}) game.EquipItem(id,true);
             yield return Interact("route.next"); yield return ClearRoom(); yield return Interact("route.next"); yield return ClearRoom(); yield return Interact("beacon.north"); yield return Interact("route.branch"); yield return Interact("shop.open");
             int coins=game.Context.Coins; Assert.IsFalse(game.Adventure.Buy("controlled")); Assert.AreEqual(coins,game.Context.Coins); game.CancelPassive(); Assert.AreEqual(coins,game.Context.Coins); Assert.IsFalse(game.Adventure.Shop.Sold("controlled"));
-            game.Adventure.Buy("controlled"); long before=game.Adventure.Timer.Milliseconds; clock+=10; Assert.AreEqual(before+10000,game.Adventure.Timer.Milliseconds,"Shop replacement deliberation must still count");
+            game.Adventure.Buy("controlled"); long before=game.Adventure.Timer.Milliseconds; clock+=10; Assert.AreEqual(before,game.Adventure.Timer.Milliseconds,"Shop replacement is modal and excluded from stage time");
             yield return null; foreach(string language in new[]{"en","zh-CN"}) { game.SetLanguage(language); yield return null; foreach(var size in new[]{new Vector2Int(1280,720),new Vector2Int(1920,1080),new Vector2Int(2560,1440),new Vector2Int(1280,960)}) CaptureM4("replacement-"+language,size.x,size.y); }
             Assert.IsTrue(game.ReplacePassive("bounce")); Assert.AreEqual(coins-game.CampaignConfig.passivePrice,game.Context.Coins); Assert.IsTrue(game.Adventure.Shop.Sold("controlled")); Assert.IsFalse(game.Adventure.Buy("controlled"));
         }
@@ -132,7 +133,7 @@ namespace Starfall.Tests
                 game.Adventure.BossHealth.Receive(new DamageContext(10000,Faction.Player)); yield return null; foreach(string language in new[]{"en","zh-CN"}) { game.SetLanguage(language); for(int i=0;i<4;i++) CaptureM4("result-s"+stage+"-"+language,sizes[i,0],sizes[i,1]); }
             }
         }
-        void CaptureM4(string name,int width,int height) { Capture("m4-"+name+"-"+width+"x"+height,width,height); string directory=Path.Combine(Application.dataPath,"../Logs/M4-Screens"); Directory.CreateDirectory(directory); File.Copy(Path.Combine(Application.dataPath,"../Logs/M3-Screens/m4-"+name+"-"+width+"x"+height+".png"),Path.Combine(directory,name+"-"+width+"x"+height+".png"),true); }
+        void CaptureM4(string name,int width,int height) => Capture("regression-"+name+"-"+width+"x"+height,width,height);
     }
 }
 #endif

@@ -1,5 +1,15 @@
 {
   "name": "Starfall.PlayModeTests",
-  "references": ["Starfall.Runtime", "Unity.InputSystem", "Unity.ugui"],
-  "optionalUnityReferences": ["TestAssemblies"]
+  "references": [
+    "Starfall.Runtime",
+    "Unity.InputSystem",
+    "Unity.ugui",
+    "Unity.TextMeshPro",
+    "Unity.RenderPipelines.Universal.Runtime",
+    "Unity.RenderPipelines.Core.Runtime",
+    "Unity.RenderPipelines.Universal.2D.Runtime"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ]
 }

@@ -19,6 +19,7 @@ namespace Starfall
         public readonly int Stage;
         public string StageId => new[] { "gardens", "workshop", "reservoir", "greenhouse", "hub", "sanctum" }[Stage - 1];
         public int RequiredTasks => Stage == 4 || Stage == 5 ? 3 : 2;
+        public string StartRoom => Stage == 1 ? "courtyard" : "entry";
         public string RoomKey(string id) => Stage == 1 ? "room." + id : "room.s" + Stage + "." + id;
         public readonly List<LevelRoomPlan> Rooms = new List<LevelRoomPlan>();
         public FirstLevelPlan(int seed, int stage = 1)
@@ -26,15 +27,13 @@ namespace Starfall
             if (stage < 1 || stage > 6) throw new ArgumentOutOfRangeException(nameof(stage));
             Seed = seed; Stage = stage;
             if (stage > 1) { BuildTheme(); return; }
-            Add("entry", LevelRoomKind.Safe, 4, "courtyard", null);
-            Add("courtyard", LevelRoomKind.Combat, 0, "north", "entry");
+            Add("courtyard", LevelRoomKind.Combat, 0, "north", null);
             Add("north", LevelRoomKind.Beacon, 1, "crossing", "courtyard");
             Add("crossing", LevelRoomKind.Combat, 2, "south", "north");
-            Add("south", LevelRoomKind.Beacon, 3, "seal", "crossing");
-            Add("seal", LevelRoomKind.Mechanism, 5, "supply", "south");
-            Add("supply", LevelRoomKind.Safe, 4, "boss", "seal");
-            Add("boss", LevelRoomKind.Boss, 6, null, "supply");
+            Add("south", LevelRoomKind.Beacon, 3, "boss", "crossing");
+            Add("boss", LevelRoomKind.Boss, 6, null, "south");
             Add("challenge", LevelRoomKind.Challenge, 2, null, "courtyard");
+            Find("courtyard").Branch="challenge";
         }
         void BuildTheme()
         {
@@ -140,6 +139,6 @@ namespace Starfall
             return beacons.Add(room);
         }
         public int Beacons => beacons.Count;
-        public bool CanEnterBoss => Beacons == Required && IsClear("seal");
+        public bool CanEnterBoss => Beacons == Required && (stage == 1 || IsClear("seal"));
     }
 }

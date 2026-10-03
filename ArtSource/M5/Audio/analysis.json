@@ -1,0 +1,82 @@
+{
+  "SFX/Weapons/pistol_fire": {
+    "seconds": 0.32,
+    "peak": 0.82,
+    "rms": 0.0939
+  },
+  "SFX/Weapons/shotgun_fire": {
+    "seconds": 0.64,
+    "peak": 0.82,
+    "rms": 0.0826
+  },
+  "SFX/Weapons/smg_fire": {
+    "seconds": 0.24,
+    "peak": 0.7206,
+    "rms": 0.0768
+  },
+  "SFX/Weapons/crossbow_fire": {
+    "seconds": 0.48,
+    "peak": 0.7196,
+    "rms": 0.0789
+  },
+  "SFX/Weapons/launcher_fire": {
+    "seconds": 0.9,
+    "peak": 0.82,
+    "rms": 0.1189
+  },
+  "SFX/Weapons/arc_fire": {
+    "seconds": 0.6,
+    "peak": 0.6242,
+    "rms": 0.0841
+  },
+  "SFX/Weapons/workshop_smg_fire": {
+    "seconds": 0.3,
+    "peak": 0.7224,
+    "rms": 0.0948
+  },
+  "SFX/shot": {
+    "seconds": 0.32,
+    "peak": 0.82,
+    "rms": 0.102
+  },
+  "SFX/hit": {
+    "seconds": 0.16,
+    "peak": 0.4975,
+    "rms": 0.0764
+  },
+  "SFX/hurt": {
+    "seconds": 0.38,
+    "peak": 0.7562,
+    "rms": 0.1241
+  },
+  "SFX/dodge": {
+    "seconds": 0.32,
+    "peak": 0.4355,
+    "rms": 0.0532
+  },
+  "SFX/pickup": {
+    "seconds": 0.64,
+    "peak": 0.3037,
+    "rms": 0.0743
+  },
+  "SFX/ui": {
+    "seconds": 0.24,
+    "peak": 0.3587,
+    "rms": 0.1144
+  },
+  "SFX/clear": {
+    "seconds": 1.9,
+    "peak": 0.3403,
+    "rms": 0.0678
+  },
+  "SFX/boss": {
+    "seconds": 1.2,
+    "peak": 0.2732,
+    "rms": 0.0657
+  },
+  "Ambience/starport": {
+    "seconds": 32.0,
+    "peak": 0.0897,
+    "rms": 0.0208
+  }
+}

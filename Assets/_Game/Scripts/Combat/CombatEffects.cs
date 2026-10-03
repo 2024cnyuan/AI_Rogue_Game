@@ -23,7 +23,7 @@ namespace Starfall
             }
             var go = new GameObject("Decoy beacon"); go.transform.SetParent(transform, false);
             PrototypeVisuals.Body(go, .35f).bodyType = RigidbodyType2D.Kinematic;
-            PrototypeVisuals.Draw(go.transform, "Decoy", Vector2.zero, Vector2.one * .8f, PrototypeVisuals.Teal, 5, "cross");
+            M5Art.Draw(go.transform,"decoy",Vector2.zero,1.2f,45); M5Art.Shadow(go.transform,.8f);
             decoy = go.AddComponent<Damageable>(); decoy.Initialize(Faction.Player, 60, .2f); decoy.Game = game; go.SetActive(false);
         }
         public bool TryActivate(string id, Vector2 origin, Vector2 aim)

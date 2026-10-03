@@ -9,6 +9,10 @@ namespace Starfall
         public void PlayerDamaged() { if(simulating) hurt=true; }
         public void ResolveSimulation() { if(!simulating || game.LivingEnemies>0) return; simulating=false; if(!hurt) game.Player.Health.Heal(game.Loadout.PassiveValue("flawless")); game.Notify("training.waveDone"); }
         public int SimulationCount { get; private set; } = 3;
+        public string SelectedEnemy { get; private set; } = "mix";
+        public bool Running => simulating;
+        public void SelectEnemy(string type) { if (!simulating) SelectedEnemy = type; }
+        public void StartSelected() { if (!simulating) Simulate(SelectedEnemy); }
         public TrainingDirector(StarfallGame owner)
         {
             game = owner; game.Loadout.InfiniteEnergy = game.Loadout.InfiniteCharges = game.Loadout.Invincible = true; Build();
@@ -28,7 +32,7 @@ namespace Starfall
         public void ToggleEnergy() { game.Loadout.InfiniteEnergy = !game.Loadout.InfiniteEnergy; }
         public void ToggleCharges() { game.Loadout.InfiniteCharges = !game.Loadout.InfiniteCharges; }
         public void ToggleInvincible() { game.Loadout.Invincible = !game.Loadout.Invincible; game.Player.Health.Invulnerable = game.Loadout.Invincible || game.Loadout.ShieldLeft > 0; }
-        public void SetCount(int count) { SimulationCount = Mathf.Clamp(count, 1, 12); }
+        public void SetCount(int count) { if (!simulating) SimulationCount = Mathf.Clamp(count, 1, 12); }
         public void Simulate(string type)
         {
             StopSimulation();

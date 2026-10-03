@@ -18,7 +18,7 @@
     },
     {
       "key": "menu.continue",
-      "value": "Continue Adventure"
+      "value": "Continue selected stage"
     },
     {
       "key": "menu.noCheckpoint",
@@ -146,7 +146,7 @@
     },
     {
       "key": "hud.exit",
-      "value": "Objective: reach the right-hand exit and press E"
+      "value": "F · Use exit"
     },
     {
       "key": "hud.stage",
@@ -154,7 +154,7 @@
     },
     {
       "key": "hud.controls",
-      "value": "WASD Move · LMB Fire · Space Dodge · E Interact · Q Active · 1/2 Switch · Tab Map · Esc Pause"
+      "value": "WASD move · Mouse aim · LMB fire · Space dodge · 1/2 weapons · Q active · E pickup · F interact · Tab map"
     },
     {
       "key": "hud.pickups",
@@ -162,7 +162,7 @@
     },
     {
       "key": "hud.interact",
-      "value": "E · Leave the Test Court"
+      "value": "F · Use exit"
     },
     {
       "key": "room.start",
@@ -222,7 +222,7 @@
     },
     {
       "key": "intro.body",
-      "value": "Learn the controls in First Steps, or enter Stage 1. Training is always available from the menu."
+      "value": "Learn the controls in First Steps, or choose any of the six stages. Training is always available from the menu."
     },
     {
       "key": "intro.adventure",
@@ -234,7 +234,7 @@
     },
     {
       "key": "station.prompt",
-      "value": "E · {name}"
+      "value": "F · {name}"
     },
     {
       "key": "station.beacon",
@@ -458,7 +458,7 @@
     },
     {
       "key": "tutorial.completeBody",
-      "value": "Your practice equipment stays in this tutorial. Start Stage 1, enter training, or return to the menu."
+      "value": "Tutorial gear stays in this tutorial. Choose any stage, enter training or return to the menu. Stage clears permanently unlock equipment."
     },
     {
       "key": "tutorial.completedAll",
@@ -790,7 +790,7 @@
     },
     {
       "key": "adventure.start",
-      "value": "Start at the stage entrance. E interacts, Space dodges, 1 selects the unlimited pistol, Tab shows the route."
+      "value": "E pick up · F interact · Space dodge · 1/2 weapons · Q active · Tab map"
     },
     {
       "key": "adventure.enter",
@@ -810,11 +810,11 @@
     },
     {
       "key": "adventure.routeHint",
-      "value": "Clear the room, then press E at a portal. Beacon halls also require activation."
+      "value": "Clear the room, then press F at a portal. Beacon halls also require activation."
     },
     {
       "key": "adventure.mechanismHint",
-      "value": "Gold stripe warns before a pulse. Use the upper/lower routes; E activates the relay at upper right."
+      "value": "Gold stripe warns before a pulse. Use the upper/lower routes; F activates the relay at upper right."
     },
     {
       "key": "adventure.challengeTime",
@@ -838,7 +838,7 @@
     },
     {
       "key": "adventure.activateBeacon",
-      "value": "Guards defeated. Press E at the upper-right objective to complete this room task, then proceed."
+      "value": "Guards defeated. Press F at the upper-right objective to complete this room task, then proceed."
     },
     {
       "key": "adventure.beacon",
@@ -906,11 +906,11 @@
     },
     {
       "key": "records.rules",
-      "value": "Timing starts at first control and ends when objectives and the Boss are complete while alive. Esc, map, focus loss, settings and loading are excluded once; exploration and decisions count. Times are floored to milliseconds. Different seeds/loadouts share a stage best; this is not an identical-map race."
+      "value": "Timing starts at first control and ends after objectives and the Boss are complete while alive. Map, shop, comparison, settings, pause, focus loss and loading are excluded once. Seeds and legal loadouts share a stage best; new stage records and earlier campaigns are grouped separately."
     },
     {
       "key": "records.scope",
-      "value": "Standard difficulty · timing v{timing} · balance v{balance}. Stages 1–3 are playable. Scroll for older rule groups."
+      "value": "Stage records are independent. Earlier campaign records remain archived."
     },
     {
       "key": "records.metadata",
@@ -1142,7 +1142,7 @@
     },
     {
       "key": "shop.rules",
-      "value": "Browsing and buying pause combat while the stage timer continues. One purchase per offer. Full resources or gear limits cost nothing. Esc returns to the room."
+      "value": "Browsing and buying pause combat and the stage timer. One purchase per offer. Full resources, gear limits and cancelled replacements cost nothing."
     },
     {
       "key": "shop.offer",
@@ -1783,6 +1783,462 @@
     {
       "key": "training.waveDone",
       "value": "Simulation complete; flawless healing triggers once."
+    },
+    {
+      "key": "m5.menuSubtitle",
+      "value": "A starport expedition · Six ruins await"
+    },
+    {
+      "key": "m5.play",
+      "value": "Choose stage"
+    },
+    {
+      "key": "m5.preparation",
+      "value": "Preparation"
+    },
+    {
+      "key": "m5.collection",
+      "value": "Equipment collection"
+    },
+    {
+      "key": "m5.selectStage",
+      "value": "Expedition map"
+    },
+    {
+      "key": "m5.recommended",
+      "value": "Recommended first"
+    },
+    {
+      "key": "m5.open",
+      "value": "Ready to explore"
+    },
+    {
+      "key": "m5.cleared",
+      "value": "Cleared"
+    },
+    {
+      "key": "m5.pending",
+      "value": "Reward pending"
+    },
+    {
+      "key": "m5.unlockReward",
+      "value": "Permanent clear reward"
+    },
+    {
+      "key": "m5.startStage",
+      "value": "Start this stage"
+    },
+    {
+      "key": "m5.claimPending",
+      "value": "Claim clear reward"
+    },
+    {
+      "key": "m5.allStagesOpen",
+      "value": "All six stages are open. Clears permanently unlock equipment."
+    },
+    {
+      "key": "m5.empty",
+      "value": "Empty"
+    },
+    {
+      "key": "m5.preparationRules",
+      "value": "Pistol always equipped\n1 special weapon · 1 active item\nUp to 6 passives, 1 layer each\nCoins and supplies reset per attempt"
+    },
+    {
+      "key": "m5.locked",
+      "value": "Locked"
+    },
+    {
+      "key": "m5.permanent",
+      "value": "Permanently unlocked"
+    },
+    {
+      "key": "m5.source",
+      "value": "Unlock source: stage"
+    },
+    {
+      "key": "m5.equip",
+      "value": "Equip"
+    },
+    {
+      "key": "m5.remove",
+      "value": "Unequip"
+    },
+    {
+      "key": "m5.pendingHint",
+      "value": "Your reward is saved. Choose equipment to use in any future stage."
+    },
+    {
+      "key": "m5.allCollected",
+      "value": "All stage equipment collected"
+    },
+    {
+      "key": "m5.pickup",
+      "value": "E · Pick up {item}"
+    },
+    {
+      "key": "m5.obtained",
+      "value": "Obtained · {item}"
+    },
+    {
+      "key": "m5.resource.coins",
+      "value": "Coins +{count}"
+    },
+    {
+      "key": "m5.resource.health",
+      "value": "Health +{count}"
+    },
+    {
+      "key": "m5.resource.energy",
+      "value": "Energy +{count}"
+    },
+    {
+      "key": "m5.unlockSaveFailed",
+      "value": "Reward save failed. Retry saving before leaving."
+    },
+    {
+      "key": "m5.weaponChest",
+      "value": "F · Open weapon chest"
+    },
+    {
+      "key": "m5.stageFeature.1",
+      "value": "Garden courtyard · A gentle first expedition\nCross the foyer, light two beacons and face the guardian."
+    },
+    {
+      "key": "m5.stageFeature.2",
+      "value": "Mechanical workshop · Conveyors and explosives\nUse cover and watch the machinery rhythm."
+    },
+    {
+      "key": "m5.stageFeature.3",
+      "value": "Frozen reservoir · Ice and escort challenge\nStay mobile and protect the escort route."
+    },
+    {
+      "key": "m5.stageFeature.4",
+      "value": "Spore greenhouse\nCorrosion, waves and supply breaks."
+    },
+    {
+      "key": "m5.stageFeature.5",
+      "value": "Energy hub · Grids and lasers\nRead the warnings and move between pulses."
+    },
+    {
+      "key": "m5.stageFeature.6",
+      "value": "Starcore sanctum · Final guardian\nPrepare your gear and read each attack phase."
+    },
+    {
+      "key": "m5.returnStages",
+      "value": "Return to stages"
+    },
+    {
+      "key": "m5.retryStage",
+      "value": "Retry this stage"
+    },
+    {
+      "key": "m5.rewardSaved",
+      "value": "Clear unlock saved: {item}"
+    },
+    {
+      "key": "m5.rewardChosen",
+      "value": "Permanently unlocked: {item}"
+    },
+    {
+      "key": "m5.chooseReward",
+      "value": "Choose permanent equipment"
+    },
+    {
+      "key": "m5.retryUnlock",
+      "value": "Retry reward save"
+    },
+    {
+      "key": "m5.time",
+      "value": "Stage time {time}"
+    },
+    {
+      "key": "m5.settingsMinimal",
+      "value": "Minimal effects: {state}"
+    },
+    {
+      "key": "m5.settingsVignette",
+      "value": "Subtle vignette: {state}"
+    },
+    {
+      "key": "m5.settingsNumbers",
+      "value": "Damage numbers: {state}"
+    },
+    {
+      "key": "m5.testSound",
+      "value": "Test sound"
+    },
+    {
+      "key": "m5.trainingStart",
+      "value": "Start selected practice"
+    },
+    {
+      "key": "m5.trainingSelected",
+      "value": "Selected: {item} · Press Start to spawn"
+    },
+    {
+      "key": "m5.trainingIdle",
+      "value": "Ready to start"
+    },
+    {
+      "key": "m5.trainingRunning",
+      "value": "Running; stop before reconfiguring"
+    },
+    {
+      "key": "m5.compare",
+      "value": "Replace equipment"
+    },
+    {
+      "key": "m5.current",
+      "value": "Current equipment"
+    },
+    {
+      "key": "m5.new",
+      "value": "Ground equipment"
+    },
+    {
+      "key": "m5.confirmReplace",
+      "value": "Confirm replacement"
+    },
+    {
+      "key": "m5.cancelReplace",
+      "value": "Keep current equipment"
+    },
+    {
+      "key": "m5.trainingMenu",
+      "value": "Training"
+    },
+    {
+      "key": "m5.tutorialMenu",
+      "value": "Tutorial"
+    },
+    {
+      "key": "tutorial.energyDemo",
+      "value": "Energy depleted: press 1 to return to the unlimited pistol."
+    },
+    {
+      "key": "m5.item.pistol",
+      "value": "Pistol"
+    },
+    {
+      "key": "m5.item.shotgun",
+      "value": "Shotgun"
+    },
+    {
+      "key": "m5.item.smg",
+      "value": "SMG"
+    },
+    {
+      "key": "m5.item.crossbow",
+      "value": "Crossbow"
+    },
+    {
+      "key": "m5.item.launcher",
+      "value": "Launcher"
+    },
+    {
+      "key": "m5.item.arc",
+      "value": "Arc gun"
+    },
+    {
+      "key": "m5.item.workshop_smg",
+      "value": "Workshop SMG"
+    },
+    {
+      "key": "m5.item.medkit",
+      "value": "Medkit"
+    },
+    {
+      "key": "m5.item.shield",
+      "value": "Shield"
+    },
+    {
+      "key": "m5.item.slow",
+      "value": "Slow field"
+    },
+    {
+      "key": "m5.item.shock",
+      "value": "Shock"
+    },
+    {
+      "key": "m5.item.decoy",
+      "value": "Decoy"
+    },
+    {
+      "key": "m5.item.grenade",
+      "value": "Grenade"
+    },
+    {
+      "key": "m5.item.rapid",
+      "value": "Rapid core"
+    },
+    {
+      "key": "m5.item.magnet",
+      "value": "Magnet"
+    },
+    {
+      "key": "m5.item.vitality",
+      "value": "Vitality"
+    },
+    {
+      "key": "m5.item.agile",
+      "value": "Agile boots"
+    },
+    {
+      "key": "m5.item.pierce",
+      "value": "Pierce"
+    },
+    {
+      "key": "m5.item.bounce",
+      "value": "Ricochet"
+    },
+    {
+      "key": "m5.item.critical",
+      "value": "Critical"
+    },
+    {
+      "key": "m5.item.recharge",
+      "value": "Recharge"
+    },
+    {
+      "key": "m5.item.lowhealth",
+      "value": "Last stand"
+    },
+    {
+      "key": "m5.item.blast",
+      "value": "Blast"
+    },
+    {
+      "key": "m5.item.controlled",
+      "value": "Control"
+    },
+    {
+      "key": "m5.item.flawless",
+      "value": "Flawless"
+    },
+    {
+      "key": "m5.kind.weapon",
+      "value": "Weapons"
+    },
+    {
+      "key": "m5.kind.active",
+      "value": "Active"
+    },
+    {
+      "key": "m5.kind.passive",
+      "value": "Passives"
+    },
+    {
+      "key": "m5.purchase",
+      "value": "Confirm purchase"
+    },
+    {
+      "key": "m5.purchaseHint",
+      "value": "Select an offer to inspect it, then confirm. Purchases last for this attempt."
+    },
+    {
+      "key": "brief.pistol",
+      "value": "{damage} damage · {interval}s interval · Unlimited ammo"
+    },
+    {
+      "key": "brief.shotgun",
+      "value": "{pellets} pellets × {damage} damage · {energy} energy"
+    },
+    {
+      "key": "brief.smg",
+      "value": "{damage} damage · {interval}s interval · {energy} energy"
+    },
+    {
+      "key": "brief.workshop_smg",
+      "value": "{damage} damage · {interval}s interval · {energy} energy"
+    },
+    {
+      "key": "brief.crossbow",
+      "value": "{damage} damage · {delay}s charge · Pierces {piercing}"
+    },
+    {
+      "key": "brief.launcher",
+      "value": "{damage} damage · {radius} blast radius · {energy} energy"
+    },
+    {
+      "key": "brief.arc",
+      "value": "{damage} damage · {chains} chains · {energy} energy"
+    },
+    {
+      "key": "brief.medkit",
+      "value": "Heal {value} · {charges} uses · {cooldown}s cooldown"
+    },
+    {
+      "key": "brief.shield",
+      "value": "{value}s shield · {charges} uses · {cooldown}s cooldown"
+    },
+    {
+      "key": "brief.slow",
+      "value": "{value}% slow · {duration}s duration · {radius} radius"
+    },
+    {
+      "key": "brief.shock",
+      "value": "{value} damage · {duration}s control · {radius} radius"
+    },
+    {
+      "key": "brief.decoy",
+      "value": "{value} decoy health · {duration}s duration"
+    },
+    {
+      "key": "brief.grenade",
+      "value": "{value} damage · {delay}s fuse · {radius} radius"
+    },
+    {
+      "key": "brief.rapid",
+      "value": "+{value}% fire rate per layer · Max 2 layers"
+    },
+    {
+      "key": "brief.magnet",
+      "value": "+{value} pickup radius per layer · Max 2 layers"
+    },
+    {
+      "key": "brief.vitality",
+      "value": "+{value} max health per layer · Max 2 layers"
+    },
+    {
+      "key": "brief.agile",
+      "value": "-{value}% dodge cooldown per layer · Max 2 layers"
+    },
+    {
+      "key": "brief.pierce",
+      "value": "+{value} projectile piercing per layer · Max 2 layers"
+    },
+    {
+      "key": "brief.bounce",
+      "value": "+{value} projectile bounce per layer · Max 2 layers"
+    },
+    {
+      "key": "brief.critical",
+      "value": "+{value}% critical chance per layer · Max 2 layers"
+    },
+    {
+      "key": "brief.recharge",
+      "value": "Restore {value} energy per kill per layer · Max 2 layers"
+    },
+    {
+      "key": "brief.lowhealth",
+      "value": "Low health: +{value}% damage per layer · Max 2 layers"
+    },
+    {
+      "key": "brief.blast",
+      "value": "+{value}% blast radius per layer · Max 2 layers"
+    },
+    {
+      "key": "brief.controlled",
+      "value": "+{value}% damage to controlled foes per layer · Max 2 layers"
+    },
+    {
+      "key": "brief.flawless",
+      "value": "Undamaged room: heal {value} per layer · Max 2 layers"
+    },
+    {
+      "key": "m5.resetShort",
+      "value": "Reset simulation"
     }
   ]
 }

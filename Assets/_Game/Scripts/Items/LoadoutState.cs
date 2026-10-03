@@ -74,6 +74,7 @@ namespace Starfall
             if (layers == 1) passives.Remove(id); else passives[id] = layers - 1; return true;
         }
         public void Switch(bool special) { Weapon = special && SpecialWeapon != null ? SpecialWeapon : "pistol"; }
+        public void Unequip(ItemKind kind) { if (kind == ItemKind.Weapon) { SpecialWeapon = null; Weapon = "pistol"; } else if (kind == ItemKind.Active) { Active = null; Charges = 0; ActiveCooldown = ShieldLeft = 0; } }
         public bool SpendEnergy(float cost)
         {
             if (InfiniteEnergy || cost <= 0) return true;
@@ -95,6 +96,7 @@ namespace Starfall
         }
         public void Tick(float delta) { ActiveCooldown = Mathf.Max(0, ActiveCooldown - delta); ShieldLeft = Mathf.Max(0, ShieldLeft - delta); }
         public void Restore() { Energy = 100; Charges = Active != null ? catalog.Find(Active).maxCharges : 0; ActiveCooldown = ShieldLeft = 0; }
+        public bool RefillActive(string id) { if(id!=Active || Charges>=catalog.Find(id).maxCharges) return false; Charges=catalog.Find(id).maxCharges; return true; }
         public void ClearEffects() { ShieldLeft = 0; ActiveCooldown = 0; }
         public void EndRoom() { ShieldLeft = 0; }
         public void RefillCharge() { if (Active != null) Charges = Mathf.Min(catalog.Find(Active).maxCharges, Charges + 1); }

@@ -12,6 +12,9 @@ namespace Starfall
         double challengeStart;
         bool beaconBuilt, sealBuilt;
         bool roomHurt, roundActive;
+        bool encounterStarted;
+        public bool EncounterStarted => encounterStarted;
+        public string ClearId => attemptId;
         int sporeRound, gridWave;
         public int SporeRound => sporeRound;
         public bool RoundActive => roundActive;
@@ -44,11 +47,12 @@ namespace Starfall
         public List<string> Rewards { get; } = new List<string>();
         public AdventureDirector(StarfallGame owner, int seed, Func<double> clock = null, int stage = 1)
         {
-            game = owner; Timer = new LevelTimer(clock); Plan = new FirstLevelPlan(seed, stage); Progress = new FirstLevelProgress(stage); Enter("entry"); Timer.Start();
+            game = owner; Timer = new LevelTimer(clock); Plan = new FirstLevelPlan(seed, stage); Progress = new FirstLevelProgress(stage); Enter(Plan.StartRoom); Timer.Start();
         }
         public void Tick(float delta)
         {
             if (Result != null) return;
+            if (Stage == 1 && Current.Id == "courtyard" && !encounterStarted && !Progress.IsClear(Current.Id) && game.Player.Body.position.x > -6.2f) StartEncounter();
             if (Current.Kind == LevelRoomKind.Challenge && Stage == 5 && !Progress.IsClear(Current.Id) && ChallengeElapsed > 8 && gridWave == 0) {
                 gridWave++; game.SpawnEnemy(new Vector2(7,4),true,false,1,EnemyStyle.Sniper); game.SpawnEnemy(new Vector2(-5,4),false,false,1,EnemyStyle.Assault);
             }
@@ -78,6 +82,7 @@ namespace Starfall
         {
             if (Result != null) return;
             if (!game.Player.Health.State.Alive) { Finish(false); return; }
+            if (!encounterStarted && !Progress.IsClear(Current.Id)) return;
             if (Current.Kind == LevelRoomKind.Boss)
             {
                 if (BossHealth != null && !BossHealth.State.Alive && Progress.CanEnterBoss) Finish(true);
@@ -88,8 +93,8 @@ namespace Starfall
                     roundActive = false; sporeRound++; game.Projectiles.Clear(); game.Effects.ClearHostile();
                     if (Progress.Claim("spore.round." + sporeRound)) {
                         game.Context.AddCoins(sporeRound * 12); game.Loadout.AddEnergy(20); game.Player.Health.Heal(10);
-                        if (sporeRound == 2) { if (CanGain("controlled")) game.EquipItem("controlled",true); else game.Loadout.AddEnergy(40); }
-                        if (sporeRound == game.CampaignConfig.sporeRounds) game.EquipItem("crossbow",true);
+                        if (sporeRound == 2) AddItem("controlled", new Vector2(-2, -1));
+                        if (sporeRound == game.CampaignConfig.sporeRounds) AddItem("crossbow", new Vector2(2, -1));
                     }
                     game.Room.OpenDoor(); game.Notify("challenge.roundDone");
                     if (sporeRound >= game.CampaignConfig.sporeRounds) Progress.Clear(Current.Id);
@@ -111,23 +116,23 @@ namespace Starfall
                 {
                     if (Stage == 5) BuildBonusRewards();
                     else if (Stage == 3) { game.Player.Health.State.Heal(40); game.Loadout.AddEnergy(60); }
-                    else if (Stage == 2) game.EquipItem("workshop_smg", true);
-                    else game.EquipItem("agile", true);
+                    else if (Stage == 2) AddItem("workshop_smg", new Vector2(2, -1));
+                    else AddItem("agile", new Vector2(2, -1));
                 }
                 if (Current.Kind == LevelRoomKind.Beacon) BuildBeacon(); else game.Room.OpenDoor();
+                if (Stage == 1 && Current.Id == "courtyard") BuildCourtyardChest();
                 game.Notify(Current.Kind == LevelRoomKind.Beacon ? "adventure.activateBeacon" : "adventure.roomClear");
             }
         }
         void Enter(string id)
         {
             game.SetPause(PauseReason.Loading, true); StopBosses(); if (Boss != null) UnityEngine.Object.Destroy(Boss.gameObject); if (Guardian != null) UnityEngine.Object.Destroy(Guardian.gameObject); if (FinalGuardian != null) UnityEngine.Object.Destroy(FinalGuardian.gameObject); Boss = null; Guardian = null; FinalGuardian = null; Escort = null;
-            Current = Plan.Find(id); beaconBuilt = sealBuilt = false; roomHurt = roundActive = false;
+            Current = Plan.Find(id); beaconBuilt = sealBuilt = false; roomHurt = roundActive = false; encounterStarted = false;
             game.RebuildAdventureRoom(Current); game.Loadout.EndRoom(); game.Player.MoveTo(game.Room.Spawn);
             if (Current.Kind == LevelRoomKind.Safe || Current.Kind == LevelRoomKind.Shop) Progress.Clear(id);
             if (!Progress.IsClear(id))
             {
-                for (int i = 0; i < Current.Enemies.Length; i++) game.SpawnEnemy(Current.Enemies[i], i % 3 == 1, (Current.Kind == LevelRoomKind.Challenge || Stage == 6) && i == 0, 1,
-                    StyleFor(i));
+                if (!(Stage == 1 && id == "courtyard")) StartEncounter();
                 if (Current.Kind == LevelRoomKind.Challenge)
                 {
                     challengeStart = Timer.Seconds; escortProgress = 0; ambush = gridWave = 0;
@@ -136,6 +141,8 @@ namespace Starfall
                 if (Current.Kind == LevelRoomKind.Boss) { if (Stage == 1) Boss = game.CreateCaptain(new Vector2(5, 0)); else if (Stage < 4) Guardian = game.CreateThemeBoss(Stage); else FinalGuardian = game.CreateLateBoss(Stage); }
             }
             if (Current.Kind == LevelRoomKind.Safe) BuildSupplies();
+            if (Stage == 1 && id == "courtyard" && Progress.IsClear(id)) BuildCourtyardChest();
+            if (Stage == 1 && id == "south" && activated.Contains(id)) BuildSupplyCorner();
             if (Current.Kind == LevelRoomKind.Challenge && Stage == 4) {
                 game.AddStation("spore.start","challenge.nextRound",new Vector2(1,0),StartSporeRound);
                 game.AddStation("spore.stop","challenge.stop",new Vector2(-2,0),() => { if (!roundActive) { Progress.Clear(Current.Id); game.Room.OpenDoor(); game.Notify("challenge.banked"); } });
@@ -151,9 +158,34 @@ namespace Starfall
             if (Current.Back != null) { string back = Current.Back; game.AddStation("route.back", RoomKey(back), new Vector2(-9, -4), () => Travel(back)); }
             if (Current.Branch != null) { string branch = Current.Branch; game.AddStation("route.branch", RoomKey(branch), new Vector2(0, -5), () => Travel(branch)); }
             if (Current.Kind == LevelRoomKind.Shop) game.AddStation("shop.open", "shop.title", new Vector2(1, 0), game.AdventureUI.OpenShop);
-            if (Stage == 1 && id == "courtyard") game.AddStation("route.challenge", "room.challenge", new Vector2(0, -5), () => Travel("challenge"));
             Physics2D.SyncTransforms(); game.Room.RefreshNavigation(game.Room.Spawn); game.Interface.ResetPanels();
             game.SetPause(PauseReason.Loading, false); game.Notify("adventure.enter");
+        }
+        void StartEncounter()
+        {
+            if (encounterStarted) return;
+            encounterStarted = true;
+            for (int i = 0; i < Current.Enemies.Length; i++) game.SpawnEnemy(Current.Enemies[i], i % 3 == 1,
+                (Current.Kind == LevelRoomKind.Challenge || Stage == 6) && i == 0, 1, StyleFor(i));
+        }
+        void BuildCourtyardChest()
+        {
+            if (Progress.IsClaimed("courtyard.chest")) return;
+            PracticeInteractable chest = null;
+            chest = game.AddStation("courtyard.chest", "m5.weaponChest", new Vector2(-5, -3), () => {
+                if (!Progress.Claim("courtyard.chest")) return; chest.Complete();
+                AddItem("shotgun", new Vector2(-4, -3), "courtyard.weapon"); AddItem("smg", new Vector2(-2.5f, -3), "courtyard.weapon");
+            });
+        }
+        void BuildSupplyCorner()
+        {
+            PracticeInteractable station = null;
+            station = game.AddStation("supply.restore", "adventure.restore", new Vector2(-6, -4), () => {
+                if (Progress.IsClaimed("supply.restore")) return;
+                game.Loadout.Restore(); game.Player.Health.State.Restore(); game.Player.ResetCooldowns();
+                Progress.Claim("supply.restore"); station.Complete(); game.Feedback?.Resource("health", game.Player.Health.State.Maximum); game.Audio?.Play(GameSound.Pickup);
+            });
+            if (Progress.IsClaimed("supply.restore")) station.Complete();
         }
         void BuildSupplies()
         {
@@ -181,21 +213,35 @@ namespace Starfall
                 });
             }
         }
-        void AddItem(string id, Vector2 at)
+        void AddItem(string id, Vector2 at, string group = null)
         {
-            game.AddStation("supply." + id, game.Catalog.Find(id).nameKey, at, () =>
+            string claim = group ?? "supply." + id;
+            if (Progress.IsClaimed(claim)) return;
+            PracticeInteractable station = null;
+            station = game.AddStation("supply." + id, game.Catalog.Find(id).nameKey, at, () =>
             {
-                if (!Progress.Claim("supply." + id)) { game.Notify("adventure.claimed"); return; }
-                game.EquipItem(id, true); game.Audio?.Play(GameSound.Pickup);
+                if (Progress.IsClaimed(claim)) { station.Complete(); return; }
+                if (game.Catalog.Find(id).kind == ItemKind.Passive && game.Loadout.Layers(id) == 0 && game.Loadout.Passives.Count >= 6) {
+                    game.RequestPassiveReplacement(id, old => {
+                        if (Progress.IsClaimed(claim) || !game.Loadout.ReplacePassive(old, id)) return false;
+                        Progress.Claim(claim); station.Complete(); game.Feedback?.Item(id); return true;
+                    }); return;
+                }
+                Func<bool> accept = () => { if (Progress.IsClaimed(claim) || !game.EquipItem(id, true)) return false; Progress.Claim(claim); station.Complete(); return true; };
+                var item = game.Catalog.Find(id);
+                if (item.kind == ItemKind.Weapon && game.Loadout.SpecialWeapon != null && game.Loadout.SpecialWeapon != id || item.kind == ItemKind.Active && game.Loadout.Active != null && game.Loadout.Active != id) game.RequestEquipmentReplacement(id, accept);
+                else accept();
             });
         }
         void BuildBeacon()
         {
             if (beaconBuilt) return; beaconBuilt = true; string id = Current.Id;
-            game.AddStation("beacon." + id, Stage == 1 ? "adventure.beacon" : "adventure.s" + Stage + ".beacon", new Vector2(7, 2), () =>
+            PracticeInteractable beacon = null;
+            beacon = game.AddStation("beacon." + id, Stage == 1 ? "adventure.beacon" : "adventure.s" + Stage + ".beacon", new Vector2(7, 2), () =>
             {
                 if (Current.Id != id || !Progress.Activate(id)) return;
-                activated.Add(id); game.Room.OpenDoor(); game.Audio?.Play(GameSound.Pickup); game.Notify("adventure.beaconReady");
+                activated.Add(id); beacon.Complete(); game.Room.OpenDoor(); game.Audio?.Play(GameSound.Pickup); game.Notify("adventure.beaconReady");
+                if (Stage == 1 && id == "south") { game.Room.SetPulse(false, false); BuildSupplyCorner(); }
             });
         }
         void ActivateSeal()
@@ -210,26 +256,31 @@ namespace Starfall
             if (id != Current.Next && id != Current.Back && id != Current.Branch && !(Stage == 1 && Current.Id == "courtyard" && id == "challenge")) return false;
             if (Stage >= 3 && Current.Id == "south" && id == "seal" && Progress.Beacons != Progress.Required) { game.Notify("adventure.needBeacons"); return false; }
             if (id == "boss" && !Progress.CanEnterBoss) { game.Notify("adventure.needBeacons"); return false; }
-            Enter(id); return true;
+            var source = Current;
+            if (source.Kind == LevelRoomKind.Challenge && !Progress.IsClear(source.Id)) { ChallengeFailed = true; Progress.Clear(source.Id); }
+            Enter(id);
+            Vector2 landing = Current.Branch == source.Id || Stage == 1 && source.Id == "challenge" ? new Vector2(0, -4) : source.Branch == id ? new Vector2(-8, -4) : source.Back == id ? new Vector2(8.8f, 0) : game.Room.Spawn;
+            if (game.Room.IsClear(landing, .4f)) game.Player.MoveTo(landing);
+            game.Input.Flush(); return true;
         }
         public void ApplyMechanism()
         {
-            if (Stage != 1 || Current.Kind != LevelRoomKind.Mechanism || Progress.IsClear(Current.Id) || !game.CanAct) return;
+            if (Stage != 1 || (Current.Id != "south" && Current.Id != "crossing") || activated.Contains("south") || !game.CanAct) return;
             float phase = (float)(Timer.Seconds % 5); bool active = phase >= 1 && phase < 1.6f;
             game.Room.SetPulse(phase < 1 || active, active);
-            if (active && Mathf.Abs(game.Player.Body.position.y) < .65f && Mathf.Abs(game.Player.Body.position.x) > 1.5f)
+            if (active && Current.Id == "south" && Mathf.Abs(game.Player.Body.position.y) < .65f && Mathf.Abs(game.Player.Body.position.x) > 1.5f)
                 game.Player.Health.Receive(new DamageContext(6, Faction.Enemy));
         }
         void Finish(bool success)
         {
             long time = Timer.Stop(); game.Context.EndLevel(success); game.Projectiles.Clear(); StopBosses(); game.Player.Flush();
-            if (!success || Stage == 6) game.EndCheckpoint();
+            game.EndCheckpoint();
             game.Effects.Clear(); game.Surface?.Stop(); if (success) game.RunTimes.Add(time);
             var equipment = new List<string> { "pistol" };
             if (game.Loadout.SpecialWeapon != null) equipment.Add(game.Loadout.SpecialWeapon);
             equipment.Add(game.Loadout.Active ?? "none");
             foreach (var pair in game.Loadout.Passives) equipment.Add(pair.Key + ":" + pair.Value);
-            var attempt = new BestRecord { stageId = StageId, timingVersion = game.LevelConfig.timingVersion, balanceVersion = game.LevelConfig.balanceVersion, attemptId = attemptId, milliseconds = time, seed = Plan.Seed, date = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm 'UTC'"), equipment = equipment.ToArray() };
+            var attempt = new BestRecord { stageId = StageId, mode = "stage_select", timingVersion = game.LevelConfig.timingVersion, balanceVersion = game.LevelConfig.balanceVersion, attemptId = attemptId, milliseconds = time, seed = Plan.Seed, date = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm 'UTC'"), equipment = equipment.ToArray() };
             Result = game.Records.Prepare(attempt, success, game.Context.RecordEligible);
             if (success)
             {
@@ -240,35 +291,20 @@ namespace Starfall
         }
         void BuildRewards()
         {
-            var candidates = new List<string>();
-            foreach (var item in game.Catalog.items) if (item.kind == ItemKind.Passive && item.implemented && game.Loadout.Layers(item.id) < item.stackLimit && (game.Loadout.Layers(item.id) > 0 || game.Loadout.Passives.Count < 6)) candidates.Add(item.id);
-            var random = new System.Random(unchecked(Plan.Seed ^ 104729));
-            while (Rewards.Count < 3 && candidates.Count > 0) { int at = random.Next(candidates.Count); Rewards.Add(candidates[at]); candidates.RemoveAt(at); }
-            string[] alternatives = { "coins", "heal", "energy" }; for (int i = 0; Rewards.Count < 3; i++) Rewards.Add(alternatives[i]);
+            Rewards.Clear();
+            if (!Result.Eligible) { RewardSelected = true; return; }
+            if (!game.Profile.Complete(attemptId, Stage)) { ResultErrorKey = "m5.unlockSaveFailed"; return; }
+            ResultErrorKey = null; Rewards.AddRange(game.Profile.Choices(attemptId));
+            if (Rewards.Count == 0) { game.Profile.Choose(attemptId, null); RewardSelected = true; }
         }
+        public void RetryUnlockSave() { if (Result?.Success == true) BuildRewards(); }
         public bool SelectReward(string id)
         {
             if (Result == null || !Result.Success || RewardSelected || !Rewards.Contains(id)) return false;
-            if (Stage < 6)
-            {
-                // Prepare the reward and next entry together. A failed write grants neither.
-                var gear = game.Loadout.Copy(); float health = game.Player.Health.State.Health; int coins = game.Context.Coins;
-                if (id == "coins") coins += 20;
-                else if (id == "heal") health = Mathf.Min(game.Player.Health.State.Maximum, health + 30);
-                else if (id == "energy") gear.AddEnergy(40);
-                else if (!gear.Equip(id)) return false;
-                health += Mathf.Max(0, gear.ExtraHealth - game.Loadout.ExtraHealth);
-                var entry = new EntryCheckpoint { stage = Stage + 1, runId = game.RunId, seed = new System.Random(unchecked(Plan.Seed ^ 49979687)).Next(), coins = coins,
-                    health = health, eligible = game.Context.RecordEligible, loadout = gear.Snapshot(), completedTimes = new List<long>(game.RunTimes) };
-                if (!game.SaveCheckpoint(entry)) { ResultErrorKey = "checkpoint.rewardFailed"; return false; }
-            }
-            if (id == "coins") game.Context.AddCompletedCoins(20);
-            else if (id == "heal") game.Player.Health.State.Heal(30);
-            else if (id == "energy") game.Loadout.AddEnergy(40);
-            else if (!game.EquipItem(id, true)) return false;
+            if (!game.Profile.Choose(attemptId, id)) { ResultErrorKey = "m5.unlockSaveFailed"; return false; }
             RewardSelected = true; SelectedReward = id; ResultErrorKey = null; game.Audio?.Play(GameSound.Pickup); return true;
         }
-        public bool AdvanceStage() => Stage < 6 && RewardSelected && Result != null && Result.Success && game.Checkpoints.HasEntry && game.Checkpoints.Current.stage == Stage + 1 && game.ContinueAdventure();
+        public bool AdvanceStage() { if (Result == null || ResultErrorKey != null) return false; game.ReturnToStageSelect(); return true; }
         public void StopBosses() { Boss?.Stop(); Guardian?.Stop(); FinalGuardian?.Stop(); }
         public string[] ShopItems => new[] { "heal", "energy", Stage == 2 ? "rapid" : Stage == 3 ? "vitality" : Stage == 4 ? "controlled" : Stage == 5 ? "blast" : "recharge", Stage == 2 ? "shotgun" : Stage == 3 ? "smg" : Stage == 4 ? "crossbow" : Stage == 5 ? "launcher" : "arc" };
         public int Price(string id) => id == "heal" ? game.CampaignConfig.healPrice : id == "energy" ? game.CampaignConfig.energyPrice : game.Catalog.Find(id).kind == ItemKind.Passive ? game.CampaignConfig.passivePrice : game.CampaignConfig.weaponPrice;
@@ -292,7 +328,7 @@ namespace Starfall
             bool bought = Shop.Buy(id, Price(id), game.Context, () => id == "heal" ? game.Player.Health.State.Heal(game.CampaignConfig.shopHeal) : id == "energy" ? game.Loadout.AddEnergy(game.CampaignConfig.shopEnergy) : game.EquipItem(id, true));
             game.Notify(bought ? "shop.bought" : "shop.failed"); return bought;
         }
-        public void SyncTimerPause() => Timer.Exclude((game.Pause.Reasons & (PauseReason.Menu | PauseReason.Map | PauseReason.Focus | PauseReason.Settings | PauseReason.Loading)) != 0 || game.Pause.Has(PauseReason.PracticePanel) && !game.Pause.Has(PauseReason.Shop));
+        public void SyncTimerPause() => Timer.Exclude(game.Pause.IsPaused);
         EnemyStyle StyleFor(int index) => Stage == 1 ? EnemyStyle.Basic : Stage == 2 ? (EnemyStyle)(1+index%3) : Stage == 3 ? index%2 == 0 ? EnemyStyle.Frost : EnemyStyle.Flanker : Stage == 4 ? index%2 == 0 ? EnemyStyle.Spore : EnemyStyle.Blocker : Stage == 5 ? (EnemyStyle)(8+index%3) : new[] {EnemyStyle.Shield,EnemyStyle.Frost,EnemyStyle.Assault,EnemyStyle.Sniper}[(index+(Current.Id=="north"?1:Current.Id=="crossing"?2:Current.Id=="south"?3:0))%4];
         bool CanGain(string id) => game.Loadout.Layers(id) < game.Catalog.Find(id).stackLimit && (game.Loadout.Layers(id)>0 || game.Loadout.Passives.Count<6);
         public void StartSporeRound() {
@@ -309,6 +345,12 @@ namespace Starfall
         }
         public bool ChooseBonus(string id) {
             if (!BonusRewards.Contains(id) || Progress.IsClaimed("grid.choice")) return false;
+            if(game.Catalog.Find(id)?.kind==ItemKind.Passive && game.Loadout.Layers(id)==0 && game.Loadout.Passives.Count>=6) {
+                game.RequestPassiveReplacement(id,old=> {
+                    if(Progress.IsClaimed("grid.choice") || !game.Loadout.ReplacePassive(old,id)) return false;
+                    Progress.Claim("grid.choice"); game.Feedback?.Item(id); game.Notify("challenge.banked"); return true;
+                }); return false;
+            }
             if (game.Catalog.Find(id) != null && !game.EquipItem(id,true)) return false;
             if (!Progress.Claim("grid.choice")) return false;
             if (id == "coins") game.Context.AddCoins(20); else if (id == "heal") game.Player.Health.Heal(30); else if (id == "energy") game.Loadout.AddEnergy(40);

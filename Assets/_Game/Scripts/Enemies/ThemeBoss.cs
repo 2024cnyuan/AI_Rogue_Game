@@ -20,6 +20,7 @@ namespace Starfall
         {
             game = owner; stage = theme; PrototypeVisuals.Body(gameObject, .62f).bodyType = RigidbodyType2D.Kinematic;
             view = PrototypeVisuals.Draw(transform, "Theme guardian", Vector2.zero, new Vector2(1.6f, 1.6f), stage == 2 ? new Color(.85f, .42f, .16f) : new Color(.4f, .72f, .9f), 5, stage == 2 ? "shooter" : "cross");
+            M5Art.Apply(view, "boss." + stage, 3.2f); M5Art.Shadow(transform, 1.6f);
             for (int i = 0; i < marks.Length; i++) marks[i] = PrototypeVisuals.Draw(transform, "Guardian telegraph", Vector2.zero, Vector2.one, PrototypeVisuals.Gold, 3, "orb");
             Health = gameObject.AddComponent<Damageable>(); Health.Initialize(Faction.Enemy, stage == 2 ? game.CampaignConfig.furnaceHealth : game.CampaignConfig.mirrorHealth, 0);
             Health.Game = game;

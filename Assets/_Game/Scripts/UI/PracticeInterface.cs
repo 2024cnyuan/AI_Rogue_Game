@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using Text = TMPro.TextMeshProUGUI;
 
 namespace Starfall
 {
@@ -20,6 +22,8 @@ namespace Starfall
         PracticePanel current;
         float refreshLeft;
         string selectedItem = "shotgun";
+        int selectedIntensity = 1, selectedEnvironment = 2;
+        Text selectionStatus;
         public bool IsOpen => current != PracticePanel.None;
         public void Initialize(StarfallGame owner)
         {
@@ -35,9 +39,9 @@ namespace Starfall
         }
         Text Label(Transform parent, string key, float height = 32, int size = 18)
         {
-            var rect = Rect(parent, key); var text = rect.gameObject.AddComponent<Text>(); text.font = game.Interface.SharedFont; text.fontSize = size;
-            text.color = new Color(.9f, .95f, .94f); text.alignment = TextAnchor.MiddleCenter; text.raycastTarget = false; text.supportRichText = false;
-            text.horizontalOverflow = HorizontalWrapMode.Wrap; text.verticalOverflow = VerticalWrapMode.Overflow;
+            var rect = Rect(parent, key); var text = rect.gameObject.AddComponent<Text>(); text.font = game.Interface.SharedFont; text.fontSize = Mathf.Max(16,size); if(size >= 24) text.font = M5Art.Catalog.title;
+            text.color = new Color(.9f, .95f, .94f); text.alignment = TextAlignmentOptions.Center; text.raycastTarget = false; text.richText = false;
+            text.textWrappingMode = TextWrappingModes.Normal; text.overflowMode = TextOverflowModes.Overflow;
             var element = text.gameObject.AddComponent<LayoutElement>(); element.preferredHeight = element.minHeight = height;
             if (key != null) labels.Add((text, key)); return text;
         }
@@ -45,7 +49,7 @@ namespace Starfall
         {
             var box = Box(parent, key, new Color(.16f, .31f, .36f), true); var layout = box.gameObject.AddComponent<LayoutElement>(); layout.preferredHeight = layout.minHeight = height;
             var button = box.gameObject.AddComponent<Button>(); button.targetGraphic = box; button.interactable = enabled;
-            var navigation = button.navigation; navigation.mode = Navigation.Mode.None; button.navigation = navigation;
+            var navigation = button.navigation; navigation.mode = Navigation.Mode.Automatic; button.navigation = navigation;
             button.onClick.AddListener(() => { game.Audio?.Play(GameSound.Ui); callback?.Invoke(); }); var label = Label(box.transform, key, height);
             label.rectTransform.anchorMin = Vector2.zero; label.rectTransform.anchorMax = Vector2.one; label.rectTransform.offsetMin = label.rectTransform.offsetMax = Vector2.zero; return button;
         }
@@ -71,21 +75,21 @@ namespace Starfall
         {
             var box = Box(game.Interface.transform, "Tutorial guide", new Color(.07f, .13f, .18f, .94f)); tutorialBubble = box.gameObject;
             box.rectTransform.anchorMin = box.rectTransform.anchorMax = new Vector2(.5f, 1); box.rectTransform.pivot = new Vector2(.5f, 1);
-            box.rectTransform.anchoredPosition = new Vector2(0, -78); box.rectTransform.sizeDelta = new Vector2(1100, 110); Layout(box.transform, 6);
+            box.rectTransform.anchoredPosition = new Vector2(0, -78); box.rectTransform.sizeDelta = new Vector2(1100, 120); Layout(box.transform, 6);
             box.GetComponent<VerticalLayoutGroup>().spacing = 4;
-            instruction = Label(box.transform, null, 44, 16); hint = Label(box.transform, null, 20, 14);
+            instruction = Label(box.transform, null, 44, 16); hint = Label(box.transform, null, 24, 16);
             var row = Row(box.transform, 26); Button(row, "tutorial.retry", () => game.Tutorial?.Retry(), 26);
             skipDodge = Button(row, "tutorial.skipDodge", () => game.Tutorial?.SkipDodge(), 26); Button(row, "tutorial.skipAll", () => game.Tutorial?.SkipAll(), 26);
         }
         void BuildTrainingBar()
         {
             var box = Box(game.Interface.transform, "Practice status", new Color(.06f, .13f, .18f, .96f)); trainingBar = box.gameObject;
-            box.rectTransform.anchorMin = box.rectTransform.anchorMax = new Vector2(.5f, 0); box.rectTransform.pivot = new Vector2(.5f, 0);
-            box.rectTransform.anchoredPosition = new Vector2(0, 75); box.rectTransform.sizeDelta = new Vector2(1040, 110); Layout(box.transform, 6);
+            box.rectTransform.anchorMin = box.rectTransform.anchorMax = new Vector2(1, 0); box.rectTransform.pivot = new Vector2(1, 0);
+            box.rectTransform.anchoredPosition = new Vector2(-16, 16); box.rectTransform.sizeDelta = new Vector2(880, 136); Layout(box.transform, 6);
             box.GetComponent<VerticalLayoutGroup>().spacing = 2;
-            trainingStatus = Label(box.transform, null, 20, 14); activeStatus = Label(box.transform, null, 20, 14); liveDamage = Label(box.transform, null, 20, 14);
+            trainingStatus = Label(box.transform, null, 28, 16); activeStatus = Label(box.transform, null, 28, 16); liveDamage = Label(box.transform, null, 28, 16);
             var row = Row(box.transform, 28); Button(row, "zone.equipment", () => Open(PracticePanel.Equipment), 28);
-            Button(row, "training.controls", () => Open(PracticePanel.Simulation), 28); Button(row, "training.reset", () => game.Training.Reset(), 28);
+            Button(row, "training.controls", () => Open(PracticePanel.Simulation), 28); Button(row, "m5.resetShort", () => game.Training.Reset(), 28);
             Button(row, "button.menu", game.ReturnToMenu, 28);
         }
         void BuildZones()
@@ -131,15 +135,18 @@ namespace Starfall
             else if (panel == PracticePanel.Dodge)
             {
                 Label(content, "training.hazardRule", 78);
-                var row = Row(content); for (int strength = 1; strength <= 3; strength++) { int level = strength; Button(row, "training.intensity." + strength, () => game.Hazards.Begin(level)); }
+                var row = Row(content); for (int strength = 1; strength <= 3; strength++) { int level = strength; Button(row, "training.intensity." + strength, () => selectedIntensity = level); }
+                selectionStatus = Label(content, null, 42);
+                Button(content, "m5.trainingStart", () => { game.Training.StopSimulation(); game.Hazards.Begin(selectedIntensity); Close(); });
                 Button(content, "training.hazardStop", () => { game.Hazards.Stop(); game.Projectiles.Clear(); });
             }
             else if (panel == PracticePanel.Simulation) BuildSimulation();
             else
             {
                 Label(content, "training.environmentRule", 95);
-                Button(content, "training.conveyor", () => game.StartEnvironmentSample(2)); Button(content, "training.ice", () => game.StartEnvironmentSample(3));
-                Button(content, "training.grid", () => game.StartEnvironmentSample(5)); Button(content, "training.surfaceStop", game.StopEnvironmentSample);
+                Button(content, "training.conveyor", () => selectedEnvironment = 2); Button(content, "training.ice", () => selectedEnvironment = 3);
+                Button(content, "training.grid", () => selectedEnvironment = 5); selectionStatus = Label(content, null, 42);
+                Button(content, "m5.trainingStart", () => { game.StartEnvironmentSample(selectedEnvironment); Close(); }); Button(content, "training.surfaceStop", game.StopEnvironmentSample);
             }
             var aids = Row(content); Button(aids, "training.toggleEnergy", () => game.Training.ToggleEnergy());
             Button(aids, "training.toggleCharges", () => game.Training.ToggleCharges()); Button(aids, "training.toggleInvincible", () => game.Training.ToggleInvincible());
@@ -174,9 +181,11 @@ namespace Starfall
             var count = Row(content); foreach (int number in new[] { 3, 6, 12 })
             { int value = number; Button(count, "training.count." + number, () => game.Training.SetCount(value)); }
             var kinds = Row(content); foreach (var type in new[] { "chaser", "shooter", "elite", "mix" })
-            { string id = type; Button(kinds, "enemy." + type, () => game.Training.Simulate(id)); }
+            { string id = type; Button(kinds, "enemy." + type, () => game.Training.SelectEnemy(id)); }
             Transform styleRow = null; int index=0;
-            foreach (EnemyStyle style in Enum.GetValues(typeof(EnemyStyle))) { if (style==EnemyStyle.Basic || style==EnemyStyle.Sporelet) continue; if (index++%4==0) styleRow=Row(content,36); string id=style.ToString().ToLowerInvariant(); Button(styleRow,"enemy."+id,()=>game.Training.Simulate(id),36); }
+            foreach (EnemyStyle style in Enum.GetValues(typeof(EnemyStyle))) { if (style==EnemyStyle.Basic || style==EnemyStyle.Sporelet) continue; if (index++%4==0) styleRow=Row(content,36); string id=style.ToString().ToLowerInvariant(); Button(styleRow,"enemy."+id,()=>game.Training.SelectEnemy(id),36); }
+            selectionStatus = Label(content, null, 42);
+            Button(content, "m5.trainingStart", () => { game.Hazards.Stop(); game.StopEnvironmentSample(); game.Training.StartSelected(); Close(); });
             Button(content, "training.stop", () => game.Training.StopSimulation());
             var row = Row(content); Button(row, "zone.range", () => Open(PracticePanel.Range)); Button(row, "zone.dodge", () => Open(PracticePanel.Dodge));
         }
@@ -186,7 +195,7 @@ namespace Starfall
             if (trainingPanel != null)
             {
                 labels.RemoveAll(pair => pair.view == null || pair.view.transform.IsChildOf(trainingPanel.transform)); itemLabels.Clear();
-                trainingPanel.SetActive(false); Destroy(trainingPanel); trainingPanel = null; equipmentStatus = description = null;
+                trainingPanel.SetActive(false); Destroy(trainingPanel); trainingPanel = null; equipmentStatus = description = selectionStatus = null;
             }
             if (game != null) game.SetPause(PauseReason.PracticePanel, false);
         }
@@ -199,6 +208,7 @@ namespace Starfall
             zoneLabels.SetActive(training && game.CanAct);
             foreach (var zone in zones) zone.view.rectTransform.anchoredPosition = (Vector2)game.GameCamera.WorldToScreenPoint(zone.point) / game.Interface.Canvas.scaleFactor;
             introduction.SetActive(showIntroduction && game.Context == null && !game.Interface.FirstLaunch);
+            if(introduction.activeSelf) introduction.transform.SetAsLastSibling();
             tutorialBubble.SetActive(tutorial && game.CanAct);
             trainingBar.SetActive(training && !game.Pause.Has(PauseReason.Menu) && !game.Pause.Has(PauseReason.Map) && !game.Interface.SettingsOpen && !IsOpen);
             completion.SetActive(tutorial && game.Context.Phase == RunPhase.Complete);
@@ -210,6 +220,7 @@ namespace Starfall
                 summary.text = game.Text.Get(game.Tutorial.StepSkipped ? "tutorial.completedWithSkip" : "tutorial.completedAll");
             }
             if (!training) return;
+            if (selectionStatus != null) selectionStatus.text = game.Training.Running ? game.Text.Get("m5.trainingRunning") : game.Text.Get("m5.trainingSelected", ("item", current == PracticePanel.Simulation ? game.Text.Get("enemy." + game.Training.SelectedEnemy) + " × " + game.Training.SimulationCount : current == PracticePanel.Dodge ? game.Text.Get("training.intensity." + selectedIntensity) : game.Text.Get(selectedEnvironment == 2 ? "training.conveyor" : selectedEnvironment == 3 ? "training.ice" : "training.grid")));
             string status = game.Text.Get("training.aids", ("energy", Flag(game.Loadout.InfiniteEnergy)), ("charges", Flag(game.Loadout.InfiniteCharges)), ("invincible", Flag(game.Loadout.Invincible)));
             trainingStatus.text = status;
             string activeItem = game.Loadout.Active == null ? game.Text.Get("active.none") : game.Text.Get(game.Catalog.Find(game.Loadout.Active).nameKey);

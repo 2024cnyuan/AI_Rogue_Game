@@ -1,0 +1,295 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87953e02222dc40489e105fa6340635b, type: 3}
+  m_Name: PresentationCatalog
+  m_EditorClassIdentifier: Starfall.Runtime::Starfall.PresentationCatalog
+  art:
+  - id: pistol
+    sprite: {fileID: 1091246567, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 7460762720302896937, guid: d9a71d83cd7ea3b418c7e40c7f5f9881, type: 3}
+  - id: shotgun
+    sprite: {fileID: 728427907, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 2204425939736140890, guid: e7cb3a6b1e17ad247b6abcaa059bf536, type: 3}
+  - id: smg
+    sprite: {fileID: 2041679296, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 5244535934003423807, guid: 4c81a2512cd0b7e48b50f5d860608822, type: 3}
+  - id: crossbow
+    sprite: {fileID: -2015334254, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 5370071960243523533, guid: 6a0d88da4858e1c47a1eac1319a3c134, type: 3}
+  - id: launcher
+    sprite: {fileID: -858528234, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 3959177819507242897, guid: d70ff6eb68862cf4ebbec417eeba1aa5, type: 3}
+  - id: arc
+    sprite: {fileID: -1035546125, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 5241212317857552619, guid: d52664af74c5b1f40bf64da6f0d69d3f, type: 3}
+  - id: workshop_smg
+    sprite: {fileID: -107183145, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 4061443541244777300, guid: 84fea19d4185f0e4a9fbfea599e45c6a, type: 3}
+  - id: coins
+    sprite: {fileID: 84616620, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 7803319739937534043, guid: fb02c002e4d3db142a0a7f3fd1cc9208, type: 3}
+  - id: medkit
+    sprite: {fileID: 2014338978, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 4254384601221542857, guid: 9b1f2ccfef138e840932b1be96ef45d9, type: 3}
+  - id: shield
+    sprite: {fileID: 1950508316, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 3927942409951531429, guid: 70144f82a6b30c044851eaa0d302df96, type: 3}
+  - id: slow
+    sprite: {fileID: 1170803456, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 7246881184293042311, guid: b83630a7ac83d1847ad9313cbe2d7a4c, type: 3}
+  - id: shock
+    sprite: {fileID: 802761725, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 9030183672331588410, guid: 4796123f148ca2e4d82940761259fd43, type: 3}
+  - id: decoy
+    sprite: {fileID: -748686281, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 2941247635402607172, guid: b2a4934eeeb4deb41b14753b5e4a5ad0, type: 3}
+  - id: grenade
+    sprite: {fileID: -1752918535, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 1914187713542527056, guid: 07f7c7ccf3917da46a61ac8d4fc29bf2, type: 3}
+  - id: energy
+    sprite: {fileID: -196924380, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 8392509120152085623, guid: 6114147bfc330a544b52e022647ff42e, type: 3}
+  - id: health
+    sprite: {fileID: -461061622, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 4219152046140969431, guid: 4fc40569eda006f4aae47979a68b8787, type: 3}
+  - id: rapid
+    sprite: {fileID: 262662518, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 8218769870854270412, guid: 6edd075ea54ad384cb4db08d861ecff7, type: 3}
+  - id: magnet
+    sprite: {fileID: -2135848973, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 8414023132296107544, guid: a251991e3c7b2114bb5f6ceae592fed2, type: 3}
+  - id: vitality
+    sprite: {fileID: 1766659797, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 1022314709533149961, guid: 933297d90f46f9348a18b0ded5f8fad4, type: 3}
+  - id: agile
+    sprite: {fileID: -472674085, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 796084564401824009, guid: 357574970a10e164d8f5fb63efdaf6fd, type: 3}
+  - id: pierce
+    sprite: {fileID: 434939185, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 7439709457110315339, guid: e80bcd9ab14d1f248bb646969e1fc53c, type: 3}
+  - id: bounce
+    sprite: {fileID: -756368260, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 2569684489018674361, guid: 971f9b59c30a5014aba99be46fb486f7, type: 3}
+  - id: critical
+    sprite: {fileID: -1671011104, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 3999674266099820910, guid: a54d29363cc08a544a01edc1c04a586a, type: 3}
+  - id: recharge
+    sprite: {fileID: -484481841, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 3029205054594210820, guid: adc91b2112fe63e4c93639b45e6d58fa, type: 3}
+  - id: lowhealth
+    sprite: {fileID: 987907357, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 1296531780265450211, guid: 733dacac8e17e27438f5189f8f2768f1, type: 3}
+  - id: blast
+    sprite: {fileID: 1650320928, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 75653345070745038, guid: ee04c2e4d457632458119bf48127df89, type: 3}
+  - id: controlled
+    sprite: {fileID: 761842834, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 8214191210155330594, guid: 87dde5f97f83667468b37db288bf9588, type: 3}
+  - id: flawless
+    sprite: {fileID: 925250528, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 3799559821752478395, guid: 02f26f9982240e344b608c8810d9de34, type: 3}
+  - id: beacon
+    sprite: {fileID: 223903564, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 8425460879268353639, guid: a3c8b4894dc8a4a4880f2aa5205a894c, type: 3}
+  - id: chest
+    sprite: {fileID: -1458201404, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 174443952399755426, guid: 77a9968edba09b94088956f873c35d0c, type: 3}
+  - id: workstation
+    sprite: {fileID: 1232783091, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 4035544763116072698, guid: b4ce9494e13a90c44959924d2e885d4f, type: 3}
+  - id: gate
+    sprite: {fileID: 1800523820, guid: a73f151d7d1c4ba4f869a3c892b6f97f, type: 3}
+    prefab: {fileID: 1020061695679381818, guid: a29bb85f0d8657e43b82b3c37e9bb062, type: 3}
+  - id: enemy.basic
+    sprite: {fileID: 387253758, guid: 954221993ff31cd42adb489a98b0a183, type: 3}
+    prefab: {fileID: 3764456688505696839, guid: 898c9368125207c40beaf497f3fc9543, type: 3}
+  - id: enemy.archer
+    sprite: {fileID: 1467868867, guid: 954221993ff31cd42adb489a98b0a183, type: 3}
+    prefab: {fileID: 4075839611869692635, guid: e9f255d3ee81c2b4e8579250942eca27, type: 3}
+  - id: enemy.shield
+    sprite: {fileID: -1937770163, guid: 954221993ff31cd42adb489a98b0a183, type: 3}
+    prefab: {fileID: 7681895712692291206, guid: 1c5a2aa66ecaf9c40b62c22fe934066d, type: 3}
+  - id: enemy.bomber
+    sprite: {fileID: -690435742, guid: 954221993ff31cd42adb489a98b0a183, type: 3}
+    prefab: {fileID: 1002914207655702542, guid: 5856abb23e15fe44b9a31ebbfc7d4802, type: 3}
+  - id: enemy.flanker
+    sprite: {fileID: -706811466, guid: 954221993ff31cd42adb489a98b0a183, type: 3}
+    prefab: {fileID: 459662996342670447, guid: d9780c2b4a9be4e42b7bb2165680efe1, type: 3}
+  - id: enemy.frost
+    sprite: {fileID: -433241730, guid: 954221993ff31cd42adb489a98b0a183, type: 3}
+    prefab: {fileID: 1537978817918429705, guid: 66ff6f9aa2690b6448830dc99710ddfb, type: 3}
+  - id: enemy.spore
+    sprite: {fileID: -1022109322, guid: 954221993ff31cd42adb489a98b0a183, type: 3}
+    prefab: {fileID: 4051520256874108035, guid: 861a9bdc9b08a9943920e49b55e0ea3e, type: 3}
+  - id: enemy.blocker
+    sprite: {fileID: -181619967, guid: 954221993ff31cd42adb489a98b0a183, type: 3}
+    prefab: {fileID: 7598703149719124975, guid: 0538b17caa21b284c8d34aa198462d19, type: 3}
+  - id: enemy.assault
+    sprite: {fileID: 380714511, guid: 954221993ff31cd42adb489a98b0a183, type: 3}
+    prefab: {fileID: 6809929448328896643, guid: db2b0df4df217e54db7ee4a3af8047cd, type: 3}
+  - id: enemy.sniper
+    sprite: {fileID: 212717085, guid: 954221993ff31cd42adb489a98b0a183, type: 3}
+    prefab: {fileID: 164465305049215825, guid: 382ac0df835073e4d8b199346627af45, type: 3}
+  - id: boss.1
+    sprite: {fileID: -1099513014, guid: 954221993ff31cd42adb489a98b0a183, type: 3}
+    prefab: {fileID: 4153347123292462924, guid: 5c2e0ea7557f62c4ab31fecc8682d37d, type: 3}
+  - id: boss.2
+    sprite: {fileID: 798007139, guid: 954221993ff31cd42adb489a98b0a183, type: 3}
+    prefab: {fileID: 6828424449793324553, guid: dec8069fc996bd84583d8399be10d356, type: 3}
+  - id: boss.3
+    sprite: {fileID: -1770750206, guid: 954221993ff31cd42adb489a98b0a183, type: 3}
+    prefab: {fileID: 1322499221410940740, guid: 1d23792191538f84f8b50313d7831424, type: 3}
+  - id: boss.4
+    sprite: {fileID: -812957316, guid: 954221993ff31cd42adb489a98b0a183, type: 3}
+    prefab: {fileID: 8926040245039459475, guid: 94691c1fefe5b004f96c0cf0269b008e, type: 3}
+  - id: boss.5
+    sprite: {fileID: -235266200, guid: 954221993ff31cd42adb489a98b0a183, type: 3}
+    prefab: {fileID: 1361766491395940566, guid: 6d0bebb0b66ceb143939f367150058ec, type: 3}
+  - id: boss.6
+    sprite: {fileID: 899731867, guid: 954221993ff31cd42adb489a98b0a183, type: 3}
+    prefab: {fileID: 766259815672061857, guid: 72a83003226f4c143b572a3848b0fa2d, type: 3}
+  - id: enemy.turret
+    sprite: {fileID: 2983765, guid: 6b38c3ccf8bd2b84d8cdae0cb15c04a9, type: 3}
+    prefab: {fileID: 8101932012053949337, guid: 0d558d0fa6decbc4c90b06cf81f94e23, type: 3}
+  - id: enemy.drone
+    sprite: {fileID: -477727242, guid: 6b38c3ccf8bd2b84d8cdae0cb15c04a9, type: 3}
+    prefab: {fileID: 3630476400255409601, guid: f4e4df1b493b9bc40b321c82d7f92b16, type: 3}
+  - id: enemy.sporelet
+    sprite: {fileID: 159404938, guid: 6b38c3ccf8bd2b84d8cdae0cb15c04a9, type: 3}
+    prefab: {fileID: 7204398375867332397, guid: 79c97f958e645f1408b660c3dc1bfd78, type: 3}
+  - id: floor.1
+    sprite: {fileID: -1618603466, guid: 3420c85accfc0c84ab172d855824baa9, type: 3}
+    prefab: {fileID: 6544138215113011761, guid: dd1eaed46ee75014588bae01947ec395, type: 3}
+  - id: floor.2
+    sprite: {fileID: -1553795753, guid: 3420c85accfc0c84ab172d855824baa9, type: 3}
+    prefab: {fileID: 56108636850390258, guid: f9b160a706b938a4a9709735d35f621e, type: 3}
+  - id: floor.3
+    sprite: {fileID: 1480607296, guid: 3420c85accfc0c84ab172d855824baa9, type: 3}
+    prefab: {fileID: 7436026730578415677, guid: 57d4d2c95b57a9948a3eec18d7c412f5, type: 3}
+  - id: floor.4
+    sprite: {fileID: -328635120, guid: 3420c85accfc0c84ab172d855824baa9, type: 3}
+    prefab: {fileID: 5727107259792641024, guid: 7ff17cf1a0989504cbfcc4f92a276f5e, type: 3}
+  - id: floor.5
+    sprite: {fileID: -1551328622, guid: 3420c85accfc0c84ab172d855824baa9, type: 3}
+    prefab: {fileID: 2827123486123406301, guid: 879947992adc5964c9011a50db3f4ef5, type: 3}
+  - id: floor.6
+    sprite: {fileID: -1384967551, guid: 3420c85accfc0c84ab172d855824baa9, type: 3}
+    prefab: {fileID: 800516242140699891, guid: 921a7515e4f3c2b4d9e767569e16ac41, type: 3}
+  - id: wall.1
+    sprite: {fileID: -39300002, guid: 01a1a4c133540224691be122bf8893bc, type: 3}
+    prefab: {fileID: 4605495715944561637, guid: 63943ffa8432a9c41a1fd26811786c1c, type: 3}
+  - id: wall.2
+    sprite: {fileID: -760892081, guid: 01a1a4c133540224691be122bf8893bc, type: 3}
+    prefab: {fileID: 1191782553882406832, guid: adf1e078834986b41b592927cd5df758, type: 3}
+  - id: wall.3
+    sprite: {fileID: -998796836, guid: 01a1a4c133540224691be122bf8893bc, type: 3}
+    prefab: {fileID: 8501028783858722548, guid: 88c70f2b21f394f4dbaf43613896b00c, type: 3}
+  - id: wall.4
+    sprite: {fileID: -1953062675, guid: 01a1a4c133540224691be122bf8893bc, type: 3}
+    prefab: {fileID: 7817716607430807459, guid: f3395aafca5e3a944aa8837725830270, type: 3}
+  - id: wall.5
+    sprite: {fileID: 1120675369, guid: 01a1a4c133540224691be122bf8893bc, type: 3}
+    prefab: {fileID: 5761062477184230433, guid: eb2074acbb44d9146b03a3eaabda3a37, type: 3}
+  - id: wall.6
+    sprite: {fileID: 1694879786, guid: 01a1a4c133540224691be122bf8893bc, type: 3}
+    prefab: {fileID: 4658508772128067147, guid: 955a48a7cd052ed43845a78907f92869, type: 3}
+  - id: arch.1
+    sprite: {fileID: -879895748, guid: 01a1a4c133540224691be122bf8893bc, type: 3}
+    prefab: {fileID: 958920816001305937, guid: e855e80c5f400ee40b4989ed8503e56b, type: 3}
+  - id: arch.2
+    sprite: {fileID: -1482517397, guid: 01a1a4c133540224691be122bf8893bc, type: 3}
+    prefab: {fileID: 8249812296272216194, guid: 5340ef2948705f54482ef4e8ebfc422b, type: 3}
+  - id: arch.3
+    sprite: {fileID: -1765026759, guid: 01a1a4c133540224691be122bf8893bc, type: 3}
+    prefab: {fileID: 7348434794958648713, guid: 52a3145212ca1ac4582c4dd8dd62d990, type: 3}
+  - id: arch.4
+    sprite: {fileID: 575934346, guid: 01a1a4c133540224691be122bf8893bc, type: 3}
+    prefab: {fileID: 9013572504686520547, guid: 17972a209180ee14eb3e8d2d5691dc6c, type: 3}
+  - id: arch.5
+    sprite: {fileID: -420758923, guid: 01a1a4c133540224691be122bf8893bc, type: 3}
+    prefab: {fileID: 3449713166631833262, guid: e542e90a77f1f6744b30cbfc276b15c8, type: 3}
+  - id: arch.6
+    sprite: {fileID: 1269626695, guid: 01a1a4c133540224691be122bf8893bc, type: 3}
+    prefab: {fileID: 3211399925844240528, guid: 222949d58e9e3244892787851674d377, type: 3}
+  - id: landmark.1
+    sprite: {fileID: -1081451552, guid: 01a1a4c133540224691be122bf8893bc, type: 3}
+    prefab: {fileID: 6631784026774459089, guid: ef657a00e6ab6de409fac96cb9cddbfe, type: 3}
+  - id: landmark.2
+    sprite: {fileID: 1977764787, guid: 01a1a4c133540224691be122bf8893bc, type: 3}
+    prefab: {fileID: 6216470395229709612, guid: 7633827283a3f874dacb2443825e7d51, type: 3}
+  - id: landmark.3
+    sprite: {fileID: -1312938946, guid: 01a1a4c133540224691be122bf8893bc, type: 3}
+    prefab: {fileID: 7565948642019257464, guid: 15700864ba1f4f24f946c387e0063a05, type: 3}
+  - id: landmark.4
+    sprite: {fileID: -1116643868, guid: 01a1a4c133540224691be122bf8893bc, type: 3}
+    prefab: {fileID: 443373598000601824, guid: 6d16ca33d82ecde4486ee30e4928f595, type: 3}
+  - id: landmark.5
+    sprite: {fileID: -1914791955, guid: 01a1a4c133540224691be122bf8893bc, type: 3}
+    prefab: {fileID: 1525782127608366763, guid: f52b85d75e58c1f4981417e84f12cc53, type: 3}
+  - id: landmark.6
+    sprite: {fileID: -1353258584, guid: 01a1a4c133540224691be122bf8893bc, type: 3}
+    prefab: {fileID: 6923780311712967205, guid: 63c73da5be223a447b19a3a1d8158baa, type: 3}
+  explorer:
+  - {fileID: 528501852, guid: 1fedd742f715ff440b75ce6800adcd25, type: 3}
+  - {fileID: -1211841850, guid: 1fedd742f715ff440b75ce6800adcd25, type: 3}
+  - {fileID: -1165126723, guid: 1fedd742f715ff440b75ce6800adcd25, type: 3}
+  - {fileID: 1660527081, guid: 1fedd742f715ff440b75ce6800adcd25, type: 3}
+  - {fileID: 2105787873, guid: 1fedd742f715ff440b75ce6800adcd25, type: 3}
+  - {fileID: -1900920274, guid: 1fedd742f715ff440b75ce6800adcd25, type: 3}
+  - {fileID: 912393380, guid: 1fedd742f715ff440b75ce6800adcd25, type: 3}
+  - {fileID: 868946728, guid: 1fedd742f715ff440b75ce6800adcd25, type: 3}
+  - {fileID: 1259428435, guid: 1fedd742f715ff440b75ce6800adcd25, type: 3}
+  - {fileID: 1007090118, guid: 1fedd742f715ff440b75ce6800adcd25, type: 3}
+  - {fileID: 58916008, guid: 1fedd742f715ff440b75ce6800adcd25, type: 3}
+  - {fileID: 310531183, guid: 1fedd742f715ff440b75ce6800adcd25, type: 3}
+  - {fileID: -1088003300, guid: 1fedd742f715ff440b75ce6800adcd25, type: 3}
+  - {fileID: -307188263, guid: 1fedd742f715ff440b75ce6800adcd25, type: 3}
+  - {fileID: 624195869, guid: 1fedd742f715ff440b75ce6800adcd25, type: 3}
+  - {fileID: 1010155033, guid: 1fedd742f715ff440b75ce6800adcd25, type: 3}
+  explorerVisual: {fileID: 8371270011074246242, guid: 99d31c02695b20346956ca9e5db7c26b, type: 3}
+  menu: {fileID: 1331018696, guid: 33c1ee24ae3747f45adfd8d961aa14c6, type: 3}
+  stageCards:
+  - {fileID: -1430568074, guid: 8faae13c9daa0c54d8081de1afad2ef7, type: 3}
+  - {fileID: 257699592, guid: 8faae13c9daa0c54d8081de1afad2ef7, type: 3}
+  - {fileID: -1620515446, guid: 8faae13c9daa0c54d8081de1afad2ef7, type: 3}
+  - {fileID: 1370879478, guid: 8faae13c9daa0c54d8081de1afad2ef7, type: 3}
+  - {fileID: 1992485712, guid: 8faae13c9daa0c54d8081de1afad2ef7, type: 3}
+  - {fileID: -2077543492, guid: 8faae13c9daa0c54d8081de1afad2ef7, type: 3}
+  body: {fileID: 11400000, guid: 865cdab05d92fa74fb120852a78cec41, type: 2}
+  emphasis: {fileID: 11400000, guid: b954ac9d0b130444ea21fcf965b7b72d, type: 2}
+  title: {fileID: 11400000, guid: cf43773825d5a6142b0a1be47cf0ccae, type: 2}
+  lit: {fileID: 2100000, guid: 9bd5ad64a38970d479a113157ff99799, type: 2}
+  unlit: {fileID: 2100000, guid: 9f94251905249c94ea7bcb9eb0019b6b, type: 2}
+  standard: {fileID: 11400000, guid: 632978153bfc0644c89c3998bc5d5195, type: 2}
+  minimal: {fileID: 11400000, guid: 342f2bb20dd24514482b7e2f8070e81e, type: 2}
+  sounds:
+  - {fileID: 8300000, guid: f6faa4a267d56f04cb6697f4275c3036, type: 3}
+  - {fileID: 8300000, guid: e91a5fb8dd40ba24597c04d0a99669bf, type: 3}
+  - {fileID: 8300000, guid: 971b82c47ae4175449d5bfccf33b8784, type: 3}
+  - {fileID: 8300000, guid: 1dbdf8302c5a1834eb5c0fff45bcf5ac, type: 3}
+  - {fileID: 8300000, guid: f35c283a6674dad4e9596bbad1560162, type: 3}
+  - {fileID: 8300000, guid: c6ae7a8dcbca7dc4195093108c349276, type: 3}
+  - {fileID: 8300000, guid: 80482ad813617e34f9160d23ac571826, type: 3}
+  - {fileID: 8300000, guid: c8af20cd22edbc34cb9bf2601d24d37b, type: 3}
+  weapons:
+  - {fileID: 8300000, guid: 6b7a320f9ebf7ed429927088b623a3b1, type: 3}
+  - {fileID: 8300000, guid: f81d63d0ac1b16e419fc601e9d5e40ef, type: 3}
+  - {fileID: 8300000, guid: 808d72dddce66084fa0d9c91c276f58f, type: 3}
+  - {fileID: 8300000, guid: 109c5525b26f20e459172f200d7d98d3, type: 3}
+  - {fileID: 8300000, guid: 9e568ff36015df04d99e7c4c5df9e41f, type: 3}
+  - {fileID: 8300000, guid: e30ff2baea22dd74b85865c885d730e3, type: 3}
+  - {fileID: 8300000, guid: 012fdf6a56bfc174ebfccbf2474b33e6, type: 3}
+  ambience: {fileID: 8300000, guid: b586a403d95283549b910a70e9246a4d, type: 3}
+  mixer: {fileID: 24100000, guid: 9b1538e3bf2576b4789c5fffff31c474, type: 2}
+  effectsGroup: {fileID: -282227100606541017, guid: 9b1538e3bf2576b4789c5fffff31c474, type: 2}
+  musicGroup: {fileID: 2011468400459114364, guid: 9b1538e3bf2576b4789c5fffff31c474, type: 2}
+  uiGroup: {fileID: 8611872771339397126, guid: 9b1538e3bf2576b4789c5fffff31c474, type: 2}

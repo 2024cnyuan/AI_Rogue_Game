@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 namespace Starfall
 {
@@ -12,6 +13,7 @@ namespace Starfall
         static readonly Vector2Int[] directions = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left };
         BoxCollider2D exitBarrier;
         SpriteRenderer exitVisual;
+        SpriteRenderer exitArt;
         SpriteRenderer pulse;
         public bool DoorOpen { get; private set; }
         public Vector2 Spawn => new Vector2(-8, -4);
@@ -48,7 +50,7 @@ namespace Starfall
                     foreach (var cover in plan.Cover)
                         PrototypeVisuals.Draw(transform, "Reflective crystal", cover.center, new Vector2(Mathf.Min(cover.width, 1), Mathf.Min(cover.height, 1)), new Color(.6f, .84f, .96f), 3, "shooter");
                 }
-                if (plan.Stage == 1 && plan.Kind == LevelRoomKind.Mechanism)
+                if (plan.Stage == 1 && (plan.Kind == LevelRoomKind.Mechanism || plan.Id == "south" || plan.Id == "crossing"))
                 {
                     pulse = PrototypeVisuals.Draw(transform, "Seal pulse warning", Vector2.zero, new Vector2(19, 1.3f), PrototypeVisuals.Gold, -10);
                     pulse.enabled = false;
@@ -90,6 +92,38 @@ namespace Starfall
             exitBarrier = exitVisual.gameObject.AddComponent<BoxCollider2D>();
             Walls.Add(new Rect(11, -2, .3f, 4));
             for (int x = 0; x < 23; x++) for (int y = 0; y < 15; y++) walkable[x, y] = IsClear(new Vector2(x - 11, y - 7), .48f);
+            PaintRoom(plan?.Stage ?? 1, plan);
+        }
+        void PaintRoom(int stage, LevelRoomPlan plan)
+        {
+            if (M5Art.Get("floor." + stage) == null) return;
+            foreach (var r in GetComponentsInChildren<SpriteRenderer>()) {
+                if (r.gameObject.name == "Floor" || r.gameObject.name == "Practice zone" || r.gameObject.name == "Route marker" || r.gameObject.name == "Wall cap" || r.gameObject.name == "Moss" || r.gameObject.name == "Lamp base" || r.gameObject.name == "Lamp") r.enabled = false;
+                if (r.gameObject.name == "Stone wall") {
+                    Vector3 size = r.transform.localScale; r.enabled=false;
+                    var group=new GameObject("Painted cover"); group.transform.SetParent(r.transform,false); group.transform.localScale=new Vector3(1/size.x,1/size.y,1);
+                    bool vertical=size.y>size.x; float length=vertical?size.y:size.x; float thickness=vertical?size.x:size.y;
+                    thickness=Mathf.Max(.95f,thickness);
+                    int count=Mathf.Max(1,Mathf.CeilToInt(length/2)); float segment=length/count;
+                    for(int i=0;i<count;i++) {
+                        Vector2 at=vertical?new Vector2(0,-length/2+segment*(i+.5f)):new Vector2(-length/2+segment*(i+.5f),0);
+                        var tile=M5Art.Draw(group.transform,"wall."+stage,at,thickness,40-Mathf.RoundToInt((r.transform.position.y+at.y-thickness*.5f)*4));
+                        tile.transform.localScale=new Vector3(segment/tile.sprite.bounds.size.x,thickness/tile.sprite.bounds.size.y,1);
+                        if(vertical) { tile.transform.localScale=new Vector3(segment/tile.sprite.bounds.size.x,thickness/tile.sprite.bounds.size.y,1); tile.transform.localRotation=Quaternion.Euler(0,0,90); }
+                        if(size.x<6 && size.y<6) { var shadow=tile.gameObject.AddComponent<ShadowCaster2D>(); shadow.selfShadows=false; shadow.castsShadows=true; }
+                    }
+                    PrototypeVisuals.Draw(group.transform,"Cover shadow",new Vector2(.08f,-.12f),new Vector2(size.x+.1f,size.y+.12f),new Color(0,0,0,.22f),-9);
+                }
+            }
+            var floor=M5Art.Draw(transform,"floor."+stage,Vector2.zero,4,-19); floor.transform.localScale=Vector3.one; floor.drawMode=SpriteDrawMode.Tiled; floor.size=new Vector2(22,14);
+            foreach(var at in new[]{new Vector2(-8,4),new Vector2(7,2),new Vector2(0,-5)}) M5Art.Draw(transform,"beacon",at,.65f,3);
+            var landmark = M5Art.Draw(transform, "landmark." + stage, new Vector2(-9, 4.5f), 2.6f, 1);
+            if (landmark != null) M5Art.Shadow(landmark.transform, 1);
+            exitVisual.enabled=false; exitArt=M5Art.Draw(transform,"arch."+stage,new Vector2(11.1f,0),3.4f,46); exitArt.color=new Color(.5f,.58f,.57f);
+            if (plan?.Stage == 1 && plan.Id == "courtyard") {
+                M5Art.Draw(transform, "workstation", new Vector2(-9, -5.2f), 1.4f, 3);
+                for(int i=0;i<7;i++) PrototypeVisuals.Draw(transform,"Courtyard guide",new Vector2(-6.3f,-5.3f+i*.4f),new Vector2(.14f,.14f),new Color(.58f,.79f,.67f,.35f),-10,"orb");
+            }
         }
         void Zone(Vector2 at, Vector2 size, Color color) => PrototypeVisuals.Draw(transform, "Practice zone", at, size, color, -18);
         readonly List<DestructibleCover> mushrooms = new List<DestructibleCover>();
@@ -116,8 +150,8 @@ namespace Starfall
             }
             return point.x > -10.6f && point.x < 10.6f && point.y > -6.6f && point.y < 6.6f;
         }
-        public void OpenDoor() { DoorOpen = true; exitBarrier.enabled = false; exitVisual.color = PrototypeVisuals.Teal; }
-        public void CloseDoor() { DoorOpen = false; exitBarrier.enabled = true; exitVisual.color = PrototypeVisuals.Enemy; }
+        public void OpenDoor() { DoorOpen = true; exitBarrier.enabled = false; exitVisual.color = PrototypeVisuals.Teal; if(exitArt!=null) exitArt.color=Color.white; }
+        public void CloseDoor() { DoorOpen = false; exitBarrier.enabled = true; exitVisual.color = PrototypeVisuals.Enemy; if(exitArt!=null) exitArt.color=new Color(.5f,.58f,.57f); }
         public void SetPulse(bool visible, bool active) { if (pulse != null) { pulse.enabled = visible; pulse.color = active ? PrototypeVisuals.Enemy : PrototypeVisuals.Gold; } }
         public void RefreshNavigation(Vector2 target)
         {

@@ -14,6 +14,7 @@ namespace Starfall
         {
             game = owner; Id = id; moving = motion; home = transform.position;
             view = PrototypeVisuals.Draw(transform, "Target", Vector2.zero, Vector2.one * .8f, armored ? new Color(.65f, .72f, .85f) : PrototypeVisuals.Gold, 5, armored ? "shooter" : "orb");
+            M5Art.Apply(view,armored?"enemy.shield":"enemy.basic",1.5f); M5Art.Shadow(transform,.8f);
             gameObject.layer = 2; gameObject.AddComponent<CircleCollider2D>().radius = .4f;
             var body = gameObject.AddComponent<Rigidbody2D>(); body.bodyType = RigidbodyType2D.Kinematic;
             Health = gameObject.AddComponent<Damageable>(); Health.Initialize(Faction.Enemy, 100000, 0); Health.DamageMultiplier = armored ? .5f : 1;

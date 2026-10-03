@@ -9,6 +9,7 @@ using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
+using Text = TMPro.TextMeshProUGUI;
 
 namespace Starfall.Tests
 {
@@ -112,7 +113,7 @@ namespace Starfall.Tests
             foreach (var enemy in game.Enemies) enemy.Health.Receive(new DamageContext(1000, Faction.Player));
             yield return null; game.Player.Body.position = game.Room.Exit; Physics2D.SyncTransforms();
             yield return null; Assert.AreEqual(RunPhase.RoomClear, game.Context.Phase);
-            InputSystem.QueueStateEvent(keyboard, new KeyboardState(Key.E)); yield return null; yield return null;
+            InputSystem.QueueStateEvent(keyboard, new KeyboardState(Key.F)); yield return null; yield return null;
             Assert.AreEqual(RunPhase.Complete, game.Context.Phase); Assert.IsFalse(game.Context.Complete(true));
             Assert.AreEqual(0, game.Projectiles.ActiveCount);
         }
@@ -177,7 +178,7 @@ namespace Starfall.Tests
                 Assert.LessOrEqual(view.preferredHeight, view.rectTransform.rect.height + 3, "Text overflow: " + view.name + " / " + view.text);
                 Assert.IsFalse(view.text.Contains("{"), "Unformatted parameter: " + view.text);
                 foreach (char character in view.text) if (character > 127 && !char.IsWhiteSpace(character))
-                    Assert.IsTrue(view.font.HasCharacter(character), "Font lacks character: " + character);
+                    Assert.IsTrue(view.font.HasCharacter(character,true,true), "Font lacks character: " + character);
             }
         }
         void Capture(string name, int width, int height)

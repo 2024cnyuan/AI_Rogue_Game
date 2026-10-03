@@ -9,7 +9,7 @@ namespace Starfall.Tests
     {
         [Test] public void SixHundredSeedsHaveConnectedObjectivesAndLegalSpawns() {
             for(int stage=1;stage<=6;stage++) for(int seed=0;seed<100;seed++) {
-                var plan=new FirstLevelPlan(seed,stage); var graph=new HashSet<string>(); var rooms=new Queue<string>(); rooms.Enqueue("entry");
+                var plan=new FirstLevelPlan(seed,stage); var graph=new HashSet<string>(); var rooms=new Queue<string>(); rooms.Enqueue(plan.StartRoom);
                 var layouts=new HashSet<string>(); foreach(string id in new[]{"courtyard","north","crossing","south"}) layouts.Add(string.Join("/",Array.ConvertAll(plan.Find(id).Cover,r=>r.ToString())));
                 Assert.AreEqual(4,layouts.Count,"Layouts stage "+stage);
                 while(rooms.Count>0) { string id=rooms.Dequeue(); if(!graph.Add(id)) continue; var room=plan.Find(id); Assert.IsNotNull(room); foreach(string next in new[]{room.Next,room.Back,room.Branch}) if(next!=null) rooms.Enqueue(next); if(stage==1 && id=="courtyard") rooms.Enqueue("challenge"); }
@@ -47,7 +47,7 @@ namespace Starfall.Tests
         }
         [Test] public void LegacyCheckpointMigratesAndSixthEntryKeepsHistoryWithoutResettingEarlierRecords() {
             string directory=Path.Combine(Path.GetTempPath(),"StarfallM4Rules-"+Guid.NewGuid()); Directory.CreateDirectory(directory);
-            try { var legacy=new EntryCheckpoint {contentVersion="m3-v1",stage=3,seed=7,runId="legacy"}; File.WriteAllText(Path.Combine(directory,"starfall-checkpoint.json"),JsonUtility.ToJson(legacy)); var store=new CheckpointStore(directory); Assert.IsTrue(store.HasEntry); Assert.AreEqual("m4-v1",store.Current.contentVersion);
+            try { var legacy=new EntryCheckpoint {contentVersion="m3-v1",stage=3,seed=7,runId="legacy"}; File.WriteAllText(Path.Combine(directory,"starfall-checkpoint.json"),JsonUtility.ToJson(legacy)); var store=new CheckpointStore(directory); Assert.IsTrue(store.HasEntry); Assert.AreEqual("m5-v1",store.Current.contentVersion);
                 var sixth=new EntryCheckpoint {stage=6,runId="six",seed=8,completedTimes=new List<long>{11,22,33,44,55}}; Assert.IsTrue(store.Save(sixth)); var loaded=new CheckpointStore(directory); Assert.AreEqual(5,loaded.Current.completedTimes.Count); Assert.IsTrue(loaded.Clear()); Assert.IsFalse(new CheckpointStore(directory).HasEntry);
                 sixth.stage=7; Assert.IsFalse(store.Save(sixth));
             } finally { Directory.Delete(directory,true); }

@@ -22,7 +22,9 @@ namespace Starfall
             if (items != null) foreach (var item in items) if (item.id == id) return item;
             return null;
         }
-        public string Describe(LocalizationService text, ItemDefinition item) => text.Get(item.descriptionKey,
+        public string Describe(LocalizationService text, ItemDefinition item) => DescribeKey(text,item,item.descriptionKey);
+        public string DescribeShort(LocalizationService text, ItemDefinition item) => DescribeKey(text,item,"brief."+item.id);
+        static string DescribeKey(LocalizationService text,ItemDefinition item,string key) => text.Get(key,
             ("damage", item.damage.ToString("0.#", System.Globalization.CultureInfo.InvariantCulture)),
             ("interval", item.interval.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)),
             ("energy", item.energyCost.ToString("0.##")), ("value", item.value.ToString("0.##")),

@@ -14,6 +14,7 @@ namespace Starfall
         public bool tutorialCompleted, tutorialSkipped, introductionSeen;
         public float masterVolume = .8f, musicVolume = .3f, effectsVolume = .8f, shake = .3f;
         public bool reduceFlash, hideTimer;
+        public bool minimalEffects, vignette = true, damageNumbers = true;
     }
     public sealed class SettingsStore
     {

@@ -1,0 +1,276 @@
+fileFormatVersion: 2
+guid: 6b38c3ccf8bd2b84d8cdae0cb15c04a9
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6092602939380427365
+    second: enemies-extra_0
+  - first:
+      213: -9134353462125381241
+    second: enemies-extra_1
+  - first:
+      213: 2346239744087285581
+    second: enemies-extra_2
+  - first:
+      213: 7651077032629839794
+    second: enemies-extra_3
+  - first:
+      213: 4142817271005402565
+    second: enemies-extra_4
+  - first:
+      213: -9071910163665279593
+    second: enemies-extra_5
+  - first:
+      213: -7606765020335869699
+    second: enemies-extra_6
+  - first:
+      213: 9110304608246406873
+    second: enemies-extra_7
+  - first:
+      213: 3719381958485278758
+    second: enemies-extra_8
+  - first:
+      213: -2621230037844600315
+    second: enemies-extra_9
+  - first:
+      213: 3060297433424640873
+    second: enemies-extra_10
+  - first:
+      213: 2131053956685362194
+    second: enemies-extra_11
+  - first:
+      213: 1239586726637409599
+    second: enemies-extra_12
+  - first:
+      213: -1593684493782621470
+    second: enemies-extra_13
+  - first:
+      213: 147671704253540393
+    second: enemies-extra_14
+  - first:
+      213: 96681065111209977
+    second: enemies-extra_15
+  - first:
+      213: -8375550873278180899
+    second: enemies-extra_16
+  - first:
+      213: -5879967717698486735
+    second: enemies-extra_17
+  - first:
+      213: -4160537238692991535
+    second: enemies-extra_18
+  - first:
+      213: -4776124743103619571
+    second: enemies-extra_19
+  - first:
+      213: 4775155450698856763
+    second: enemies-extra_20
+  - first:
+      213: 495616972511391969
+    second: enemies-extra_21
+  - first:
+      213: 1541625385019396072
+    second: enemies-extra_22
+  - first:
+      213: -1307457639081226032
+    second: enemies-extra_23
+  - first:
+      213: -3727490527441994044
+    second: enemies-extra_24
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 128
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: enemy.turret
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 34
+        width: 625
+        height: 666
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d53edc47e88de86bc69bd26feaaf19b4
+      internalID: 2983765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy.drone
+      rect:
+        serializedVersion: 2
+        x: 759
+        y: 108
+        width: 687
+        height: 511
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a7c046aa7960acdf416cfbd33131098
+      internalID: -477727242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy.sporelet
+      rect:
+        serializedVersion: 2
+        x: 1450
+        y: 61
+        width: 606
+        height: 451
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4fa8d8520c5406ecd6ff9378fe712f88
+      internalID: 159404938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 90152fde3d16f8345827d6bd987a8351
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      enemy.drone: -477727242
+      enemy.sporelet: 159404938
+      enemy.turret: 2983765
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

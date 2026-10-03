@@ -1,0 +1,812 @@
+{
+  "stage": "M5",
+  "resources": [
+    {
+      "path": "Assets/_Game/Art/Characters/Enemies/enemies-extra.png",
+      "bytes": 1252369,
+      "sha256": "88f75ae50671d122a6ef9373a7610821df6820f096326dc2b5bbb1b14975395f",
+      "width": 2172,
+      "height": 724,
+      "mode": "RGBA",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "path": "Assets/_Game/Art/Characters/Enemies/enemies.png",
+      "bytes": 2377055,
+      "sha256": "54f07ccaeab120357c8c68b94bcb663a737e5565a63ff9bc5a094528cc987bdd",
+      "width": 1241,
+      "height": 1267,
+      "mode": "RGBA",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "path": "Assets/_Game/Art/Characters/Player/explorer_walk_atlas.png",
+      "bytes": 1264950,
+      "sha256": "713cd8540c4be1530b1cdd58c5fe5d756d047c9a1c927eac4561fa3bac61c002",
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "path": "Assets/_Game/Art/Items/items.png",
+      "bytes": 2213431,
+      "sha256": "933791126c40783138c429b3f02b414d48f0081e13b288dca49393d70af11010",
+      "width": 1774,
+      "height": 887,
+      "mode": "RGBA",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "path": "Assets/_Game/Art/Materials/M5_SpriteLit.mat",
+      "bytes": 1316,
+      "sha256": "589b4f83a2fb75ec62d94d73e03da637aa3184667411b0bb2067857dc25021fe"
+    },
+    {
+      "path": "Assets/_Game/Art/Materials/M5_SpriteUnlit.mat",
+      "bytes": 1119,
+      "sha256": "f860a55e965e6596e89b42adf4a60b4ecb68bdd0cf8f41a356e4155529f008c5"
+    },
+    {
+      "path": "Assets/_Game/Art/World/floors.png",
+      "bytes": 3462715,
+      "sha256": "52a5166f301fccc0ee3791c3842f31bbd450ec57e922bf53aa38a79bfa3400b6",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGB"
+    },
+    {
+      "path": "Assets/_Game/Art/World/props.png",
+      "bytes": 2373792,
+      "sha256": "5eb629c8a4cfe343952473d5de12883c562648c8cac9ac4f58f5567bd6677755",
+      "width": 1774,
+      "height": 887,
+      "mode": "RGBA",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "path": "Assets/_Game/Art/World/world.png",
+      "bytes": 3154202,
+      "sha256": "080d38adc8d825d956bf097311572ec1497495da1d3ab1be4e627fa90bbbc757",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "alpha_min": 0,
+      "alpha_max": 254
+    },
+    {
+      "path": "Assets/_Game/UI/Backgrounds/menu.png",
+      "bytes": 2448810,
+      "sha256": "31e5a97595ff6433802086ad2bb5d3c27f5e3581cdd770b97217bbd7fd2291be",
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB"
+    },
+    {
+      "path": "Assets/_Game/UI/Fonts/Generated/StarfallBodySC.asset",
+      "bytes": 1858160,
+      "sha256": "350c83a5bdfcd581b595f9a9511cbef0e9a47d968f918fcf7b90cdb655f35ce8"
+    },
+    {
+      "path": "Assets/_Game/UI/Fonts/Generated/StarfallEmphasisSC.asset",
+      "bytes": 6502,
+      "sha256": "6bd5b502aa5db3f1339271e826adecbbbe29a642b9a9968d356e9abb4c300056"
+    },
+    {
+      "path": "Assets/_Game/UI/Fonts/Generated/StarfallTitleSC.asset",
+      "bytes": 3395712,
+      "sha256": "97fda33104322b9611ff90869e07927fb863901b1ec8539678f363c4023f670d"
+    },
+    {
+      "path": "Assets/_Game/UI/Fonts/Licenses/SourceHanSans-OFL.txt",
+      "bytes": 4463,
+      "sha256": "fcac737e761ec63dbfbdce11030a1780161920d80315edba9c8beff1c2bac5a2"
+    },
+    {
+      "path": "Assets/_Game/UI/Fonts/Licenses/SourceHanSerif-OFL.txt",
+      "bytes": 4463,
+      "sha256": "9ff5bb567e1b92c801fc1069e5fbf992ff8efccacb9db94e5959a5b3ba9bb903"
+    },
+    {
+      "path": "Assets/_Game/UI/Fonts/SourceHanSansSC/SourceHanSansSC-Medium.otf",
+      "bytes": 16546328,
+      "sha256": "1df61d31687d04fd2f928a3bb6ca6cd61f0e988cc267cf317f32406edbb49f70"
+    },
+    {
+      "path": "Assets/_Game/UI/Fonts/SourceHanSansSC/SourceHanSansSC-Regular.otf",
+      "bytes": 16529832,
+      "sha256": "f1d8611151880c6c336aabeac4640ef434fa13cbfbf1ffe82d0a71b2a5637256"
+    },
+    {
+      "path": "Assets/_Game/UI/Fonts/SourceHanSerifSC/SourceHanSerifSC-SemiBold.otf",
+      "bytes": 24700532,
+      "sha256": "faf16caeaf207e1926e01af8d9f1a8e71b0e9d8f51bf3b5d9a78f9f30e7e3e31"
+    },
+    {
+      "path": "Assets/_Game/UI/StageCards/stagecards.png",
+      "bytes": 3287285,
+      "sha256": "f8ad85dcd1fe1d91c24eb496e1a7705c7cbd5d83eada48c6c3307185eba71be4",
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPResources/LineBreaking Following Characters.txt",
+      "bytes": 269,
+      "sha256": "3a73e5ffe2510756dd3c2e982fdc1218b4be82c6e21abde88070d6860e1bc8e6"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPResources/LineBreaking Leading Characters.txt",
+      "bytes": 95,
+      "sha256": "62d3f4d5f64aaf885692d2d13a8313f6918e6e4c5aeb3990a43f614652bfd89c"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPResources/Unity-UGUI-LICENSE.md",
+      "bytes": 431,
+      "sha256": "3f8833f9736c0b5db5076663ba5abb0a33606712fa9128456ac834fc9d43fdd6"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPShaders/SDFFunctions.hlsl",
+      "bytes": 6021,
+      "sha256": "88cf0f62e4000b71750c059d0886b19504cd1cf10f39bb61ddc11b77a882d417"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPShaders/TMP_Bitmap-Custom-Atlas.shader",
+      "bytes": 3836,
+      "sha256": "42892a52f22bdde6d482cf2da5f35e4b813063fc6fe42189eee5562080079494"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPShaders/TMP_Bitmap-Mobile.shader",
+      "bytes": 4071,
+      "sha256": "b50afc7edc8a710f8b4159149b2391e7238b5e4076cc0ea2119090ed29e13b4a"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPShaders/TMP_Bitmap.shader",
+      "bytes": 3839,
+      "sha256": "1d32f34c71276c1321aa0540a2410e15808743a38b2026923045a4dec4a79b58"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPShaders/TMP_SDF Overlay.shader",
+      "bytes": 11054,
+      "sha256": "a0d318756cba0f95a7052c387e629d0add3e9a4125c8333f1d1ed591af5f17cb"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPShaders/TMP_SDF SpaceWarp.shader",
+      "bytes": 17614,
+      "sha256": "cdc87d1df815b00e49cb2fd3010e872fdf740f89f81c915fd1a3d974bd8a596e"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPShaders/TMP_SDF SSD SpaceWarp.shader",
+      "bytes": 18939,
+      "sha256": "40f4d9f424e2b72cb80af23439f383bc9502582780436222d84806cedbb8797b"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPShaders/TMP_SDF SSD.shader",
+      "bytes": 12438,
+      "sha256": "2a991951b00b0c052363a1025f655450054325437b3d13c2623a987c8ec77c30"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPShaders/TMP_SDF-HDRP LIT.shadergraph",
+      "bytes": 287427,
+      "sha256": "bf68062f68b38b588abd1c354f64e905f824d9a2c47f92ebdd70a32989eb2097"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPShaders/TMP_SDF-HDRP UNLIT.shadergraph",
+      "bytes": 279909,
+      "sha256": "8a969c2d775079cce4e1c45d5eb6d3964b27d44dc884178363050c74fd5e9742"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPShaders/TMP_SDF-Mobile Masking.shader",
+      "bytes": 8273,
+      "sha256": "41cff58473557bf760d03513a8c098f43a24e4eeb4c8ccd7d828c045a338a9ed"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPShaders/TMP_SDF-Mobile Overlay.shader",
+      "bytes": 8081,
+      "sha256": "fb286386d0592ce6d63eb736f180b4b0f638ec538b0855aa54767a438ebd1173"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPShaders/TMP_SDF-Mobile SpaceWarp.shader",
+      "bytes": 15442,
+      "sha256": "d28725953a5b116c5c2e141bd7fdb8f7fbd3c0157f9dccf5c88d96b488c969bb"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPShaders/TMP_SDF-Mobile SSD SpaceWarp.shader",
+      "bytes": 15531,
+      "sha256": "a9d58993803f78a3288bda17903c20b3e5eeaf947993f5f9d3c2b783458d668c"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPShaders/TMP_SDF-Mobile SSD.shader",
+      "bytes": 3064,
+      "sha256": "8b30c140f6af9134392fe6ecf4c0676db73f873489ac52adfb47bbd288cb51b8"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPShaders/TMP_SDF-Mobile-2-Pass.shader",
+      "bytes": 11794,
+      "sha256": "dd92066fccff4ce3c49eaa1e13c9fa1a9427e864b2fcb57e1e010c5e47459ac1"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPShaders/TMP_SDF-Mobile.shader",
+      "bytes": 8074,
+      "sha256": "44c39aabc7e88e7e1feffc1880df754f4adf86b62e9512aa89e9d2d65171aff4"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPShaders/TMP_SDF-Surface-Mobile.shader",
+      "bytes": 3523,
+      "sha256": "f9fae5906dd37d89298338953294459975de58a5421e68dd9e82a79794b95509"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPShaders/TMP_SDF-Surface.shader",
+      "bytes": 4353,
+      "sha256": "5dadb68b56429547918b392626e9af8fd5173936d20bb43cfca58dfa00947257"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPShaders/TMP_SDF-URP Lit.shadergraph",
+      "bytes": 283866,
+      "sha256": "e0148ce8e5904232a4e711376a45b7af2a007fb9690c5a69c1cb4952a696cdbf"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPShaders/TMP_SDF-URP Unlit.shadergraph",
+      "bytes": 277012,
+      "sha256": "dc15b6819ad87a4b34ed888ae2c274624efc0ada902d1a9e7752d87922414dcc"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPShaders/TMP_SDF.shader",
+      "bytes": 11027,
+      "sha256": "10efe6d4728474a09970b857faf37913793e168dc13dbd4d7316b54b37615d97"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPShaders/TMP_Sprite.shader",
+      "bytes": 3446,
+      "sha256": "af669bb9ae136c8099f8e0a94a6933fd2f1e1fb0a6842129939a319fab4b8dbb"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPShaders/TMPro.cginc",
+      "bytes": 2277,
+      "sha256": "14edb7d7b88caf2b82cae68200abe895e5b5b3474c3fffbf0e9b4b09a4e2467e"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPShaders/TMPro_Mobile.cginc",
+      "bytes": 5453,
+      "sha256": "d9d43ddd9810476162f21b42477d9ce2cdc4e6cc7571d354c3253aafc6673ead"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPShaders/TMPro_Properties.cginc",
+      "bytes": 2707,
+      "sha256": "66db1f03e8d7a413eba79bcb6602fdb2de710b586f34a6f2584ed6f68f028e90"
+    },
+    {
+      "path": "Assets/_Game/UI/TMPShaders/TMPro_Surface.cginc",
+      "bytes": 3515,
+      "sha256": "244b442520282a66363d121c8d2aeeb30bb1e72cbbadbf41ce68d9100322ade5"
+    },
+    {
+      "path": "Assets/_Game/Audio/Ambience/starport.wav",
+      "bytes": 5644844,
+      "sha256": "f1eadaeb5c902975afdb5e2d03f521792f01c295b8b470f411b3e71382b33d3e",
+      "channels": 2,
+      "sample_rate": 44100,
+      "seconds": 32.0
+    },
+    {
+      "path": "Assets/_Game/Audio/Mixers/StarfallMixer.mixer",
+      "bytes": 4738,
+      "sha256": "51072f56d2784fc26cb0c26fd47f8f0c334095b8dda482e87463b8a62843a6f4"
+    },
+    {
+      "path": "Assets/_Game/Audio/SFX/boss.wav",
+      "bytes": 105884,
+      "sha256": "c03dd5352efdd516b2e901ecbd2d41f0cc94825716ea0b4bd2e9a42794182ae2",
+      "channels": 1,
+      "sample_rate": 44100,
+      "seconds": 1.2
+    },
+    {
+      "path": "Assets/_Game/Audio/SFX/clear.wav",
+      "bytes": 167624,
+      "sha256": "14697b0853eeacbe4673f22fc927394681bf50f1d9fde0ec07ad49f68f9f5a33",
+      "channels": 1,
+      "sample_rate": 44100,
+      "seconds": 1.9
+    },
+    {
+      "path": "Assets/_Game/Audio/SFX/dodge.wav",
+      "bytes": 28268,
+      "sha256": "3cb50654ca4b2156d9c2dae1a21695589fdc4ea817ddba0b95292eeacad99ab2",
+      "channels": 1,
+      "sample_rate": 44100,
+      "seconds": 0.32
+    },
+    {
+      "path": "Assets/_Game/Audio/SFX/hit.wav",
+      "bytes": 14156,
+      "sha256": "1fe8e0288e15f5a76aef6e820ba2c4662c7d967b59d3318544bf72c309845067",
+      "channels": 1,
+      "sample_rate": 44100,
+      "seconds": 0.16
+    },
+    {
+      "path": "Assets/_Game/Audio/SFX/hurt.wav",
+      "bytes": 33560,
+      "sha256": "41b9df2c33f544f239e4d28372d8486d58a9fbe06aa8a7b9b5fd5d4260518944",
+      "channels": 1,
+      "sample_rate": 44100,
+      "seconds": 0.38
+    },
+    {
+      "path": "Assets/_Game/Audio/SFX/pickup.wav",
+      "bytes": 56492,
+      "sha256": "833632a6c673885b382ab746a13be813f5b87013fca30ddbc93338c3ab5b54c8",
+      "channels": 1,
+      "sample_rate": 44100,
+      "seconds": 0.64
+    },
+    {
+      "path": "Assets/_Game/Audio/SFX/shot.wav",
+      "bytes": 28268,
+      "sha256": "296885daf972ebe43fc78d70296aee79cafa87482ad1bea646f647a08459aad2",
+      "channels": 1,
+      "sample_rate": 44100,
+      "seconds": 0.32
+    },
+    {
+      "path": "Assets/_Game/Audio/SFX/ui.wav",
+      "bytes": 21212,
+      "sha256": "486c0fa4e91d00437172b3600db922306750467775fea5087b44fd885aeb7a71",
+      "channels": 1,
+      "sample_rate": 44100,
+      "seconds": 0.24
+    },
+    {
+      "path": "Assets/_Game/Audio/SFX/Weapons/arc_fire.wav",
+      "bytes": 52964,
+      "sha256": "b48178278070b7e84334a2928cbb521513817e42b179b52d1222e0159cf688aa",
+      "channels": 1,
+      "sample_rate": 44100,
+      "seconds": 0.6
+    },
+    {
+      "path": "Assets/_Game/Audio/SFX/Weapons/crossbow_fire.wav",
+      "bytes": 42380,
+      "sha256": "eb7d4d602e1135bb85a461a14c371fc274485dcb427d9cbfa4af4ca0b1fb16e3",
+      "channels": 1,
+      "sample_rate": 44100,
+      "seconds": 0.48
+    },
+    {
+      "path": "Assets/_Game/Audio/SFX/Weapons/launcher_fire.wav",
+      "bytes": 79424,
+      "sha256": "7fc113cfab3b43cb49caff5c3b8d213b845dddd1dff7a48e84f3905111d57cf7",
+      "channels": 1,
+      "sample_rate": 44100,
+      "seconds": 0.9
+    },
+    {
+      "path": "Assets/_Game/Audio/SFX/Weapons/pistol_fire.wav",
+      "bytes": 28268,
+      "sha256": "a1b1280c1a3c79f40e5142cf88e62469c9d0462fb184ba1e6505bb7322500036",
+      "channels": 1,
+      "sample_rate": 44100,
+      "seconds": 0.32
+    },
+    {
+      "path": "Assets/_Game/Audio/SFX/Weapons/shotgun_fire.wav",
+      "bytes": 56492,
+      "sha256": "ac2c8d27fb936548d71064a80af1b2edc6b7adf98db2cddfe58be1182f3e7654",
+      "channels": 1,
+      "sample_rate": 44100,
+      "seconds": 0.64
+    },
+    {
+      "path": "Assets/_Game/Audio/SFX/Weapons/smg_fire.wav",
+      "bytes": 21212,
+      "sha256": "378a2cdc893f340e6043707612e80482092fe90d5a86a18d64666449a54d2633",
+      "channels": 1,
+      "sample_rate": 44100,
+      "seconds": 0.24
+    },
+    {
+      "path": "Assets/_Game/Audio/SFX/Weapons/workshop_smg_fire.wav",
+      "bytes": 26504,
+      "sha256": "4d5a45c87a4219db2fd0117602568ccb987112c6d6c8edec1b32c04ec8b4158e",
+      "channels": 1,
+      "sample_rate": 44100,
+      "seconds": 0.3
+    },
+    {
+      "path": "Assets/_Game/Data/Rendering/VolumeProfiles/M5_Default.asset",
+      "bytes": 4239,
+      "sha256": "d55c8f2e3c706625b6cf5684592e93e809ce3b2c4c31fd6196ed6868676087ab"
+    },
+    {
+      "path": "Assets/_Game/Data/Rendering/VolumeProfiles/M5_Minimal.asset",
+      "bytes": 2283,
+      "sha256": "6ccaa863913381b675ce6d61976bbbaef6743ce863c23fc99192a3b8105e44c3"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/agile.prefab",
+      "bytes": 2604,
+      "sha256": "13d24655017368707028c516f16a6cb2fdf65b334b65d89c8d3e02d3a53ee8a6"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/arc.prefab",
+      "bytes": 2597,
+      "sha256": "445c4a23e7035bec4ab48c8c4864085886e74ecd6eed32e82788d8d1f3d30309"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/arch_1.prefab",
+      "bytes": 2603,
+      "sha256": "3b5b2fe976808680eb504dd0953a757018465cf4335bd7b93fd6160a2c7dd629"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/arch_2.prefab",
+      "bytes": 2602,
+      "sha256": "81295a8b608e76ab956fb872134b72c28e779065ebd7024be9958ffd0b8ca9cb"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/arch_3.prefab",
+      "bytes": 2606,
+      "sha256": "7837eb4a1d7b0459300a3eb21720ff45db65ceb075e272adbf3b0a332a12526c"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/arch_4.prefab",
+      "bytes": 2606,
+      "sha256": "f5d5faa5c0b21f64912f612ec65f6f0bf08c285d9069a5de17a76f073dda1d00"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/arch_5.prefab",
+      "bytes": 2603,
+      "sha256": "5b8f687f8cc05599eb833708dd9ea3c0798f7962fdd70991a66bffd5cff8fd1d"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/arch_6.prefab",
+      "bytes": 2606,
+      "sha256": "386e4fe36cfdf5c13b7561cb3c5f67f8aebe5e98ced904c290aadc986cdc17c6"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/beacon.prefab",
+      "bytes": 2605,
+      "sha256": "e0050e7e5ab0a5a62bc895fed3d6b7a565b8554172df8f12f9627b79831ecc55"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/blast.prefab",
+      "bytes": 2599,
+      "sha256": "c9df5e36c71f2dde3a338e19b5edf05a4295b5bff483c1d0a4619e0b2c459109"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/boss_1.prefab",
+      "bytes": 2609,
+      "sha256": "d8d24e6e9b2e7deeca860590552cbc6d68c6d0993ad442d26567c761cb3edca7"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/boss_2.prefab",
+      "bytes": 2605,
+      "sha256": "0a79ac32297ca3ccf7795555f2e31c813a65930eb508599dd23c24249ae52e82"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/boss_3.prefab",
+      "bytes": 2606,
+      "sha256": "50be0ba56d22adee426a5aead01b80c967f1802d09009a151bab81b169080684"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/boss_4.prefab",
+      "bytes": 2606,
+      "sha256": "ef06173b761b1def721f383f4359e68b6a1aeed9b26d081541e219b57e591efe"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/boss_5.prefab",
+      "bytes": 2607,
+      "sha256": "681ae71fcb4e224a973e05ce58e06cb5da2739cf880ab3214fa6f8a72b35a4b0"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/boss_6.prefab",
+      "bytes": 2600,
+      "sha256": "34d8497c4d6855e220506c114ba9f621ad7ee993022ce7ce0ea31f11eb212f47"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/bounce.prefab",
+      "bytes": 2599,
+      "sha256": "9ce0ec47a925f39622b494f8ae56fd3bc044e82c93d6f44a6ebb8f1f67611afa"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/chest.prefab",
+      "bytes": 2600,
+      "sha256": "8d8cf70b70d18e5d15f6390d0e591eab687cf65defd1966f0bb888cf07292b96"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/coins.prefab",
+      "bytes": 2601,
+      "sha256": "9398e9acf67de09f11734e420707124f17bc80dc727cbbd8cf641342813b0d66"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/controlled.prefab",
+      "bytes": 2603,
+      "sha256": "b562dbbb815ea9ed2b9e281c5d0a2ac85c1bc17cb679f0ed4c9828fb572a94cb"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/critical.prefab",
+      "bytes": 2608,
+      "sha256": "82e45b886ce38d11b495506d88046ead0e2b087358e80195ea1583a9f2e3868c"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/crossbow.prefab",
+      "bytes": 2608,
+      "sha256": "8bfc7999eece8bf0cf9937b44d48a4fa7e4e35661434228f2758b63c0ce9b460"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/decoy.prefab",
+      "bytes": 2607,
+      "sha256": "2c63a31f9ab79adfaf27fb4c64a84cae76995df0d89a8f393f96d1001baf3ad0"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/enemy_archer.prefab",
+      "bytes": 2611,
+      "sha256": "43ff75dcde2092aeabe86f690bf3e8ad726ef62d0dd83897fb47dd26d8499241"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/enemy_assault.prefab",
+      "bytes": 2612,
+      "sha256": "23f8f916e8fa522900cf86ef3cd590ce3dda1a086f7c0270dafb4010d2ea683a"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/enemy_basic.prefab",
+      "bytes": 2610,
+      "sha256": "17737dd5e2c925e07b05d36e7f58f6e77b9fa3228686f657849211f28a559884"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/enemy_blocker.prefab",
+      "bytes": 2613,
+      "sha256": "5a4ec63664fcd31674217c1184d4c0de73331450559a5b798b30250d9c3ab3ba"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/enemy_bomber.prefab",
+      "bytes": 2603,
+      "sha256": "3f30bcccb2996e32244919816cb3cceda5f6dead700c5a7634cdb926237315fa"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/enemy_drone.prefab",
+      "bytes": 2611,
+      "sha256": "75838e66ac977969c35caa3e76d7f6ffc96272bfbb84ab96d9eb4d032afb5aab"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/enemy_flanker.prefab",
+      "bytes": 2611,
+      "sha256": "ebb95467f5d8af9c89d283363ab66f9ca82b77a49407e8ccc66db179a14c80f2"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/enemy_frost.prefab",
+      "bytes": 2613,
+      "sha256": "b7bb1c3e9b10607849c4fb35083a4f505e349b78c9edb4326314794f7f4bfc6a"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/enemy_shield.prefab",
+      "bytes": 2615,
+      "sha256": "659bfb6f8bb58500f0654f10f64273799688f2b63975652859b090c53e34ad95"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/enemy_sniper.prefab",
+      "bytes": 2610,
+      "sha256": "e9e3257dafa976b1c9aa59d90ac984739033d1387b4b8491e1955af0d3dc7dd6"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/enemy_spore.prefab",
+      "bytes": 2612,
+      "sha256": "bbfe305cbeaa14f0c2812cf8a5d60b60cae940475b0fce9d5563bcefd6ea339f"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/enemy_sporelet.prefab",
+      "bytes": 2612,
+      "sha256": "882850e3c7392aecd4738172f47c5997332baf5c7244e9cb0076c6034fd333eb"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/enemy_turret.prefab",
+      "bytes": 2610,
+      "sha256": "828fb252f5317832fa1965d38332a67da10d3495c4e04c4ff08b971a055f4770"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/energy.prefab",
+      "bytes": 2604,
+      "sha256": "e75eebc3d3cb0f321b555e53ef538020cbe9e7a2450fb7360f825a54c8682bbe"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/Explorer.prefab",
+      "bytes": 2607,
+      "sha256": "e11b54754d825c289df6e69e4e8e8025cea7b1fa8803fe231cff73a2cde5fb92"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/flawless.prefab",
+      "bytes": 2607,
+      "sha256": "3a38d6e59fc2e4fb5c5f15282b643b6db84c093c51e073c8c0ccb51d56022802"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/floor_1.prefab",
+      "bytes": 2592,
+      "sha256": "018d03527cb60a6adcc07d490e391fc38a194a4f8aeb7adb0437665fdb19a2c8"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/floor_2.prefab",
+      "bytes": 2588,
+      "sha256": "10483a51117547fa49a7175631fd6c948f526c7fc1c641a479e0cdb2a9e83652"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/floor_3.prefab",
+      "bytes": 2593,
+      "sha256": "2385cd1447bad0d7a8d26113aebad05f644287d9acc66ade9ec430fb6a15fff5"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/floor_4.prefab",
+      "bytes": 2593,
+      "sha256": "2d771e00103e0f43364a7a7fa28b9075ba4dbdf2123e4d1afa0afd2817743660"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/floor_5.prefab",
+      "bytes": 2594,
+      "sha256": "02ecba80af9b6fec98017b97a8a900ae2f4853bce6bfd9c6eb1c9c813e53a619"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/floor_6.prefab",
+      "bytes": 2591,
+      "sha256": "7f66666bca293709024d2c413b6c5fea13ec4d37563eb956b2d114a5c459e7e2"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/gate.prefab",
+      "bytes": 2602,
+      "sha256": "d65638b9f5b9d42e0d186d267477d27a81a233dc55f86ddb20e0baab9a3ab003"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/grenade.prefab",
+      "bytes": 2607,
+      "sha256": "4e3bdbced08d65ad6e9b6ba1dad07e0931fbe9f4f42c1f0ca57c85a7a20505ad"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/health.prefab",
+      "bytes": 2604,
+      "sha256": "f48575aaa088af089be437cf20cc6cef467875d5804c28aca4a406ce33375a45"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/landmark_1.prefab",
+      "bytes": 2613,
+      "sha256": "8dd227ce9afeea5645cecc5abee843263b9f134f6d712cb97cb68f99505fa12c"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/landmark_2.prefab",
+      "bytes": 2608,
+      "sha256": "42bd19cefb328bebb6d2e6ca48ba2f74e89ef47aa45eec0fb125fa3b3400086f"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/landmark_3.prefab",
+      "bytes": 2613,
+      "sha256": "1b6065e1923e39b03ef960b222da3419ce6c9f09d3b2721b61a0671da0c68559"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/landmark_4.prefab",
+      "bytes": 2608,
+      "sha256": "d3cbc142cee2b3f2525fc5722a0a21ad9a2f1cabdfda1e39c18604111d54a0ea"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/landmark_5.prefab",
+      "bytes": 2610,
+      "sha256": "37cbe0ff6b32e425b6e005c5985c13d57a8e721e63f434fe6d9a5188437fccff"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/landmark_6.prefab",
+      "bytes": 2609,
+      "sha256": "be3c2db4f7d3a95b5897b8162e73db9fdb66d4280bf16745fca9cd80058f05e2"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/launcher.prefab",
+      "bytes": 2605,
+      "sha256": "4b98d70ca507a3a85898b707acb703b59d8858c0033541584b6704952e7bf194"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/lowhealth.prefab",
+      "bytes": 2605,
+      "sha256": "aa77b014727f12036761e20070d9937725852f863866dfe58cd0a78db0b8d490"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/magnet.prefab",
+      "bytes": 2608,
+      "sha256": "de2aaa4696b921edd3c4284d782e7d7a91d50c0e870a40bea9218ce8004cc044"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/medkit.prefab",
+      "bytes": 2608,
+      "sha256": "98ad4ac8034e0250bcdd0558827b92eff97601399cdbc6743bc155a1f3f27302"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/pierce.prefab",
+      "bytes": 2603,
+      "sha256": "8e45e42246d10d4126545cd2eacd9cdaa94b1a9bdae3f5340951f0769b10263f"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/pistol.prefab",
+      "bytes": 2604,
+      "sha256": "6d43f914dbe78e8dd09996f91f9b02281d8361c733255057039cea71eef11389"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/rapid.prefab",
+      "bytes": 2596,
+      "sha256": "55f7b797b503d705af1d8a91dbdbf13c6784e10245e102fedab262e97e3dd5ce"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/recharge.prefab",
+      "bytes": 2606,
+      "sha256": "30e8c449b2b889fdf9d4d5832f76350f3633496c70c0e1ca8d11ce73f246166d"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/shield.prefab",
+      "bytes": 2606,
+      "sha256": "e806e092e39cd32487ba72a0c42f2070a00dd36e1c34c0cc4930d8c3deea167d"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/shock.prefab",
+      "bytes": 2603,
+      "sha256": "34b4997617a6e6f00edb796356fedb41f84dcb06a75e06434fdbb11030ba1933"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/shotgun.prefab",
+      "bytes": 2605,
+      "sha256": "0fe1ec7cbc39f01e89cb34bfe67afc213f71af8467819f48b412294f64c8de12"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/slow.prefab",
+      "bytes": 2605,
+      "sha256": "88e3f2cd868ca3af75c002d438bc3fa80a33bbef877e3d88ecc30b28b63d2e23"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/smg.prefab",
+      "bytes": 2600,
+      "sha256": "ffea3095f629f814890de4796cf8732b052f9a42904185394159acb7c8586b7f"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/vitality.prefab",
+      "bytes": 2608,
+      "sha256": "da827752e4f1d61df9c1a014f066e079840978a4e205b697f8c93c72445b9480"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/wall_1.prefab",
+      "bytes": 2597,
+      "sha256": "c8a012a08092028e03b7e29ee41d45cf5771f0ac07f985ae8f93f94e79c7d0bc"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/wall_2.prefab",
+      "bytes": 2606,
+      "sha256": "e3457c7aa6ea8aa3321def271fb9be77750ca16f5866eb364e9c23443fb735ae"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/wall_3.prefab",
+      "bytes": 2607,
+      "sha256": "e4262006627a5ecfe47fedf2ce5f5c7a5562783eac22b54d64da1dd13d4636ff"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/wall_4.prefab",
+      "bytes": 2608,
+      "sha256": "9cbfbe8f7572c0815ac0ec3fb8b596306789ec407e33fea4d00b96cf005074ac"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/wall_5.prefab",
+      "bytes": 2605,
+      "sha256": "a34ef2b215c644d97274a68eb0c2269ae81f110fc7cacab73b859067acba7ab5"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/wall_6.prefab",
+      "bytes": 2606,
+      "sha256": "b18cac0cb2b211d6561870192d9d6ff1000436aea37226ec8f317087b8d31c10"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/workshop_smg.prefab",
+      "bytes": 2613,
+      "sha256": "d7d86692ea347aa1b8673292e9da1882d686dfab5b4d5e3f33a355900a1d47c9"
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Visuals/workstation.prefab",
+      "bytes": 2612,
+      "sha256": "977f0209d40baa2380994fcaf60599946b7a1679d063fd76add8c55d63de71ba"
+    }
+  ]
+}

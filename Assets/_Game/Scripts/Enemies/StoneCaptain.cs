@@ -19,6 +19,7 @@ namespace Starfall
         {
             game = owner; body = PrototypeVisuals.Body(gameObject, .62f);
             view = PrototypeVisuals.Draw(transform, "Stone Captain", Vector2.zero, new Vector2(1.5f, 1.5f), new Color(.5f, .7f, .5f), 5, "chaser");
+            M5Art.Apply(view, "boss.1", 3.2f); M5Art.Shadow(transform, 1.6f);
             warning = PrototypeVisuals.Draw(transform, "Captain warning", Vector2.zero, Vector2.one, PrototypeVisuals.Gold, 4, "orb");
             Health = gameObject.AddComponent<Damageable>(); Health.Initialize(Faction.Enemy, game.LevelConfig.bossHealth, 0);
             Health.Game = game;

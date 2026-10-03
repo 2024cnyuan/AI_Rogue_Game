@@ -8,11 +8,11 @@ namespace Starfall
     public enum ClearFeedback { First, Improved, Matched, Close, Cleared, Failed, Practice }
     [Serializable] public sealed class BestRecord
     {
-        public string stageId, difficulty = "standard", timingVersion = "1", balanceVersion = "1", attemptId, date;
+        public string stageId, difficulty = "standard", timingVersion = "1", balanceVersion = "1", attemptId, date, mode;
         public long milliseconds;
         public int seed;
         public string[] equipment;
-        public string Group => stageId + "/" + difficulty + "/" + timingVersion + "/" + balanceVersion;
+        public string Group => stageId + "/" + difficulty + "/" + timingVersion + "/" + balanceVersion + "/" + (string.IsNullOrEmpty(mode) ? "campaign" : mode);
     }
     [Serializable] public sealed class RecordBook
     {
@@ -58,14 +58,14 @@ namespace Starfall
             }
             catch (Exception error) when (error is IOException || error is UnauthorizedAccessException || error is ArgumentException) { return null; }
         }
-        public BestRecord Find(string stage = "gardens", string timing = "1", string balance = "1")
+        public BestRecord Find(string stage = "gardens", string timing = "1", string balance = "1", string mode = null)
         {
-            foreach (var best in Book.bests) if (best.stageId == stage && best.difficulty == "standard" && best.timingVersion == timing && best.balanceVersion == balance) return best;
+            foreach (var best in Book.bests) if (best.stageId == stage && best.difficulty == "standard" && best.timingVersion == timing && best.balanceVersion == balance && (string.IsNullOrEmpty(best.mode) ? "campaign" : best.mode) == (string.IsNullOrEmpty(mode) ? "campaign" : mode)) return best;
             return null;
         }
         public ClearResult Prepare(BestRecord attempt, bool success, bool eligible)
         {
-            long? previous = Find(attempt.stageId, attempt.timingVersion, attempt.balanceVersion)?.milliseconds;
+            long? previous = Find(attempt.stageId, attempt.timingVersion, attempt.balanceVersion, attempt.mode)?.milliseconds;
             return new ClearResult { Attempt = attempt, Previous = previous, Eligible = eligible, Success = success,
                 Feedback = !success ? ClearFeedback.Failed : !eligible ? ClearFeedback.Practice : Compare(attempt.milliseconds, previous) };
         }
@@ -82,7 +82,7 @@ namespace Starfall
             if (result == null || !result.Success || !result.Eligible || result.Attempt.milliseconds < 0 || string.IsNullOrEmpty(result.Attempt.attemptId)) return false;
             if (result.Saved || Book.receipts.Contains(result.Attempt.attemptId)) { result.Saved = true; return true; }
             var next = JsonUtility.FromJson<RecordBook>(JsonUtility.ToJson(Book));
-            var old = Find(result.Attempt.stageId, result.Attempt.timingVersion, result.Attempt.balanceVersion);
+            var old = Find(result.Attempt.stageId, result.Attempt.timingVersion, result.Attempt.balanceVersion, result.Attempt.mode);
             if (old == null || result.Attempt.milliseconds < old.milliseconds)
             {
                 next.bests.RemoveAll(best => best.Group == result.Attempt.Group); next.bests.Add(result.Attempt);
