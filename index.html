@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>星核迷城 · Starcore Labyrinth</title>
+  <style>
+    :root{color-scheme:dark;font-family:"Segoe UI","Microsoft YaHei",sans-serif;color:#eee7d5;background:#071017}
+    *{box-sizing:border-box}body{margin:0;min-height:100dvh;display:flex;flex-direction:column}
+    header,footer{padding:12px 24px;background:#0b1d22;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    h1{margin:0;font-size:20px;font-weight:600;letter-spacing:2px}h1 span{color:#96b9b1;font-size:13px;letter-spacing:1px;margin-left:12px}
+    main{flex:1;display:grid;place-items:center;padding:16px;min-height:0}
+    #stage{position:relative;width:min(100%,calc((100dvh - 140px)*16/9));aspect-ratio:16/9;min-height:260px;box-shadow:0 12px 64px #0008;border:1px solid #294b4b;background:#08131b}
+    canvas{display:block;width:100%;height:100%;outline:none}#stage:fullscreen{width:100vw;height:100vh;aspect-ratio:auto;border:0}
+    #cover{position:absolute;inset:0;display:grid;place-content:center;text-align:center;padding:24px;background:radial-gradient(ellipse at 50% 40%,#123b3d,#071017 80%)}
+    #cover[hidden]{display:none}h2{font-size:clamp(26px,4vw,48px);font-family:serif;letter-spacing:6px;margin:0 0 16px;color:#eddbac}
+    p{line-height:1.65;color:#b3c7c4;margin:12px 0}button{cursor:pointer;font:inherit;font-size:15px;color:#eee7d5;border:1px solid #5e9e8e;border-radius:4px;background:#276b5b;padding:10px 20px}
+    button:hover{background:#328672}button:focus-visible{outline:2px solid #eddbac;outline-offset:4px}button:disabled{opacity:.45;cursor:default}
+    #play{margin:16px auto 4px;min-width:200px}progress{display:block;appearance:none;width:min(380px,65vw);height:8px;margin:20px auto;border:0;border-radius:8px;overflow:hidden;background:#233b3c}
+    progress::-webkit-progress-bar{background:#233b3c}progress::-webkit-progress-value{background:#62b6a2}progress::-moz-progress-bar{background:#62b6a2}
+    #message{max-width:720px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px}footer{font-size:13px;color:#a8c0bb;flex-wrap:wrap}#hint{color:#cdb782}
+    @media(max-width:650px){header,footer{padding:10px 14px}h1 span{display:block;margin:4px 0 0}main{padding:8px}#stage{width:100%;min-height:240px}footer{font-size:12px}#hint{display:none}}
+  </style>
+</head>
+<body>
+  <header><h1>星核迷城 <span>STARCORE LABYRINTH</span></h1><button id="fullscreen" disabled>全屏 / Fullscreen</button></header>
+  <main><div id="stage"><canvas id="unity-canvas" width="1280" height="720" tabindex="0" aria-label="星核迷城游戏画面 / Game canvas"></canvas>
+    <section id="cover"><h2>星核迷城</h2><p id="status" role="status" aria-live="polite">选择关卡，整备出发。<br>Choose a stage. Prepare your expedition.</p>
+      <progress id="progress" max="1" value="0" hidden aria-label="游戏加载进度 / Loading progress"></progress>
+      <button id="play">进入游戏 / Play</button><p id="message"></p></section>
+  </div></main>
+  <footer><span>WASD 移动 · 鼠标射击 · Space 闪避 · E 拾取 · F 交互 · Q 主动 · 1/2 换枪</span><span id="hint">键鼠游玩 · 档案保存在此浏览器 / Keyboard &amp; mouse · Local browser save</span></footer>
+  <script>
+    const canvas=document.getElementById('unity-canvas'),cover=document.getElementById('cover'),status=document.getElementById('status'),progress=document.getElementById('progress'),play=document.getElementById('play'),message=document.getElementById('message'),fullscreen=document.getElementById('fullscreen');
+    let instance=null,started=false;
+    function failed(text){cover.hidden=false;status.textContent='加载失败 / Could not start';message.textContent=String(text);progress.hidden=true;play.hidden=false;play.textContent='重新加载 / Reload';play.disabled=false;play.onclick=()=>location.reload();fullscreen.disabled=true;}
+    function quit(){instance=null;cover.hidden=false;status.textContent='本次游戏已结束 / Game closed';message.textContent='再次进入将读取此浏览器保存的档案。 / Re-enter to load your saved profile.';play.hidden=false;play.textContent='重新进入 / Re-enter';play.onclick=()=>location.reload();fullscreen.disabled=true;}
+    const config={
+      dataUrl:'Build/WebGL.data.unityweb',frameworkUrl:'Build/WebGL.framework.js.unityweb',codeUrl:'Build/WebGL.wasm.unityweb',streamingAssetsUrl:'StreamingAssets',
+      companyName:"DefaultCompany",productName:"AI_Rogue_Game",productVersion:"1.0",
+      autoSyncPersistentDataPath:true,devicePixelRatio:Math.min(window.devicePixelRatio||1,2),
+      showBanner:(text,type)=>{if(type==='error')failed(text);else console.warn(text);},onQuit:quit
+    };
+    play.onclick=()=>{
+      if(started)return;started=true;play.hidden=true;progress.hidden=false;status.textContent='正在加载游戏… / Loading game…';message.textContent='首次加载可能需要稍等。 / The first load may take a moment.';
+      const loader=document.createElement('script');loader.src='Build/WebGL.loader.js';loader.onerror=()=>failed('无法加载游戏文件，请通过 HTTP/HTTPS 服务器打开。 / Serve this folder over HTTP or HTTPS.');
+      loader.onload=()=>createUnityInstance(canvas,config,value=>{progress.value=value;status.textContent='正在加载 / Loading '+Math.round(value*100)+'%';}).then(value=>{instance=value;cover.hidden=true;progress.hidden=true;fullscreen.disabled=false;canvas.focus();}).catch(failed);document.body.appendChild(loader);
+    };
+    fullscreen.onclick=()=>{if(instance){instance.SetFullscreen(1);canvas.focus();}};
+    canvas.addEventListener('contextmenu',event=>event.preventDefault());
+    canvas.addEventListener('keydown',event=>{if(['Space','Tab','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(event.code))event.preventDefault();});
+    if(location.protocol==='file:')failed('请运行“启动网页游戏.bat”，或将完整文件夹放到网站服务器。 / Run the local launcher or host this complete folder on a web server.');
+  </script>
+</body>
+</html>
